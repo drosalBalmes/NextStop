@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardBackgroundColor="@color/teal_200">
+    app:cardBackgroundColor="@color/secondary"
+    android:layout_margin="30dp">
 
 
     <LinearLayout
@@ -13,6 +14,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/gasolineraR"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -21,8 +23,20 @@
             android:textStyle="bold" />
 
         <RatingBar
+            android:id="@+id/ratingBar"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:isIndicator="true"
+            android:progressTint="@color/purple_500"/>
+        
+        <TextView
+            android:id="@+id/comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="To guapa la gasolinera sisi bonito barato"
+            android:textColor="@color/black"
+            android:layout_gravity="center_horizontal"/>
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>
