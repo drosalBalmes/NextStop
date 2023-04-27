@@ -1,15 +1,22 @@
-package com.example.a2223damp3grup01;
+package com.example.a2223damp3grup01.activities;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.a2223damp3grup01.R;
 import com.example.a2223damp3grup01.databinding.ActivityMainBinding;
+import com.example.a2223damp3grup01.fragments.Fragment1;
+import com.example.a2223damp3grup01.fragments.Fragment2;
+import com.example.a2223damp3grup01.fragments.FragmentArriba;
+import com.example.a2223damp3grup01.fragments.FragmentProfile;
+import com.example.a2223damp3grup01.fragments.MapsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -17,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     Button btnLista;
     Button btnMap;
+    CardView btnProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,9 +33,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         btnLista = findViewById(R.id.btnList);
         btnMap = findViewById(R.id.btnMapa);
+        btnProfile = findViewById(R.id.btnProfile);
         replaceFragment(new Fragment1());
         cambiarFragment(btnLista,new FragmentArriba());
         cambiarFragment(btnMap,new MapsFragment());
+        cambiarFragmentCard(btnProfile,new FragmentProfile());
         bottomNavSelected();
 
     }
@@ -47,6 +57,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void cambiarFragment(Button button,Fragment fragment){
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                replaceFragment(fragment);
+            }
+        });
+    }
+
+    public void cambiarFragmentCard(CardView button,Fragment fragment){
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
