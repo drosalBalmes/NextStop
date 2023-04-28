@@ -36,4 +36,9 @@ public class UsuarioService {
     public String checkUserPasswordByEmail(String email){
         return usuarioRepository.checkUserPasswordByEmail(email);
     }
+
+    public int registerNewUserServiceMethod(String email,String password,String username){
+        return usuarioRepository.registerNewUser(email,password,username);
+
+    }
 }

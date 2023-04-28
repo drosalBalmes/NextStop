@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,10 +37,14 @@ public class LoginApiController {
         }
 
         String password = usuarioService.checkUserPasswordByEmail(login.getEmail());
+        String hashedPassword = usuarioService.checkUserPasswordByEmail(login.getEmail());
 
-        if (!login.getPassword().equals(password)){
+
+        if (!BCrypt.checkpw(login.getPassword(), hashedPassword)){
             return new ResponseEntity("o la contrasenya o lusuari estan malament",HttpStatus.BAD_REQUEST);
+
         }
+
 
         Usuario usuario = usuarioService.findUsuarioByEmail(login.getEmail());
         return  new ResponseEntity(usuario,HttpStatus.OK);

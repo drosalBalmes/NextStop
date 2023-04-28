@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".activities.SignupActivity">
+
+
+    <EditText
+        android:text="testtt"
+        android:id="@+id/inputemailSignup"
+        android:layout_width="239dp"
+        android:layout_height="55dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rounded_edittext"/>
+
+
+
+    <TextView
+        android:id="@+id/txtNomSignup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:layout_centerHorizontal="true"
+        android:textSize="24dp"
+        android:text="Nombre de usuario:"
+        android:textColor="@color/white" />
+
+    <EditText
+        android:text="testtt"
+        android:id="@+id/usernameSignup"
+        android:layout_width="239dp"
+        android:layout_height="55dp"
+        android:layout_below="@id/txtNomSignup"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rounded_edittext"/>
+
+    <TextView
+        android:id="@+id/txtcontraSignup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_below="@id/usernameSignup"
+        android:layout_centerHorizontal="true"
+        android:text="Contraseña:"
+        android:textSize="24dp"
+        android:textColor="@color/white" />
+
+    <EditText
+        android:id="@+id/inputContraSignup"
+        android:layout_width="236dp"
+        android:layout_height="55dp"
+        android:text="testtt"
+        android:layout_below="@id/txtcontraSignup"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:inputType="textPassword"
+        android:background="@drawable/rounded_edittext" />
+
+    <CheckBox
+        android:id="@+id/chkbxShowSignup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/inputContraSignup"
+        android:layout_marginLeft="70dp"
+        android:checked="false"
+        android:layout_marginTop="10dp"
+        android:buttonTint="#FFFFFF" />
+
+    <TextView
+        android:id="@+id/txtchkbxShowSignup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/chkbxShowSignup"
+        android:layout_below="@+id/inputContraSignup"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        android:layout_marginTop="20dp"
+        android:text="Mostrar contraseña"/>
+
+
+    <Button
+        android:id="@+id/SignupSubmit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtchkbxShowSignup"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="130dp"
+        android:text="Crear cuenta"
+        android:onClick="toMenu2"
+        app:cornerRadius="5dp"
+        tools:ignore="OnClick"/>
+
+</RelativeLayout>
