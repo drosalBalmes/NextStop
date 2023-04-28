@@ -1,5 +1,6 @@
 package com.example.a2223damp3grup01.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         replaceFragment(new Fragment1());
         cambiarFragment(btnLista,new FragmentArriba());
         cambiarFragment(btnMap,new MapsFragment());
-        cambiarFragmentCard(btnProfile,new FragmentProfile());
+        toProfile(btnProfile);
         bottomNavSelected();
 
     }
@@ -65,15 +66,15 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void cambiarFragmentCard(CardView button,Fragment fragment){
+    public void toProfile(CardView button){
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                replaceFragment(fragment);
+                Intent intent = new Intent(getApplicationContext(),ProfileActivity.class);
+                startActivity(intent);
             }
         });
     }
-
     private void replaceFragment(Fragment frahment){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
