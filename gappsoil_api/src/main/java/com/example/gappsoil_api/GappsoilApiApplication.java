@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class GappsoilApiApplication {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(GappsoilApiApplication.class, args);
 	}
 

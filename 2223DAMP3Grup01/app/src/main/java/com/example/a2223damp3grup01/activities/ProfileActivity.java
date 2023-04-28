@@ -5,6 +5,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 
 import com.example.a2223damp3grup01.R;
 import com.example.a2223damp3grup01.adapters.ReviewAdapter;
@@ -15,9 +18,14 @@ import java.util.List;
 
 public class ProfileActivity extends AppCompatActivity {
 
+
+
+
+
     List<Review> reviews;
     RecyclerView reviewsRecycler;
     ReviewAdapter reviewAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
