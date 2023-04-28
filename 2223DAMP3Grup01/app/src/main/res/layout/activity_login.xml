@@ -14,11 +14,11 @@
         android:layout_marginTop="100dp"
         android:layout_centerHorizontal="true"
         android:textSize="24dp"
-        android:text="Nombre de usuario:"
+        android:text="EMAIL"
         android:textColor="@color/white" />
 
     <EditText
-        android:text="test"
+        android:text="testtt"
         android:id="@+id/inputNom"
         android:layout_width="239dp"
         android:layout_height="55dp"
@@ -42,7 +42,7 @@
         android:id="@+id/inputContra"
         android:layout_width="236dp"
         android:layout_height="55dp"
-        android:text="test"
+        android:text="testtt"
         android:layout_below="@id/txtcontra"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
@@ -83,5 +83,30 @@
         app:cornerRadius="5dp"
         tools:ignore="OnClick"/>
 
+    <Button
+        android:id="@+id/btnSignup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtchkbxShow"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="130dp"
+        android:text="signup"
+        android:onClick="toMenu2"
+        app:cornerRadius="5dp"
+        tools:ignore="OnClick"/>
+
+    <Button
+        android:id="@+id/guest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtchkbxShow"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="130dp"
+        android:text="guest"
+        android:onClick="toMenu2"
+        app:cornerRadius="5dp"
+        tools:ignore="OnClick"/>
 
 </RelativeLayout>
