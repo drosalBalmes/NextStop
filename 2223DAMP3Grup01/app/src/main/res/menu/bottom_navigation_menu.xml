@@ -1,12 +1,12 @@
 <menu xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/page_1"
+        android:id="@+id/gasolineras"
         android:enabled="true"
         android:icon="@drawable/gasolinera_icon"
         tools:ignore="MenuTitle"/>
     <item
-        android:id="@+id/page_2"
+        android:id="@+id/rutas"
         android:enabled="true"
         android:icon="@drawable/ruta_icon"
         tools:ignore="MenuTitle"/>
