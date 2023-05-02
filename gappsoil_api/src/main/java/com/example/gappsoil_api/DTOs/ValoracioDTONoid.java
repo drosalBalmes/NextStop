@@ -8,7 +8,6 @@ public class ValoracioDTONoid implements Serializable {
 
     private long id;
 
-    private Usuario user;
 
     private String comentari;
 
@@ -16,24 +15,13 @@ public class ValoracioDTONoid implements Serializable {
 
     private String image_url;
 
-    public ValoracioDTONoid(long id, Usuario user, String comentari, int puntuacio, String image_url) {
+    public ValoracioDTONoid(long id, String comentari, int puntuacio, String image_url) {
         this.id = id;
-        this.user = user;
         this.comentari = comentari;
         this.puntuacio = puntuacio;
         this.image_url = image_url;
     }
 
-    public ValoracioDTONoid() {
-    }
-
-    public Usuario getUser() {
-        return user;
-    }
-
-    public void setUser(Usuario user) {
-        this.user = user;
-    }
 
     public String getComentari() {
         return comentari;
