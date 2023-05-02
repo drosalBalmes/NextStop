@@ -15,6 +15,13 @@ public interface UsuarioRepository extends JpaRepository<Usuario,Long> {
 
     Usuario findUsuarioByEmail(String email);
 
+    Usuario findUsuarioByUsername(String username);
+
+    Boolean existsByUsername(String username);
+
+    Boolean existsByEmail(String email);
+
+
     Usuario findUsuarioById(Long id);
 
     @Query(value = "SELECT email FROM USUARIOS WHERE email = :email", nativeQuery = true)

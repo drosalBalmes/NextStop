@@ -9,5 +9,7 @@ public interface BenzineraRepositori extends JpaRepository<Benzinera,Long> {
 
     List<Benzinera> findAll();
 
+    Benzinera findBenzineraById(long id);
+
 
 }

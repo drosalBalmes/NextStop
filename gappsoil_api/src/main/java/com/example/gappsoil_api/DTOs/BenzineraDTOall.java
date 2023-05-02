@@ -11,9 +11,7 @@ public class BenzineraDTOall {
 
     private String nom;
 
-
     private double latitude;
-
     private double longitude;
 
     boolean gasolina;
@@ -27,21 +25,17 @@ public class BenzineraDTOall {
 
     boolean Adblue;
 
-    boolean electricitat;
 
     boolean hidrogen;
 
-    boolean Horari;
 
-    LocalTime horariInici;
-    LocalTime horariFinal;
-
+    String horari;
     private List<Valoracio> valoracions;
 
     private List<Preu> preus;
 
 
-    public BenzineraDTOall(long id, String nom, double latitude, double longitude, boolean gasolina, boolean SP95, boolean SP98, boolean gasoil, boolean adblue, boolean electricitat, boolean hidrogen, boolean horari, LocalTime horariInici, LocalTime horariFinal, List<Valoracio> valoracions, List<Preu> preus) {
+    public BenzineraDTOall(long id, String nom, double latitude, double longitude, boolean gasolina, boolean SP95, boolean SP98, boolean gasoil, boolean adblue, boolean hidrogen, String horari, List<Valoracio> valoracions, List<Preu> preus) {
         this.id = id;
         this.nom = nom;
         this.latitude = latitude;
@@ -50,19 +44,15 @@ public class BenzineraDTOall {
         this.SP95 = SP95;
         this.SP98 = SP98;
         this.gasoil = gasoil;
-        Adblue = adblue;
-        this.electricitat = electricitat;
+        this.Adblue = adblue;
         this.hidrogen = hidrogen;
-        Horari = horari;
-        this.horariInici = horariInici;
-        this.horariFinal = horariFinal;
+        this.horari = horari;
         this.valoracions = valoracions;
         this.preus = preus;
     }
 
     public BenzineraDTOall() {
     }
-
 
     public long getId() {
         return id;
@@ -136,14 +126,6 @@ public class BenzineraDTOall {
         Adblue = adblue;
     }
 
-    public boolean isElectricitat() {
-        return electricitat;
-    }
-
-    public void setElectricitat(boolean electricitat) {
-        this.electricitat = electricitat;
-    }
-
     public boolean isHidrogen() {
         return hidrogen;
     }
@@ -152,28 +134,12 @@ public class BenzineraDTOall {
         this.hidrogen = hidrogen;
     }
 
-    public boolean isHorari() {
-        return Horari;
+    public String getHorari() {
+        return horari;
     }
 
-    public void setHorari(boolean horari) {
-        Horari = horari;
-    }
-
-    public LocalTime getHorariInici() {
-        return horariInici;
-    }
-
-    public void setHorariInici(LocalTime horariInici) {
-        this.horariInici = horariInici;
-    }
-
-    public LocalTime getHorariFinal() {
-        return horariFinal;
-    }
-
-    public void setHorariFinal(LocalTime horariFinal) {
-        this.horariFinal = horariFinal;
+    public void setHorari(String horari) {
+        this.horari = horari;
     }
 
     public List<Valoracio> getValoracions() {
