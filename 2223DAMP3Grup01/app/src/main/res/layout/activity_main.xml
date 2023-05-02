@@ -36,6 +36,8 @@
             android:layout_height="wrap_content"
             android:src="@drawable/profile_icon"/>
     </androidx.cardview.widget.CardView>
+
+
     <FrameLayout
         android:id="@+id/flFragment"
         android:layout_width="match_parent"

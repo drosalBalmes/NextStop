@@ -9,9 +9,9 @@ public class ValoracioDTOall implements Serializable {
 
     private long id;
 
-    private Benzinera benzinera;
+    private long id_benzinera;
 
-    private Usuario user;
+    private long id_user;
 
     private String comentari;
 
@@ -19,13 +19,17 @@ public class ValoracioDTOall implements Serializable {
 
     private String image_url;
 
-    public ValoracioDTOall(long id, Benzinera benzinera, Usuario user, String comentari, int puntuacio, String image_url) {
+    public ValoracioDTOall(long id, long id_benzinera, long id_user, String comentari, int puntuacio, String image_url) {
         this.id = id;
-        this.benzinera = benzinera;
-        this.user = user;
+        this.id_benzinera = id_benzinera;
+        this.id_user = id_user;
         this.comentari = comentari;
         this.puntuacio = puntuacio;
         this.image_url = image_url;
+    }
+
+    public ValoracioDTOall() {
+
     }
 
     public long getId() {
@@ -36,20 +40,20 @@ public class ValoracioDTOall implements Serializable {
         this.id = id;
     }
 
-    public Benzinera getBenzinera() {
-        return benzinera;
+    public long getId_benzinera() {
+        return id_benzinera;
     }
 
-    public void setBenzinera(Benzinera benzinera) {
-        this.benzinera = benzinera;
+    public void setId_benzinera(long id_benzinera) {
+        this.id_benzinera = id_benzinera;
     }
 
-    public Usuario getUser() {
-        return user;
+    public long getId_user() {
+        return id_user;
     }
 
-    public void setUser(Usuario user) {
-        this.user = user;
+    public void setId_user(long id_user) {
+        this.id_user = id_user;
     }
 
     public String getComentari() {

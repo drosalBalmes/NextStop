@@ -1,4 +1,4 @@
 package com.example.gappsoil_api.DTOs;
 
-public class BenzineraDTOnoPrice {
+public class BenzineraDTOwValsId {
 }

@@ -20,4 +20,8 @@ public class BenzineraService {
     public List<Benzinera> getAll(){
         return benzineraRepositori.findAll();
     }
+
+    public Benzinera getBenzineraById(long id){
+        return benzineraRepositori.findBenzineraById(id);
+    }
 }
