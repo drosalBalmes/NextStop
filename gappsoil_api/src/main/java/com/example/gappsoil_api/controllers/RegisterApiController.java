@@ -27,21 +27,40 @@ public class RegisterApiController {
                                           @RequestParam("password") String password,
                                           @RequestParam("username") String username){
 
-        if (email.isEmpty() || password.isEmpty() || username.isEmpty()){
-            return new ResponseEntity<>("completa tots els camps", HttpStatus.BAD_REQUEST);
-        }
 
-        String hashed_password = BCrypt.hashpw(password, BCrypt.gensalt());
 
-        //rigistrar usuari
-        int result = usuarioService.registerNewUserServiceMethod(email,hashed_password,username);
 
-        if(result!=1){
-            return new ResponseEntity<>("not succed",HttpStatus.BAD_REQUEST);
-        }
 
-        return new ResponseEntity<>("success",HttpStatus.OK);
+            if (email.isEmpty() || password.isEmpty() || username.isEmpty()){
+                return new ResponseEntity<>("completa tots els camps", HttpStatus.BAD_REQUEST);
+            }
+
+            if (usuarioService.existsByUsername(username)){
+                return new ResponseEntity<>("Ja existeix un usuari amb aquest nom", HttpStatus.BAD_REQUEST);
+
+            }
+
+            if (usuarioService.existsByEmail(email)){
+                return new ResponseEntity<>("Ja existeix un usuari registrat amb aquest email", HttpStatus.BAD_REQUEST);
+
+            }
+
+            String hashed_password = BCrypt.hashpw(password, BCrypt.gensalt());
+
+            //rigistrar usuari
+            int result = usuarioService.registerNewUserServiceMethod(email,hashed_password,username);
+
+            if(result!=1){
+                return new ResponseEntity<>("not succed",HttpStatus.BAD_REQUEST);
+
+            }
+
+            return new ResponseEntity<>("success",HttpStatus.OK);
 
     }
+
+
+
+
 
 }
