@@ -13,44 +13,33 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.a2223damp3grup01.R;
 import com.example.a2223damp3grup01.databinding.ActivityMainBinding;
-import com.example.a2223damp3grup01.fragments.Fragment1;
-import com.example.a2223damp3grup01.fragments.Fragment2;
+import com.example.a2223damp3grup01.fragments.GasolinerasFragment;
+import com.example.a2223damp3grup01.fragments.RutasFragment;
 import com.example.a2223damp3grup01.fragments.FragmentArriba;
-import com.example.a2223damp3grup01.fragments.FragmentProfile;
 import com.example.a2223damp3grup01.fragments.MapsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     BottomNavigationView bottomNavigationView;
-    Button btnLista;
-    Button btnMap;
-    CardView btnProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        btnLista = findViewById(R.id.btnList);
-        btnMap = findViewById(R.id.btnMapa);
-        btnProfile = findViewById(R.id.btnProfile);
-        replaceFragment(new Fragment1());
-        cambiarFragment(btnLista,new FragmentArriba());
-        cambiarFragment(btnMap,new MapsFragment());
-        toProfile(btnProfile);
+        replaceFragment(new GasolinerasFragment());
         bottomNavSelected();
-
     }
     public void bottomNavSelected(){
         binding.bottomNavigation.setOnItemSelectedListener(item -> {
 
             switch (item.getItemId()){
-                case R.id.page_1:
-                    replaceFragment(new Fragment1());
+                case R.id.gasolineras:
+                    replaceFragment(new GasolinerasFragment());
                     break;
-                    case R.id.page_2:
-                        replaceFragment(new Fragment2());
+                case R.id.rutas:
+                        replaceFragment(new RutasFragment());
                         break;
             }
             return  true;
@@ -75,11 +64,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    private void replaceFragment(Fragment frahment){
+    public void replaceFragment(Fragment frahment){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.flFragment,frahment);
         fragmentTransaction.commit();
-
     }
 }
