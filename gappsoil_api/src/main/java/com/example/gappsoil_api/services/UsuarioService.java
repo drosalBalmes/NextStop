@@ -29,6 +29,17 @@ public class UsuarioService {
         return usuarioRepository.findUsuarioById(id);
     }
 
+    public Usuario findUsuarioByUsername(String username){
+        return usuarioRepository.findUsuarioByUsername(username);
+    }
+
+    public boolean existsByUsername(String username){
+        return usuarioRepository.existsByUsername(username);
+    }
+
+    public boolean existsByEmail(String email){
+        return usuarioRepository.existsByEmail(email);
+    }
     public List<String> checkUserEmail(String email){
         return usuarioRepository.checkUserEmail(email);
     }
@@ -41,4 +52,6 @@ public class UsuarioService {
         return usuarioRepository.registerNewUser(email,password,username);
 
     }
+
+
 }
