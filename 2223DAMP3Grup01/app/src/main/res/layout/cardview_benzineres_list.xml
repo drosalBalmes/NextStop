@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="@color/secondary"
+    android:layout_margin="30dp">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/nomTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Repsol"
+            android:textSize="22dp"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/gasolinaTxt"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Gasolina: "
+            android:textColor="@color/black"
+            android:layout_below="@id/nomTxt"/>
+
+        <TextView
+            android:id="@+id/gasolinaPreu"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/gasolinaTxt"
+            android:layout_below="@id/nomTxt"
+            android:text="6.6666€/L"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/gasoilTxt"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Gasoil: "
+            android:textColor="@color/black"
+            android:layout_below="@id/gasolinaTxt"/>
+
+        <TextView
+            android:id="@+id/gasoilPreu"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/gasoilTxt"
+            android:layout_below="@id/gasolinaTxt"
+            android:text="6.6666€/L"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/hidroTxt"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Hidrogen: "
+            android:textColor="@color/black"
+            android:layout_below="@id/gasoilTxt"/>
+
+        <TextView
+            android:id="@+id/hidroPreu"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/hidroTxt"
+            android:layout_below="@id/gasoilTxt"
+            android:text="6.6666€/L"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/reviewsTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="29034 Reviews"
+            android:layout_below="@id/hidroTxt"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/black"/>
+
+        <RatingBar
+            android:id="@+id/ratingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:isIndicator="true"
+            android:progressTint="@color/purple_500"
+            android:layout_below="@id/reviewsTxt"/>
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

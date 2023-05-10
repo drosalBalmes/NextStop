@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    tools:context=".fragments.GasolinerasFragment">
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btnListGas"
+            android:layout_width="135dp"
+            android:layout_height="80dp"
+            android:onClick="onClick"
+            android:layout_marginHorizontal="3dp"
+            android:text="Lista"/>
+
+        <Button
+            android:id="@+id/btnMapaGas"
+            android:layout_width="135dp"
+            android:layout_height="80dp"
+            android:layout_toRightOf="@id/btnListGas"
+            android:layout_marginHorizontal="3dp"
+            android:text="MAPA"/>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/btnProfileGas"
+            android:layout_width="135dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginHorizontal="3dp"
+            android:layout_toRightOf="@id/btnMapaGas"
+            app:cardBackgroundColor="@color/purple_500">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/profile_icon"/>
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
+        <Button
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Filtros"/>
+
+        <FrameLayout
+            android:id="@+id/flFragmentGas"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+</FrameLayout>
