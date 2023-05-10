@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="370sp"
+    android:layout_height="500sp"
+    android:background="@color/whiteTransparent"
+    tools:context=".fragments.FiltrosRutaFragment">
+
+
+    <ScrollView
+        android:layout_width="370sp"
+        android:layout_height="500sp">
+
+
+        <RelativeLayout
+            android:id="@+id/relative1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20sp"
+            android:layout_marginEnd="20sp">
+
+            <RelativeLayout
+                android:id="@+id/RelativeSubministrador"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="SUBMINISTRADOR"
+                    android:textColor="@color/black"
+                    android:textSize="25sp" />
+
+                <CheckBox
+                    android:id="@+id/ckeckboxBenzineresRut"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50sp"
+                    android:text="Benzineres" />
+
+                <CheckBox
+                    android:id="@+id/ckeckboxPuntsRut"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="50sp"
+                    android:text="Punts de recarrega" />
+
+                <CheckBox
+                    android:id="@+id/ckeckboxGASRut"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="100sp"
+                    android:text="gasos(GLP, GNC I GNL)" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxHidrogeneresRut"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="100sp"
+                    android:text="Hidrogeneres" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativeBenzineresRut"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="150sp"
+                android:layout_below="@id/relative1"
+                tools:ignore="NotSibling"
+                android:visibility="gone"
+                >
+
+                    <TextView
+                        android:id="@+id/TVtipusCarregadorRut"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TIPUS DE COMBUSTIBLE"
+                        android:layout_centerHorizontal="true"
+                        android:textColor="@color/black"
+                        android:textSize="25sp"/>
+
+                    <CheckBox
+                        android:layout_marginTop="50sp"
+                        android:id="@+id/ckeckboxBenzRut"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:text="Benzina"/>
+
+                <CheckBox
+                    android:id="@+id/checkBoxGasoil"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="50sp"
+                    android:text="Gasoil/Diesel" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_marginTop="250sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/iniciFinalBenzRut"
+                android:visibility="gone"
+                >
+
+                <TextView
+                    android:id="@+id/TViniciFinalRut"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="25sp"
+                    android:text="INICI I FINAL DE LA RUTA"
+                    android:layout_centerHorizontal="true"
+                    />
+
+                <EditText
+                    android:padding="5sp"
+
+                    android:id="@+id/ETiniciRuta"
+                    android:layout_width="200sp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/TViniciFinalRut"
+                    android:layout_marginTop="10sp"
+                    android:layout_centerHorizontal="true"
+                    android:hint="Introdueix direccio inici"
+                    android:background="@drawable/custom_input_dialog_fragment"
+                    />
+
+                <Button
+                    android:id="@+id/buttonActualRut"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/ETiniciRuta"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10sp"
+                    android:text="Utilitzar direccio actual"
+                    android:textSize="14sp"
+                    />
+
+                <EditText
+                    android:padding="5sp"
+                    android:background="@drawable/custom_input_dialog_fragment"
+                    android:id="@+id/ETfinalRuta"
+                    android:layout_width="200sp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/buttonActualRut"
+                    android:layout_marginTop="10sp"
+                    android:layout_centerHorizontal="true"
+                    android:hint="Introdueix direccio final"
+                    />
+
+                <Button
+                    android:id="@+id/buttonBuscaRut"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/ETfinalRuta"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10sp"
+                    android:text="Buscar al mapa"
+                    android:textSize="14sp"
+                    />
+
+
+                <Button
+                    android:id="@+id/buttonValidateRut"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/buttonBuscaRut"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10sp"
+                    android:text="Validar"
+                    android:textSize="14sp"
+                    />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativeNumeroParadesBenz"
+                android:layout_marginTop="580sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                >
+
+                <TextView
+                    android:id="@+id/TVnumeroParades"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="25sp"
+                    android:text="NUMERO DE PARADES"
+                    android:layout_centerHorizontal="true"
+                    />
+
+                <TextView
+                    android:id="@+id/longitudDeLaRutaTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/TVnumeroParades"
+                    android:text="Longitud de la ruta:"
+                    android:textSize="20sp"
+                    android:layout_centerHorizontal="true"
+                    />
+
+                <TextView
+                    android:layout_below="@+id/longitudDeLaRutaTV"
+                    android:id="@+id/kilometresRut"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="20sp"
+                    android:text="5000km"/>
+
+                <EditText
+                    android:padding="5sp"
+                    android:background="@drawable/custom_input_dialog_fragment"
+                    android:id="@+id/numParadesET"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="1"
+                    android:layout_below="@+id/longitudDeLaRutaTV"
+                    android:layout_marginTop="30sp"
+                    android:layout_centerHorizontal="true"/>
+
+
+                <TextView
+                    android:id="@+id/configParadesRut"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Configuracio de les parades:"
+                    android:layout_below="@id/numParadesET"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="17sp"/>
+
+                <CheckBox
+                    android:id="@+id/paradesAutoRut"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="10sp"
+                    android:layout_below="@+id/configParadesRut"
+                    android:text="Automatiques"/>
+
+                <CheckBox
+                    android:id="@+id/paradesManuRut"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="10sp"
+                    android:layout_below="@+id/configParadesRut"
+                    android:text="Manual"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/paradesManuRut"
+                    android:layout_marginTop="10sp"
+                    android:layout_centerHorizontal="true"
+                    android:textAlignment="center"
+                    android:text="Automatiques:\n
+                     la aplicació configurara les paradas a la ruta de forma automatica, si poseu 1 parada la fara a la meitat, si poseu 2 les fara al primer i al segon terç de la ruta\n
+                     \n Manuals:\n Tu configues a quins kilometres vols buscar les parades a la teva ruta"
+                    />
+
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="970sp"
+                android:visibility="gone"
+                android:id="@+id/DibuixaParadesManuals"
+                >
+
+                            <TextView
+                                android:id="@+id/paradesManuTV"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="25sp"
+                                android:text="PARADES MANUALS"
+                                android:layout_centerHorizontal="true"
+                                />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/RVparadasManuBenz"
+                                android:layout_below="@+id/paradesManuTV"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="20sp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                />
+
+                            <Button
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/RVparadasManuBenz"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="20sp"
+                                android:text="DIBUIXA RUTA"
+                                />
+
+
+                        </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/DibuixaParadesAutomatiques"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="970sp"
+                android:visibility="gone"
+                >
+
+                <TextView
+                    android:id="@+id/paradesAutoTVRut"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="25sp"
+                    android:text="PARADES AUTOMATIQUES"
+                    android:layout_centerHorizontal="true"
+                    />
+
+                <Button
+                    android:layout_below="@+id/paradesAutoTVRut"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="DIBUIXA RUTA"/>
+
+
+            </RelativeLayout>
+
+
+
+<!--            <RelativeLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="150sp"-->
+<!--                android:id="@+id/relativeCarregadors"-->
+<!--                android:visibility="ingone"-->
+<!--                >-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="TIPUS CARREGADORS"-->
+<!--                    android:layout_centerHorizontal="true"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:textSize="25sp"/>-->
+
+<!--                <CheckBox-->
+<!--                    android:layout_marginTop="50sp"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_alignParentStart="true"-->
+<!--                    android:text="MENNEKES.M"/>-->
+
+<!--                <CheckBox-->
+<!--                    android:layout_marginTop="50sp"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_alignParentEnd="true"-->
+<!--                    android:text="Schuko"/>-->
+
+<!--                <CheckBox-->
+<!--                    android:layout_marginTop="100sp"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_alignParentEnd="true"-->
+<!--                    android:text="CCS Combo2"/>-->
+
+<!--                <CheckBox-->
+<!--                    android:layout_marginTop="100sp"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_alignParentStart="true"-->
+<!--                    android:text="CHADEMO"/>-->
+
+<!--                <CheckBox-->
+<!--                    android:layout_marginTop="150sp"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_alignParentStart="true"-->
+<!--                    android:text="MENNEKES.F"/>-->
+
+<!--                <CheckBox-->
+<!--                    android:layout_marginTop="150sp"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_alignParentEnd="true"-->
+<!--                    android:text="TESLA"/>-->
+
+<!--                <CheckBox-->
+<!--                    android:layout_marginTop="200sp"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_alignParentStart="true"-->
+<!--                    android:text="MENNEKES.F"/>-->
+
+<!--            </RelativeLayout>-->
+
+
+
+
+
+        </RelativeLayout>
+
+
+    </ScrollView>
+
+
+</FrameLayout>

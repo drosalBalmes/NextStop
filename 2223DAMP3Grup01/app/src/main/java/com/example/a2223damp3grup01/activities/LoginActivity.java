@@ -1,8 +1,14 @@
 package com.example.a2223damp3grup01.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +24,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.a2223damp3grup01.R;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,11 +43,15 @@ public class LoginActivity extends AppCompatActivity {
     String userNameS,passwordS;
     int id;
     CheckBox checkBoxShow;
+    FusedLocationProviderClient fusedLocationClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+
+
 
         init();
     }
@@ -46,6 +60,7 @@ public class LoginActivity extends AppCompatActivity {
 
         signup = (Button) findViewById(R.id.btnSignup);
         login = (Button) findViewById(R.id.btnIniciar);
+        guest = (Button) findViewById(R.id.guest);
 
         userNameET = (EditText) findViewById(R.id.inputNom);
         passwordET = (EditText) findViewById(R.id.inputContra);
@@ -62,6 +77,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 logIn();
+            }
+        });
+
+        guest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent a = new Intent(LoginActivity.this,MainActivity.class);
+                startActivity(a);
             }
         });
     }

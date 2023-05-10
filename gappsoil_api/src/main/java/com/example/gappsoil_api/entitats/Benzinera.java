@@ -32,6 +32,12 @@ public class Benzinera implements Serializable {
 
     boolean SP98;
 
+    boolean GNC;
+
+    boolean GLP;
+
+    boolean GNL;
+
 
     boolean gasoil;
 
@@ -170,5 +176,29 @@ public class Benzinera implements Serializable {
 
     public void setPreus(List<Preu> preus) {
         this.preus = preus;
+    }
+
+    public boolean isGNC() {
+        return GNC;
+    }
+
+    public void setGNC(boolean GNC) {
+        this.GNC = GNC;
+    }
+
+    public boolean isGLP() {
+        return GLP;
+    }
+
+    public void setGLP(boolean GLP) {
+        this.GLP = GLP;
+    }
+
+    public boolean isGNL() {
+        return GNL;
+    }
+
+    public void setGNL(boolean GNL) {
+        this.GNL = GNL;
     }
 }
