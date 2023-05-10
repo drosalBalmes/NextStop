@@ -24,14 +24,20 @@ public class Preu implements Serializable {
     double preuSP98;
     double preuGasoil;
     double preuAdblue;
-    double preuElectricitat;
+
+    double preuGLP;
+
+    double preuGNC;
+
+    double preuGNL;
+
     double preuHidrogen;
 
     @ManyToOne
     @JoinColumn(name = "BENZINERA_ID")
     private Benzinera benzinera;
 
-    public Preu(long id, String dia, String ultimaAct, double preuSP95, double preuSP98, double preuGasoil, double preuAdblue, double preuElectricitat, double preuHidrogen, Benzinera benzinera) {
+    public Preu(long id, String dia, String ultimaAct, double preuSP95, double preuSP98, double preuGasoil, double preuAdblue, double preuGLP, double preuGNC, double preuGNL, double preuHidrogen, Benzinera benzinera) {
         this.id = id;
         this.dia = dia;
         this.ultimaAct = ultimaAct;
@@ -39,7 +45,9 @@ public class Preu implements Serializable {
         this.preuSP98 = preuSP98;
         this.preuGasoil = preuGasoil;
         this.preuAdblue = preuAdblue;
-        this.preuElectricitat = preuElectricitat;
+        this.preuGLP = preuGLP;
+        this.preuGNC = preuGNC;
+        this.preuGNL = preuGNL;
         this.preuHidrogen = preuHidrogen;
         this.benzinera = benzinera;
     }
@@ -88,13 +96,6 @@ public class Preu implements Serializable {
         this.preuAdblue = preuAdblue;
     }
 
-    public double getPreuElectricitat() {
-        return preuElectricitat;
-    }
-
-    public void setPreuElectricitat(double preuElectricitat) {
-        this.preuElectricitat = preuElectricitat;
-    }
 
     public double getPreuHidrogen() {
         return preuHidrogen;

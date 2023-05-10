@@ -17,6 +17,11 @@ public class BenzineraDTOnoPriceNoVal implements Serializable {
 
     boolean SP98;
 
+    boolean GNC;
+
+    boolean GLP;
+
+    boolean GNL;
 
     boolean gasoil;
 
@@ -28,7 +33,7 @@ public class BenzineraDTOnoPriceNoVal implements Serializable {
 
     String horari;
 
-    public BenzineraDTOnoPriceNoVal(long id, String nom, double latitude, double longitude, boolean gasolina, boolean SP95, boolean SP98, boolean gasoil, boolean adblue, boolean hidrogen, String horari) {
+    public BenzineraDTOnoPriceNoVal(long id, String nom, double latitude, double longitude, boolean gasolina, boolean SP95, boolean SP98, boolean GNC, boolean GLP, boolean GNL, boolean gasoil, boolean adblue, boolean hidrogen, String horari) {
         this.id = id;
         this.nom = nom;
         this.latitude = latitude;
@@ -36,6 +41,9 @@ public class BenzineraDTOnoPriceNoVal implements Serializable {
         this.gasolina = gasolina;
         this.SP95 = SP95;
         this.SP98 = SP98;
+        this.GNC = GNC;
+        this.GLP = GLP;
+        this.GNL = GNL;
         this.gasoil = gasoil;
         Adblue = adblue;
         this.hidrogen = hidrogen;
@@ -131,5 +139,29 @@ public class BenzineraDTOnoPriceNoVal implements Serializable {
 
     public void setHorari(String horari) {
         this.horari = horari;
+    }
+
+    public boolean isGNC() {
+        return GNC;
+    }
+
+    public void setGNC(boolean GNC) {
+        this.GNC = GNC;
+    }
+
+    public boolean isGLP() {
+        return GLP;
+    }
+
+    public void setGLP(boolean GLP) {
+        this.GLP = GLP;
+    }
+
+    public boolean isGNL() {
+        return GNL;
+    }
+
+    public void setGNL(boolean GNL) {
+        this.GNL = GNL;
     }
 }
