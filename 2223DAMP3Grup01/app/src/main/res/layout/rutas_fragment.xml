@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -21,7 +21,7 @@
                 android:layout_height="80dp"
                 android:onClick="onClick"
                 android:layout_marginHorizontal="3dp"
-                android:text="Lista"/>
+                android:text="ListaRuta"/>
 
             <Button
                 android:id="@+id/btnMapaRut"
@@ -47,6 +47,7 @@
             </androidx.cardview.widget.CardView>
         </RelativeLayout>
         <Button
+            android:id="@+id/filterButtonRuta"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -56,6 +57,19 @@
             android:id="@+id/flFragmentRut"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
+
     </LinearLayout>
 
-</FrameLayout>
+    <FrameLayout
+        android:id="@+id/dialogRutas"
+        android:layout_width="370sp"
+        android:layout_height="500sp"
+        android:layout_alignBottom="@+id/filterButtonRuta"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="70sp"
+        tools:ignore="NotSibling" />
+
+
+
+</RelativeLayout>

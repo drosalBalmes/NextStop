@@ -17,11 +17,7 @@ import com.example.a2223damp3grup01.R;
 import com.example.a2223damp3grup01.activities.MainActivity;
 import com.example.a2223damp3grup01.activities.ProfileActivity;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link GasolinerasFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class GasolinerasFragment extends Fragment {
 
     Button btnLista;
@@ -31,20 +27,6 @@ public class GasolinerasFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment GasolinerasFragment.
-     */
-    public static GasolinerasFragment newInstance(String param1, String param2) {
-        GasolinerasFragment fragment = new GasolinerasFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

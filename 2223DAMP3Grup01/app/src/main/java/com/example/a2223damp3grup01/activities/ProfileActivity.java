@@ -46,6 +46,7 @@ public class ProfileActivity extends AppCompatActivity {
         reviews.add(new Review(5,"La gasolinera muy guapa pero leanse One Piece que esta tremendo","Repsol"));
         reviews.add(new Review(5,"La gasolinera muy guapa pero leanse One Piece que esta tremendo","Repsol"));
         reviewAdapter = new ReviewAdapter(reviews);
+
         reviewsRecycler.setLayoutManager(new LinearLayoutManager(this));
         reviewsRecycler.setHasFixedSize(true);
         reviewsRecycler.setAdapter(reviewAdapter);

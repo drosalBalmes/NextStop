@@ -26,6 +26,12 @@ public class BenzineraDTOall {
     boolean Adblue;
 
 
+    boolean GNC;
+
+    boolean GLP;
+
+    boolean GNL;
+
     boolean hidrogen;
 
 
@@ -35,7 +41,7 @@ public class BenzineraDTOall {
     private List<Preu> preus;
 
 
-    public BenzineraDTOall(long id, String nom, double latitude, double longitude, boolean gasolina, boolean SP95, boolean SP98, boolean gasoil, boolean adblue, boolean hidrogen, String horari, List<Valoracio> valoracions, List<Preu> preus) {
+    public BenzineraDTOall(long id, String nom, double latitude, double longitude, boolean gasolina, boolean SP95, boolean SP98, boolean gasoil, boolean adblue, boolean GNC, boolean GLP, boolean GNL, boolean hidrogen, String horari, List<Valoracio> valoracions, List<Preu> preus) {
         this.id = id;
         this.nom = nom;
         this.latitude = latitude;
@@ -44,7 +50,10 @@ public class BenzineraDTOall {
         this.SP95 = SP95;
         this.SP98 = SP98;
         this.gasoil = gasoil;
-        this.Adblue = adblue;
+        Adblue = adblue;
+        this.GNC = GNC;
+        this.GLP = GLP;
+        this.GNL = GNL;
         this.hidrogen = hidrogen;
         this.horari = horari;
         this.valoracions = valoracions;
@@ -156,5 +165,29 @@ public class BenzineraDTOall {
 
     public void setPreus(List<Preu> preus) {
         this.preus = preus;
+    }
+
+    public boolean isGNC() {
+        return GNC;
+    }
+
+    public void setGNC(boolean GNC) {
+        this.GNC = GNC;
+    }
+
+    public boolean isGLP() {
+        return GLP;
+    }
+
+    public void setGLP(boolean GLP) {
+        this.GLP = GLP;
+    }
+
+    public boolean isGNL() {
+        return GNL;
+    }
+
+    public void setGNL(boolean GNL) {
+        this.GNL = GNL;
     }
 }

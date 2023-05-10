@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="5sp"
+    android:layout_marginRight="5sp">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:id="@+id/numParadaRVET"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="PARADA 1"
+            android:textColor="@color/black"
+            android:textSize="20sp"/>
+
+
+        <EditText
+            android:textAlignment="center"
+            android:padding="5sp"
+            android:background="@drawable/custom_input_dialog_fragment"
+            android:id="@+id/EditTextParadesKM"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="km parada"
+            android:layout_below="@+id/numParadaRVET"
+            android:layout_marginTop="10sp"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/EditTextParadesKM"
+            android:layout_centerHorizontal="true"
+            android:layout_marginEnd="0sp"
+            android:text="KM"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

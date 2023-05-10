@@ -25,7 +25,9 @@ public class RutasFragment extends Fragment {
 
     Button btnLista;
     Button btnMap;
+    Button btnFilter;
     CardView btnProfile;
+    boolean filterDisplayed;
 
     public RutasFragment() {
         // Required empty public constructor
@@ -59,9 +61,11 @@ public class RutasFragment extends Fragment {
         View view = inflater.inflate(R.layout.rutas_fragment,container,false);
         btnLista = view.findViewById(R.id.btnListRut);
         btnMap = view.findViewById(R.id.btnMapaRut);
+        btnFilter = view.findViewById(R.id.filterButtonRuta);
         btnProfile = view.findViewById(R.id.btnProfileRut);
-        cambiarFragment(btnLista,new FragmentArriba());
-        cambiarFragment(btnMap,new MapsFragment());
+        cambiarFragment(btnLista,new ListaRutaFragment());
+        cambiarFragment(btnMap,new MapaRutaFragment());
+        cambiarFragment2(btnFilter,new FiltrosRutaFragment());
         toProfile(btnProfile);
         return view;
     }
@@ -73,6 +77,15 @@ public class RutasFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 replaceFragment(fragment);
+            }
+        });
+    }
+
+    public void cambiarFragment2(Button button, Fragment fragment){
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                replaceFragmentDialog(fragment);
             }
         });
     }
@@ -90,7 +103,24 @@ public class RutasFragment extends Fragment {
     public void replaceFragment(Fragment frahment){
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.flFragmentGas,frahment);
+        fragmentTransaction.replace(R.id.flFragmentRut,frahment);
         fragmentTransaction.commit();
+    }
+
+    public void replaceFragmentDialog(Fragment frahment){
+        if (filterDisplayed==true){
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.remove(frahment);
+            fragmentTransaction.commit();
+            filterDisplayed=false;
+        }else{
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.dialogRutas,frahment);
+            fragmentTransaction.commit();
+            filterDisplayed=true;
+
+        }
     }
 }
