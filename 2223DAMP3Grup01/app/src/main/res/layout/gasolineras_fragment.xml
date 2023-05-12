@@ -20,7 +20,6 @@
             android:id="@+id/btnListGas"
             android:layout_width="135dp"
             android:layout_height="80dp"
-            android:onClick="onClick"
             android:layout_marginHorizontal="3dp"
             android:text="Lista"/>
 

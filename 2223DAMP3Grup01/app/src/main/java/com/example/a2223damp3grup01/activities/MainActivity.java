@@ -32,7 +32,6 @@ import com.example.a2223damp3grup01.R;
 import com.example.a2223damp3grup01.databinding.ActivityMainBinding;
 import com.example.a2223damp3grup01.fragments.GasolinerasFragment;
 import com.example.a2223damp3grup01.fragments.RutasFragment;
-import com.example.a2223damp3grup01.fragments.FragmentArriba;
 import com.example.a2223damp3grup01.fragments.MapsFragment;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApi;
@@ -67,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         askPermissions();
+        replaceFragment(new GasolinerasFragment());
 //        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 //        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 //        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
@@ -128,8 +128,6 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.flFragment, frahment);
         fragmentTransaction.commit();
-
-
     }
 
     public void askPermissions() {
