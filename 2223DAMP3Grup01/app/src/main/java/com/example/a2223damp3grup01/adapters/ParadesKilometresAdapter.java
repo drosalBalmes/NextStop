@@ -22,7 +22,9 @@ public class ParadesKilometresAdapter extends RecyclerView.Adapter<ParadesKilome
 
     public ParadesKilometresAdapter(List<ParadaKilometre> editParades) {
         this.editParades = editParades;
+
     }
+
 
     @NonNull
     @Override
@@ -50,10 +52,13 @@ public class ParadesKilometresAdapter extends RecyclerView.Adapter<ParadesKilome
             super(itemView);
             editText = itemView.findViewById(R.id.EditTextParadesKM) ;
             textView = itemView.findViewById(R.id.numParadaRVET);
+
         }
 
         void bindData(final ParadaKilometre pk){
             textView.setText(pk.getNumParadaString());
+            pk.setKmET(editText);
+
         }
     }
 }
