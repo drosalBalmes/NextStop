@@ -10,12 +10,15 @@ public class ParadaKilometre {
 
     EditText kmET;
 
+    int km;
+
     String kmString;
 
-    public ParadaKilometre(String numParadaString, int numParadaInt, EditText kmET, String kmString) {
+    public ParadaKilometre(String numParadaString, int numParadaInt, EditText kmET, int km, String kmString) {
         this.numParadaString = numParadaString;
         this.numParadaInt = numParadaInt;
         this.kmET = kmET;
+        this.km = km;
         this.kmString = kmString;
     }
 
@@ -52,6 +55,20 @@ public class ParadaKilometre {
 
     public void setKmString(String kmString) {
         this.kmString = kmString;
+    }
+
+    public int getKm() {
+        return km;
+    }
+
+    public void setKm(int km) {
+        this.km = km;
+    }
+
+    public void ETtoInt(){
+
+        setKm(Integer.parseInt(kmET.getText().toString()));
+
     }
 }
 

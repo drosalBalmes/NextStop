@@ -3,6 +3,7 @@ package com.example.a2223damp3grup01.fragments;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Criteria;
@@ -15,6 +16,7 @@ import android.os.Bundle;
 
 import java.io.IOException;
 
+import androidx.annotation.FontRes;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -41,8 +43,10 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.gson.Gson;
 import com.google.maps.DirectionsApi;
 import com.google.maps.GeoApiContext;
+import com.google.maps.android.SphericalUtil;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.DirectionsLeg;
 import com.google.maps.model.DirectionsResult;
@@ -55,13 +59,18 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 
-public class FiltrosRutaFragment extends Fragment implements LocationListener {
+public class FiltrosRutaFragment extends Fragment implements LocationListener{
 
     CheckBox SubministradorBenzineresCKBX, SubministradorHidrogeneresCKBX, SubministradorPuntsCKBX, SubministradorGasosCKBX;
 
-    CheckBox CombustibleBenzina, CombustibleGasoil;
+    CheckBox CombustibleBenzina, CombustibleGasoil,
+    gasGLP,gasGNC,gasGNL,
+    mennekesm, chademo, mennekesf,tesla,cssCombo,schuko;
+    ArrayList<CheckBox> enchufeTypes= new ArrayList<>();
+
     EditText direccioIniciEditText, direccioFinalEditText;
     Button utilitzarDireccioActual, buscarAlMapa, ValidarRuta;
     TextView KilometresDeLaRuta;
@@ -72,11 +81,16 @@ public class FiltrosRutaFragment extends Fragment implements LocationListener {
     Button DibuixaRutaAutomatic;
 
     RelativeLayout RelativeSubministrador, RelativeTipusCombustible, RelativeIniciFinalBenz, RelativeNumeroParades, RelativeDibuixaManuals, RelativeDibuixaAutomatiques;
+    RelativeLayout RelativeTipusCarregador, RelativeTipusGas;
 
     View view;
     String Subministrador;
 
+
     FusedLocationProviderClient fusedLocationClient;
+
+    List<ParadaKilometre> parades= new ArrayList<>();
+
 
     Location actualPos;
     LocationManager locationManager;
@@ -92,7 +106,11 @@ public class FiltrosRutaFragment extends Fragment implements LocationListener {
     LatLng latlngInici;
     LatLng latLngFinal;
 
+
     ArrayList<LatLng> rutaNoParades = new ArrayList<>();
+
+    private OnReplaceMapFragmentListener listener;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,6 +127,17 @@ public class FiltrosRutaFragment extends Fragment implements LocationListener {
         ClickListeners();
         initSubministradorsListeners();
 
+        enchufeTypes.add(CombustibleBenzina);
+        enchufeTypes.add(CombustibleGasoil);
+        enchufeTypes.add(gasGLP);
+        enchufeTypes.add(gasGNC);
+        enchufeTypes.add(gasGNL);
+        enchufeTypes.add(mennekesm);
+        enchufeTypes.add(chademo);
+        enchufeTypes.add(mennekesf);
+        enchufeTypes.add(tesla);
+        enchufeTypes.add(cssCombo);
+        enchufeTypes.add(schuko);
 
         return view;
 
@@ -134,6 +163,7 @@ public class FiltrosRutaFragment extends Fragment implements LocationListener {
         };
         locationManager.requestLocationUpdates(provider, 1000, 10, locationListener);
     }
+
     public void initItems() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
 
@@ -143,6 +173,12 @@ public class FiltrosRutaFragment extends Fragment implements LocationListener {
         SubministradorPuntsCKBX = (CheckBox) view.findViewById(R.id.ckeckboxPuntsRut);
         SubministradorGasosCKBX = (CheckBox) view.findViewById(R.id.ckeckboxGASRut);
 
+        initItemsBenz();
+        initItemsElec();
+        initItemsGas();
+    }
+
+    public void initItemsBenz(){
         RelativeSubministrador = (RelativeLayout) view.findViewById(R.id.RelativeSubministrador);
         RelativeTipusCombustible = (RelativeLayout) view.findViewById(R.id.relativeBenzineresRut);
         RelativeNumeroParades = (RelativeLayout) view.findViewById(R.id.relativeNumeroParadesBenz);
@@ -167,6 +203,27 @@ public class FiltrosRutaFragment extends Fragment implements LocationListener {
         ValidarRuta = (Button) view.findViewById(R.id.buttonValidateRut);
 
         ParadesManualsRecyclerView = (RecyclerView) view.findViewById(R.id.RVparadasManuBenz);
+        DibuixaRutaManual = (Button) view.findViewById(R.id.dibuixaRutaManuBenz);
+        DibuixaRutaAutomatic =(Button) view.findViewById(R.id.buttonParadasAutoButton);
+    }
+
+    public void initItemsElec(){
+        RelativeTipusCarregador = (RelativeLayout) view.findViewById(R.id.relativeCarregadors);
+
+        mennekesm = (CheckBox) view.findViewById(R.id.mennekesmCheck);
+        schuko = (CheckBox) view.findViewById(R.id.schukCheck);
+        chademo = (CheckBox) view.findViewById(R.id.chademoCheck);
+        cssCombo = (CheckBox) view.findViewById(R.id.ccscomboCheck);
+        mennekesf = (CheckBox) view.findViewById(R.id.mennekesf);
+        tesla = (CheckBox) view.findViewById(R.id.TESLA);
+    }
+
+    public void initItemsGas(){
+        RelativeTipusGas=(RelativeLayout) view.findViewById(R.id.relativeGasosRut);
+
+        gasGLP = view.findViewById(R.id.GLPcheck);
+        gasGNC = view.findViewById(R.id.GNCcheck);
+        gasGNL = view.findViewById(R.id.GNLcheck);
     }
 
     public void ClickListeners() {
@@ -185,14 +242,41 @@ public class FiltrosRutaFragment extends Fragment implements LocationListener {
                 } catch (IOException | InterruptedException | ApiException e) {
                     e.printStackTrace();
                 }
-
-                DisplayRelativeLayout(RelativeNumeroParades);
-                DecimalFormat df = new DecimalFormat("#.##");
-                String formatted = df.format(distanciaMetresRuta1/1000);
-                KilometresDeLaRuta.setText(String.valueOf(formatted)+"km");
-                initParadesListeners(ParadesAutomatiques,ParadesManuals);
+                mostrarNumParadesLayout();
             }
         });
+
+        DibuixaRutaManual.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ferRutesParades(rutaNoParades,parades);
+            }
+        });
+
+        DibuixaRutaAutomatic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ferRutesParadesAuto(rutaNoParades,numeroDeParadesEditText);
+            }
+        });
+    }
+
+    public void mostrarNumParadesLayout(){
+        if (SubministradorBenzineresCKBX.isChecked()){
+            cambiarMarginTop(RelativeNumeroParades,580);
+
+        }else if (SubministradorPuntsCKBX.isChecked()){
+            cambiarMarginTop(RelativeNumeroParades,700);
+
+        }else if (SubministradorGasosCKBX.isChecked()){
+
+        }
+
+        DisplayRelativeLayout(RelativeNumeroParades);
+        DecimalFormat df = new DecimalFormat("#.##");
+        String formatted = df.format(distanciaMetresRuta1/1000);
+        KilometresDeLaRuta.setText(String.valueOf(formatted)+"km");
+        initParadesListeners(ParadesAutomatiques,ParadesManuals);
     }
 
     public void validarIniciFinalRuta(String inici, String Final) throws IOException, InterruptedException, ApiException {
@@ -239,6 +323,7 @@ public class FiltrosRutaFragment extends Fragment implements LocationListener {
     }
 
     public void clickCheckBoxSubministrador(CheckBox clicked) {
+
         if (clicked.equals(SubministradorBenzineresCKBX)) {
             if (SubministradorBenzineresCKBX.isChecked()) {
                 SubministradorHidrogeneresCKBX.setChecked(false);
@@ -272,7 +357,80 @@ public class FiltrosRutaFragment extends Fragment implements LocationListener {
                 SubministradorGasosCKBX.setChecked(true);
             }
         }
+        for (CheckBox ck:
+             enchufeTypes) {
+            ck.setChecked(false);
+        }
         DisplayTypeRelative();
+        changeMarginsTop();
+    }
+
+    public void DisplayTypeRelative() {
+        if (SubministradorBenzineresCKBX.isChecked()) {
+            RelativeTipusCombustible.setVisibility(View.VISIBLE);
+
+
+            RelativeTipusCarregador.setVisibility(View.GONE);
+            RelativeTipusGas.setVisibility(View.GONE);
+        }
+        if (SubministradorGasosCKBX.isChecked()) {
+            RelativeTipusGas.setVisibility(View.VISIBLE);
+
+
+            RelativeTipusCombustible.setVisibility(View.GONE);
+            RelativeTipusCarregador.setVisibility(View.GONE);
+
+        }
+        if (SubministradorHidrogeneresCKBX.isChecked()) {
+
+            RelativeTipusCombustible.setVisibility(View.GONE);
+            RelativeTipusCarregador.setVisibility(View.GONE);
+            RelativeIniciFinalBenz.setVisibility(View.GONE);
+
+
+        }
+        if (SubministradorPuntsCKBX.isChecked()) {
+            RelativeTipusCarregador.setVisibility(View.VISIBLE);
+
+
+            RelativeTipusCombustible.setVisibility(View.GONE);
+            RelativeTipusGas.setVisibility(View.GONE);
+
+        }
+        DisplayIniciFinalRut();
+    }
+
+    public void DisplayIniciFinalRut() {
+
+        RelativeIniciFinalBenz.setVisibility(View.VISIBLE);
+
+    }
+
+    public void changeMarginsTop(){
+        if (SubministradorBenzineresCKBX.isChecked()) {
+            cambiarMarginTop(RelativeIniciFinalBenz,250);
+            cambiarMarginTop(RelativeNumeroParades,550);
+            cambiarMarginTop(RelativeDibuixaAutomatiques,950);
+            cambiarMarginTop(RelativeDibuixaManuals,950);
+
+        }
+        if (SubministradorGasosCKBX.isChecked()) {
+            cambiarMarginTop(RelativeIniciFinalBenz,300);
+            cambiarMarginTop(RelativeNumeroParades,600);
+            cambiarMarginTop(RelativeDibuixaAutomatiques,1000);
+            cambiarMarginTop(RelativeDibuixaManuals,1000);
+        }
+        if (SubministradorHidrogeneresCKBX.isChecked()) {
+
+        }
+        if (SubministradorPuntsCKBX.isChecked()) {
+            cambiarMarginTop(RelativeIniciFinalBenz,400);
+            cambiarMarginTop(RelativeNumeroParades,700);
+            cambiarMarginTop(RelativeDibuixaAutomatiques,1100);
+            cambiarMarginTop(RelativeDibuixaManuals,1100);
+
+
+        }
     }
 
     public void initParadesListeners(CheckBox auto, CheckBox manu){
@@ -314,7 +472,7 @@ public class FiltrosRutaFragment extends Fragment implements LocationListener {
         String numParadesString = numET.getText().toString();
         Log.d("creatingRV", "createRecyclerParadesManu: "+numParadesString);
         int numParades = Integer.parseInt(numParadesString);
-        List<ParadaKilometre> parades= new ArrayList<>();
+        parades.clear();
 
         for (int i = 0; i < numParades; i++) {
             ParadaKilometre pk = new ParadaKilometre();
@@ -330,47 +488,29 @@ public class FiltrosRutaFragment extends Fragment implements LocationListener {
 
 
 
-    public void DisplayTypeRelative() {
-        if (SubministradorBenzineresCKBX.isChecked()) {
-            RelativeTipusCombustible.setVisibility(View.VISIBLE);
-        }
-        if (SubministradorGasosCKBX.isChecked()) {
-            RelativeTipusCombustible.setVisibility(View.GONE);
-            RelativeIniciFinalBenz.setVisibility(View.GONE);
-
-        }
-        if (SubministradorHidrogeneresCKBX.isChecked()) {
-            RelativeTipusCombustible.setVisibility(View.GONE);
-            RelativeIniciFinalBenz.setVisibility(View.GONE);
 
 
-        }
-        if (SubministradorPuntsCKBX.isChecked()) {
-            RelativeTipusCombustible.setVisibility(View.GONE);
-            RelativeIniciFinalBenz.setVisibility(View.GONE);
 
 
-        }
-        DisplayIniciFinalRut();
-    }
+    public void cambiarMarginTop(RelativeLayout layout,int sp){
+        // Obtener el elemento por su ID
 
-    public void DisplayIniciFinalRut() {
-        if (SubministradorBenzineresCKBX.isChecked()) {
-            RelativeIniciFinalBenz.setVisibility(View.VISIBLE);
+// Definir el nuevo valor de marginTop en sp
+        int marginInSp = sp;
 
-        }
-        if (SubministradorGasosCKBX.isChecked()) {
-            RelativeTipusCombustible.setVisibility(View.GONE);
+// Convertir el valor en sp a píxeles
+        float scale = getResources().getDisplayMetrics().scaledDensity;
+        int marginInPx = (int) (marginInSp * scale + 0.5f);
 
-        }
-        if (SubministradorHidrogeneresCKBX.isChecked()) {
-            RelativeTipusCombustible.setVisibility(View.GONE);
+// Obtener los parámetros de diseño del elemento
+        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) layout.getLayoutParams();
 
-        }
-        if (SubministradorPuntsCKBX.isChecked()) {
-            RelativeTipusCombustible.setVisibility(View.GONE);
+// Establecer el nuevo valor de marginTop en píxeles
+        params.topMargin = marginInPx;
 
-        }
+// Actualizar los parámetros de diseño del elemento
+        layout.setLayoutParams(params);
+
     }
 
     public void DisplayRelativeLayout(RelativeLayout layout){
@@ -480,8 +620,164 @@ public class FiltrosRutaFragment extends Fragment implements LocationListener {
 
     }
 
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-        // código para manejar el cambio de estado de la ubicación
+
+    public void ferRutesParades(List<LatLng> ruta, List<ParadaKilometre> parades ) {
+
+        for (ParadaKilometre pk : parades) {
+            pk.ETtoInt();
+
+
+        }
+
+        boolean paradesCorrectes = true;
+        float distanciaKMruta1 = (float) (distanciaMetresRuta1 / 1000);
+
+        for (int i = 0; i < parades.size() - 1; i++) {
+            ParadaKilometre pkActual = parades.get(i);
+            ParadaKilometre pksig = parades.get(i + 1);
+            if (pkActual.getKm() > pksig.getKm()) {
+                Toast.makeText(getContext(), "Revisa els kilometres de les parades", Toast.LENGTH_SHORT).show();
+                paradesCorrectes = false;
+            }
+        }
+
+
+        List<LatLng> paradasLatLng = null;
+        if (paradesCorrectes == true) {
+            /*distancia de la ruta*/
+            int distanciaRuta = ruta.size();
+            Log.d("paradees", "size de latlngs " + distanciaRuta);
+
+            /*los kilometros en los que hay paradas*/
+            List<Integer> intsParades = new ArrayList<>();
+            for (ParadaKilometre p : parades) {
+                intsParades.add(p.getKm());
+                Log.d("paradees", "km de parada " + p.getKm());
+
+            }
+
+            /*obtener que porcentaje de la ruta equivale cada parada en kilometros
+             * TODAVIA NO SON LATLONGS*/
+            List<Float> percentatgesParades = new ArrayList<>();
+
+            for (Integer Kmparada : intsParades) {
+                percentatgesParades.add(Kmparada / distanciaKMruta1 * 100);
+                Log.d("paradees", "ferRutesParades: percentatge " + Kmparada / distanciaKMruta1 * 100);
+
+            }
+
+            /*obtener los latlngs de todoas las paradas*/
+            paradasLatLng = new ArrayList<>();
+            Log.d("paradees", "numero percentatge parades numaafegir " + percentatgesParades.size() );
+
+            for (Float paradapercent : percentatgesParades) {
+
+                double doublenumAafegir1 = (paradapercent / 100);
+                double doublenumAafegir2 = doublenumAafegir1 * distanciaRuta;
+
+
+                Log.d("paradees", "ferRutesParades: numaafegir " + doublenumAafegir2);
+
+                int numAafegir = (int) Math.round(doublenumAafegir2);
+
+                paradasLatLng.add(ruta.get(numAafegir));
+                Log.d("paradees", "ferRutesParades: parada " + ruta.get(numAafegir).latitude + " " + ruta.get(numAafegir).longitude);
+            }
+            Log.d("paradees", "paradesLatlong SIZE " + paradasLatLng.size() );
+
+            List<String> puntas = typesOfEnergy();
+            for (String s :
+                    puntas) {
+                Log.d("puntas", "ferRutesParadesAuto: " + s);
+            }
+
+
+            storeRouteOnPreferences(ruta,paradasLatLng,puntas);
+
+        }
+
     }
+
+    public void ferRutesParadesAuto(List<LatLng> ruta, EditText numParades) {
+        String numeroParadesS = numParades.getText().toString();
+        int numParadesInt = Integer.parseInt(numeroParadesS)+1;
+
+        // Calcular la distancia total de la ruta en metros
+        double distanciaTotal = SphericalUtil.computeLength(ruta);
+
+
+
+        // Calcular la distancia entre cada parada
+        double distanciaEntreParadas = distanciaTotal / (numParadesInt);
+
+        // Recorrer la ruta, añadiendo puntos de parada según la distancia acumulada
+        double distanciaAcumulada = 0;
+        List<LatLng> paradasList = new ArrayList<>();
+        for (int i = 1; i < ruta.size() - 1; i++) {
+            LatLng puntoAnterior = ruta.get(i - 1);
+            LatLng puntoActual = ruta.get(i);
+            double distanciaSegmento = SphericalUtil.computeDistanceBetween(puntoAnterior, puntoActual);
+            distanciaAcumulada += distanciaSegmento;
+            if (distanciaAcumulada >= distanciaEntreParadas) {
+                // Añadir un punto de parada en este punto de la ruta
+                double fraccion = (distanciaAcumulada - distanciaEntreParadas) / distanciaSegmento;
+                LatLng puntoParada = new LatLng(
+                        puntoAnterior.latitude + fraccion * (puntoActual.latitude - puntoAnterior.latitude),
+                        puntoAnterior.longitude + fraccion * (puntoActual.longitude - puntoAnterior.longitude));
+                paradasList.add(puntoParada);
+                distanciaAcumulada = distanciaSegmento - (distanciaAcumulada - distanciaEntreParadas);
+            }
+        }
+
+
+        List<String> puntas = typesOfEnergy();
+        for (String s :
+                puntas) {
+            Log.d("puntas", "ferRutesParadesAuto: " + s);
+        }
+        storeRouteOnPreferences(ruta,paradasList,puntas);
+
+    }
+
+    public List<String> typesOfEnergy(){
+        List<String> returnList = new ArrayList<>();
+
+        for (CheckBox ck :
+                enchufeTypes) {
+            if (ck.isChecked()){
+                returnList.add(ck.getText().toString());
+            }
+        }
+
+
+
+
+        return returnList;
+    }
+
+
+
+
+    public void storeRouteOnPreferences(List<LatLng> ruta, List<LatLng> paradas,List<String> tipusCombustible){
+        SharedPreferences prefs = getActivity().getSharedPreferences("route_pref", Context.MODE_PRIVATE);
+
+        Gson gson = new Gson();
+
+        String jsonRuta = gson.toJson(ruta);
+        String jsonParadas = gson.toJson(paradas);
+        String jsonCombustible = gson.toJson(tipusCombustible);
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.clear();
+        editor.putString("ruta", jsonRuta);
+        editor.putString("paradas", jsonParadas);
+        editor.putString("combus", jsonCombustible);
+        editor.apply();
+    }
+
+    public interface OnReplaceMapFragmentListener {
+        void onReplaceMapFragment(Fragment fragment, List<LatLng> ruta, List<LatLng> paradas);
+    }
+
 
 }
