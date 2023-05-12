@@ -2,19 +2,9 @@ package com.example.a2223damp3grup01.activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentSender;
 import android.content.pm.PackageManager;
-import android.location.Criteria;
-import android.location.GpsStatus;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Looper;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -32,31 +22,13 @@ import com.example.a2223damp3grup01.R;
 import com.example.a2223damp3grup01.databinding.ActivityMainBinding;
 import com.example.a2223damp3grup01.fragments.GasolinerasFragment;
 import com.example.a2223damp3grup01.fragments.RutasFragment;
-import com.example.a2223damp3grup01.fragments.FragmentArriba;
-import com.example.a2223damp3grup01.fragments.MapsFragment;
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApi;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.internal.location.zzau;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     BottomNavigationView bottomNavigationView;
 
-    GoogleApi mGoogleApiClient;
-    /*LOCATION*/
-//    FusedLocationProviderClient fusedLocationClient;
-//    Location actualPos;
-//    LocationManager locationManager;
-//    LocationListener locationListener;
-//    String provider;
 
 
 
@@ -67,21 +39,7 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         askPermissions();
-//        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-//        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-//        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-//
-//        provider = locationManager.getBestProvider(new Criteria(), false);
-//        locationListener = new LocationListener() {
-//            @Override
-//            public void onLocationChanged(Location location) {
-//                actualPos = location;
-//                Log.d("quepasaeeee", "Latitude: " + actualPos.getLatitude() + ", Longitude: " + actualPos.getLongitude());
-//
-//            }
-//        };
-//        locationManager.requestLocationUpdates(provider, 1000, 10, locationListener);
-//        replaceFragment(new GasolinerasFragment());
+
 
 
         bottomNavSelected();
