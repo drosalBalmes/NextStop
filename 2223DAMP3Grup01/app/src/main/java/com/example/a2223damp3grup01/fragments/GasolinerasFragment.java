@@ -44,6 +44,7 @@ public class GasolinerasFragment extends Fragment {
         btnMap = view.findViewById(R.id.btnMapaGas);
         btnProfile = view.findViewById(R.id.btnProfileGas);
         cambiarFragment(btnMap,new MapsFragment());
+        cambiarFragment(btnLista,new ListFragment());
         toProfile(btnProfile);
         return view;
     }
