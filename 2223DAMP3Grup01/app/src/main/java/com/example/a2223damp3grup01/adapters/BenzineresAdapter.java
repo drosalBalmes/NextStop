@@ -40,17 +40,20 @@ public class BenzineresAdapter extends RecyclerView.Adapter<BenzineresAdapter.My
         TextView gasolinaPreu;
         TextView gasoilPreu;
         TextView hidroPreu;
+        TextView dist;
         public MyViewHolder(@NonNull View itemView){
             super(itemView);
             nom = itemView.findViewById(R.id.nomTxt);
             gasoilPreu = itemView.findViewById(R.id.gasoilPreu);
             gasolinaPreu = itemView.findViewById(R.id.gasolinaPreu);
             hidroPreu = itemView.findViewById(R.id.hidroPreu);
-
+            dist = itemView.findViewById(R.id.distancia);
         }
         void bindData(final Benzinera benzinera){
             nom.setText(benzinera.getNom());
-            //faltan els preus
+            dist.setText(benzinera.getDistFromActual() + "Min en cotxe");
+
+            //TODO
         }
     }
 }

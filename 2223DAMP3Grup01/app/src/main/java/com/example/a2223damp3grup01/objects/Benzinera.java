@@ -48,6 +48,8 @@ public class Benzinera {
     @Expose
     private Boolean sp98;
 
+    private long distFromActual;
+
 
     public Benzinera() {
     }
@@ -73,7 +75,7 @@ public class Benzinera {
      * @param gnc
      * @param longitude
      */
-    public Benzinera(Boolean adblue, Boolean gasoil, Boolean gasolina, Boolean glp, Boolean gnc, Boolean gnl, Boolean hidrogen, String horari, Integer id, Integer latitude, Integer longitude, String nom, Boolean sp95, Boolean sp98) {
+    public Benzinera(Boolean adblue, Boolean gasoil, Boolean gasolina, Boolean glp, Boolean gnc, Boolean gnl, Boolean hidrogen, String horari, Integer id, Integer latitude, Integer longitude, String nom, Boolean sp95, Boolean sp98,long distFromActual) {
         super();
         this.adblue = adblue;
         this.gasoil = gasoil;
@@ -89,6 +91,7 @@ public class Benzinera {
         this.nom = nom;
         this.sp95 = sp95;
         this.sp98 = sp98;
+        this.distFromActual = distFromActual;
     }
 
 
@@ -205,4 +208,11 @@ public class Benzinera {
         this.sp98 = sp98;
     }
 
+    public long getDistFromActual() {
+        return distFromActual;
+    }
+
+    public void setDistFromActual(long distFromActual) {
+        this.distFromActual = distFromActual;
+    }
 }
