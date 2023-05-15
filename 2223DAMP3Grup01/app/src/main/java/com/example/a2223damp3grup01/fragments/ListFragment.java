@@ -12,14 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.a2223damp3grup01.R;
 import com.example.a2223damp3grup01.adapters.BenzineresAdapter;
-import com.example.a2223damp3grup01.adapters.ReviewAdapter;
 import com.example.a2223damp3grup01.interfaces.ServiceApi;
 import com.example.a2223damp3grup01.objects.Benzinera;
 import com.example.a2223damp3grup01.objects.FitRetro;
@@ -39,7 +37,6 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -54,11 +51,10 @@ public class ListFragment extends Fragment {
     RecyclerView benzineresRecycler;
     BenzineresAdapter benzineresAdapter;
 
+    double lat;
+    double lng;
     long durationInSeconds;
     long durationInMinutes;
-    private FusedLocationProviderClient fusedLocationClient;
-    private LocationManager locationManager;
-    private String provider;
     private LocationListener locationListener;
     private Location actualPos;
 
@@ -75,7 +71,9 @@ public class ListFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -93,17 +91,23 @@ public class ListFragment extends Fragment {
             @Override
             public void onLocationChanged(Location location) {
                 actualPos = location;
-                Log.d("quepasaeeeeFragment", "Latitude: " + actualPos.getLatitude() + ", Longitude: " + actualPos.getLongitude());
-                LatLng inici = new LatLng(actualPos.getLatitude(),actualPos.getLongitude());
-                getBenzineresFinder(3,inici.lat,inici.lng);
+
             }
         };
+        if (lat != 0 && lng != 0){
+            getBenzineresFinder(3,lat,lng);
+        }
         benzineresRecycler = view.findViewById(R.id.listGasolinerasRecycler);
         localize();
 
     }
 
-    public void initRecyclerBenzineres(){
+    public void initRecyclerBenzineres() throws IOException, InterruptedException, ApiException {
+        for (Benzinera b: benzinerasList) {
+            LatLng inici = new LatLng(lat,lng);
+            LatLng benzinera = new LatLng(b.getLatitude(),b.getLongitude());
+            b.setDistFromActual(getDurationInMinutes(inici,benzinera));
+        }
         benzineresAdapter = new BenzineresAdapter(benzinerasList);
         Log.d("lolol",benzinerasList.get(0).getNom());
         benzineresRecycler.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
@@ -111,54 +115,7 @@ public class ListFragment extends Fragment {
         benzineresRecycler.setAdapter(benzineresAdapter);
     }
 
-    /*
-    public void getBenzineres(){
-
-        Call<List<Benzinera>> call = serviceApi.listBenzineres();
-
-        call.enqueue(new Callback<List<Benzinera>>() {
-            @Override
-            public void onResponse(Call<List<Benzinera>> call, retrofit2.Response<List<Benzinera>> response) {
-                benzinerasList = response.body();
-                Log.d("getingbenzineres","aquiva1");
-                try {
-                    if (benzinerasList != null) {
-                        Log.d("getingbenzineres", benzinerasList.get(0).getNom());
-                        Log.d("getingbenzineres", String.valueOf(benzinerasList.size()));
-                        LatLng inici = new LatLng(actualPos.getLatitude(),actualPos.getLongitude());
-                        for (Benzinera b: benzinerasList) {
-                            Log.d("quepasa","lol");
-                            LatLng benzinera = new LatLng(b.getLatitude(),b.getLongitude());
-                            Log.d("quepasa","Latitude: " + b.getLatitude() + " Longitude: " + b.getLongitude());
-                            tal(inici,benzinera);
-                            b.setDistFromActual(durationInMinutes);
-                        }
-                        initRecyclerBenzineres();
-
-                    }
-                }catch (Exception e){
-                    Log.d("getingbenzineres",e.toString());
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<List<Benzinera>> call, Throwable t) {
-                Log.e("getingbenzineres", t.getMessage());
-
-                if (t instanceof IOException) {
-                    // Error de red o servidor
-                    Log.e("getingbenzineres", "Error de red o servidor");
-                } else {
-                    // Otro tipo de error
-                    Log.e("getingbenzineres", "Otro tipo de error");
-                }
-            }
-        });
-    }
-    */
-
-    public void tal(LatLng inci, LatLng Final) throws IOException, InterruptedException, ApiException {
+    public long getDurationInMinutes(LatLng inci, LatLng Final) throws IOException, InterruptedException, ApiException {
         GeoApiContext context = new GeoApiContext.Builder()
                 .apiKey("AIzaSyCqWBGxRFvmbc0zqwhClvJRCAqfw4KcXEM")
                 .build();
@@ -174,23 +131,25 @@ public class ListFragment extends Fragment {
             durationInSeconds = route.legs[0].duration.inSeconds;
             durationInMinutes = durationInSeconds/60;
         }
-
+        return  durationInMinutes;
     }
 
     @SuppressLint("MissingPermission")
     public void localize(){
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
-        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
+        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
 
 
-
-        provider = locationManager.getBestProvider(new Criteria(), false);
+        String provider = locationManager.getBestProvider(new Criteria(), false);
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
                 actualPos = location;
+                lat = actualPos.getLatitude();
+                lng = actualPos.getLongitude();
+                Log.d("quepasaeeeeFragment", "33Latitude: " + lat + ", Longitude: " + lng);
                 Log.d("quepasaeeeeFragment", "Latitude: " + actualPos.getLatitude() + ", Longitude: " + actualPos.getLongitude());
 
             }
@@ -199,6 +158,7 @@ public class ListFragment extends Fragment {
     }
 
     public void getBenzineresFinder(double kmRedonda, double locationLat, double locationLong){
+        Log.d("quepasaeeeeFragment", "22222 Latitude: " + lat + ", Longitude: " + lng);
         Call<List<Benzinera>> call = serviceApi.listBenzineresFinder(kmRedonda, locationLat, locationLong);
 
         call.enqueue(new Callback<List<Benzinera>>() {
@@ -209,7 +169,11 @@ public class ListFragment extends Fragment {
                     if (benzinerasList != null) {
                         Log.d("getingbenzineres", benzinerasList.get(0).getNom());
                         Log.d("getingbenzineres", String.valueOf(benzinerasList.size()));
-                        initRecyclerBenzineres();
+                        try {
+                            initRecyclerBenzineres();
+                        } catch (IOException | InterruptedException | ApiException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 } else {
                     // Respuesta no exitosa

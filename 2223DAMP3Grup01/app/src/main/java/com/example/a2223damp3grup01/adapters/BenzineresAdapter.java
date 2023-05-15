@@ -51,7 +51,7 @@ public class BenzineresAdapter extends RecyclerView.Adapter<BenzineresAdapter.My
         }
         void bindData(final Benzinera benzinera){
             nom.setText(benzinera.getNom());
-            dist.setText(benzinera.getDistFromActual() + "Min en cotxe");
+            dist.setText(benzinera.getDistFromActual() + " Min en cotxe");
 
             //TODO
         }
