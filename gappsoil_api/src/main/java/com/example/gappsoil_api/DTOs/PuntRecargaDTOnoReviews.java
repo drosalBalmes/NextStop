@@ -1,12 +1,6 @@
 package com.example.gappsoil_api.DTOs;
 
-import com.example.gappsoil_api.entitats.Valoracio;
-import com.example.gappsoil_api.entitats.ValoracioElec;
-
-import javax.persistence.*;
-import java.util.List;
-
-public class PuntRecargaDTOall {
+public class PuntRecargaDTOnoReviews {
 
     private long id;
 
@@ -24,10 +18,8 @@ public class PuntRecargaDTOall {
 
     private String TipusVehicles;
 
-    private List<ValoracioElec> valoracionsElec;
 
-
-    public PuntRecargaDTOall(long id, String tipusConexio, double latitude, double longitude, String nom, String tipusCorrent, String numPlaces, String tipusVehicles, List<ValoracioElec> valoracionsElec) {
+    public PuntRecargaDTOnoReviews(long id, String tipusConexio, double latitude, double longitude, String nom, String tipusCorrent, String numPlaces, String tipusVehicles) {
         this.id = id;
         this.tipusConexio = tipusConexio;
         this.latitude = latitude;
@@ -36,7 +28,6 @@ public class PuntRecargaDTOall {
         this.tipusCorrent = tipusCorrent;
         this.numPlaces = numPlaces;
         TipusVehicles = tipusVehicles;
-        this.valoracionsElec = valoracionsElec;
     }
 
     public long getId() {
@@ -103,11 +94,5 @@ public class PuntRecargaDTOall {
         TipusVehicles = tipusVehicles;
     }
 
-    public List<ValoracioElec> getValoracionsElec() {
-        return valoracionsElec;
-    }
 
-    public void setValoracionsElec(List<ValoracioElec> valoracionsElec) {
-        this.valoracionsElec = valoracionsElec;
-    }
 }

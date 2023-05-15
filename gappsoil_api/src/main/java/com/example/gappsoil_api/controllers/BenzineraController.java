@@ -130,6 +130,7 @@ public class BenzineraController {
         }
 
         Iterator<BenzineraDTOnoPriceNoVal> iterator = benzineresR.iterator();
+
         while (iterator.hasNext()) {
             BenzineraDTOnoPriceNoVal bb = iterator.next();
             if (bb.getLatitude()<minLatDeg || bb.getLatitude()>maxLatDeg || bb.getLongitude()<minLonDeg || bb.getLongitude()>maxLonDeg){

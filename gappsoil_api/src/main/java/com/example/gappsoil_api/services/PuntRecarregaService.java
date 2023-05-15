@@ -3,9 +3,11 @@ package com.example.gappsoil_api.services;
 import com.example.gappsoil_api.entitats.puntRecarrega;
 import com.example.gappsoil_api.repositories.PuntRecarregaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class PuntRecarregaService {
     
     @Autowired 
@@ -18,5 +20,9 @@ public class PuntRecarregaService {
     
     public List<puntRecarrega> findAll(){
         return puntRecarregaRepository.findAll();
+    }
+
+    public puntRecarrega findById(long id){
+        return puntRecarregaRepository.findById(id);
     }
 }

@@ -109,7 +109,8 @@ public class FiltrosRutaFragment extends Fragment implements LocationListener{
 
     ArrayList<LatLng> rutaNoParades = new ArrayList<>();
 
-    private OnReplaceMapFragmentListener listener;
+    private FiltrosRutaListener listener;
+    private MapaRutaFragment mapaRutaFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -773,10 +774,24 @@ public class FiltrosRutaFragment extends Fragment implements LocationListener{
         editor.putString("paradas", jsonParadas);
         editor.putString("combus", jsonCombustible);
         editor.apply();
+
+        if (listener != null) {
+            listener.getRouteFromPrefs();
+        }else{
+            Log.d("paradees", "storeRouteOnPreferences: listener es null");
+        }
     }
 
-    public interface OnReplaceMapFragmentListener {
-        void onReplaceMapFragment(Fragment fragment, List<LatLng> ruta, List<LatLng> paradas);
+
+
+    public void setMapaRutaFragment(MapaRutaFragment mapaRutaFragment) {
+        this.mapaRutaFragment = mapaRutaFragment;
+        this.listener = mapaRutaFragment;
+    }
+
+    public interface FiltrosRutaListener{
+
+        void getRouteFromPrefs();
     }
 
 

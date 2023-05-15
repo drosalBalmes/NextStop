@@ -32,7 +32,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 
-public class MapaRutaFragment extends Fragment implements OnMapReadyCallback {
+public class MapaRutaFragment extends Fragment implements OnMapReadyCallback, FiltrosRutaFragment.FiltrosRutaListener {
     GoogleMap mMap;
     Polyline ruteLine;
     Button botonBasura;
@@ -42,31 +42,9 @@ public class MapaRutaFragment extends Fragment implements OnMapReadyCallback {
 
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            SharedPreferences prefs = getActivity().getSharedPreferences("route_pref", Context.MODE_PRIVATE);
             mMap = googleMap;
 
-
-            if (prefs.contains("ruta") && prefs.contains("paradas")&&prefs.contains("combus")){
-                Log.d("drawRouteMapsFragment", "onMapReady: CONTE");
-
-                Gson gson = new Gson();
-                    mMap.clear();
-                            String rutaRecuperado = prefs.getString("ruta", "");
-                            Type type = new TypeToken<List<LatLng>>(){}.getType();
-                            List<LatLng> ListaRutaRecuperada = gson.fromJson(rutaRecuperado, type);
-
-                            String paradasRecuperado = prefs.getString("paradas", "");
-                            Type type2 = new TypeToken<List<LatLng>>(){}.getType();
-                            List<LatLng> ListaParadasRecuperada2 = gson.fromJson(paradasRecuperado, type2);
-
-                            String combusRecuperado = prefs.getString("combus", "");
-                            Type type3 = new TypeToken<List<String>>(){}.getType();
-                            List<String> ListcombusRecuperado = gson.fromJson(combusRecuperado, type3);
-
-                            drawRouteWithStops(ListaRutaRecuperada,ListaParadasRecuperada2);
-            }else{
-                Log.d("drawRouteMapsFragment", "onMapReady: no hi ha res al shared preferences");
-            }
+            getRouteFromPrefs();
 
 
 
@@ -105,6 +83,33 @@ public class MapaRutaFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
 
+    }
+
+    public void getRouteFromPrefs(){
+        SharedPreferences prefs = getActivity().getSharedPreferences("route_pref", Context.MODE_PRIVATE);
+
+
+        if (prefs.contains("ruta") && prefs.contains("paradas")&&prefs.contains("combus")){
+            Log.d("drawRouteMapsFragment", "onMapReady: CONTE");
+
+            Gson gson = new Gson();
+            mMap.clear();
+            String rutaRecuperado = prefs.getString("ruta", "");
+            Type type = new TypeToken<List<LatLng>>(){}.getType();
+            List<LatLng> ListaRutaRecuperada = gson.fromJson(rutaRecuperado, type);
+
+            String paradasRecuperado = prefs.getString("paradas", "");
+            Type type2 = new TypeToken<List<LatLng>>(){}.getType();
+            List<LatLng> ListaParadasRecuperada2 = gson.fromJson(paradasRecuperado, type2);
+
+            String combusRecuperado = prefs.getString("combus", "");
+            Type type3 = new TypeToken<List<String>>(){}.getType();
+            List<String> ListcombusRecuperado = gson.fromJson(combusRecuperado, type3);
+
+            drawRouteWithStops(ListaRutaRecuperada,ListaParadasRecuperada2);
+        }else{
+            Log.d("drawRouteMapsFragment", "onMapReady: no hi ha res al shared preferences");
+        }
     }
 
     public void drawRouteWithStops(List<LatLng> ruta,List<LatLng> paradas){

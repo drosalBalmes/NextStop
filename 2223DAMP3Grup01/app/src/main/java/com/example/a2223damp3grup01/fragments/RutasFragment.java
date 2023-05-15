@@ -3,10 +3,12 @@ package com.example.a2223damp3grup01.fragments;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
@@ -20,13 +22,17 @@ import com.google.maps.model.LatLng;
 import java.util.List;
 
 
-public class RutasFragment extends Fragment /*implements FiltrosRutaFragment.OnReplaceMapFragmentListener */{
+public class RutasFragment extends Fragment {
 
     Button btnLista;
     Button btnMap;
     Button btnFilter;
     CardView btnProfile;
-    boolean filterDisplayed;
+    boolean filterDisplayed=false;
+
+    MapaRutaFragment mapaRutaFragment;
+    FiltrosRutaFragment filtrosRutaFragment;
+    ListaRutaFragment listaRutaFragment;
 
 
     @Override
@@ -43,38 +49,45 @@ public class RutasFragment extends Fragment /*implements FiltrosRutaFragment.OnR
         btnMap = view.findViewById(R.id.btnMapaRut);
         btnFilter = view.findViewById(R.id.filterButtonRuta);
         btnProfile = view.findViewById(R.id.btnProfileRut);
-        cambiarFragment(btnLista,new ListaRutaFragment());
-        cambiarFragmentMapa(btnMap,new MapaRutaFragment());
-        cambiarFragment2(btnFilter,new FiltrosRutaFragment());
+        cambiarFragmentLista(btnLista);
+        cambiarFragmentMapa(btnMap);
+        cambiarFragmentFiltros(btnFilter);
         toProfile(btnProfile);
         return view;
     }
 
 
 
-    public void cambiarFragment(Button button, Fragment fragment){
+    public void cambiarFragmentLista(Button button){
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                replaceFragment(fragment);
+                listaRutaFragment = new ListaRutaFragment();
+                replaceFragment(listaRutaFragment);
             }
         });
     }
 
-    public void cambiarFragmentMapa(Button button, Fragment fragment){
+    public void cambiarFragmentMapa(Button button){
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                replaceFragmentMapa(fragment);
+                mapaRutaFragment = new MapaRutaFragment();
+                replaceFragmentMapa(mapaRutaFragment);
             }
         });
     }
 
-    public void cambiarFragment2(Button button, Fragment fragment){
+    public void cambiarFragmentFiltros(Button button){
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                replaceFragmentDialog(fragment);
+
+                filtrosRutaFragment = new FiltrosRutaFragment();
+                if (mapaRutaFragment!=null){
+                    filtrosRutaFragment.setMapaRutaFragment(mapaRutaFragment);
+                }
+                replaceFragmentDialog();
             }
         });
     }
@@ -103,34 +116,26 @@ public class RutasFragment extends Fragment /*implements FiltrosRutaFragment.OnR
         fragmentTransaction.commit();
     }
 
-    public void replaceFragmentMapawLists(Fragment frahment, List<LatLng> ruta, List<LatLng> paradas){
 
-
-    }
-
-    public void replaceFragmentDialog(Fragment frahment){
+    public void replaceFragmentDialog(){
         if (filterDisplayed==true){
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.remove(frahment);
+            FrameLayout fl = getActivity().findViewById(R.id.dialogRutas);
+            fl.removeAllViews();
             fragmentTransaction.commit();
             filterDisplayed=false;
-        }else{
+            Log.d("filterDisplay", "replaceFragmentDialog: " + filterDisplayed);
+        }else if (filterDisplayed==false){
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.dialogRutas,frahment);
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction()
+                            .add(R.id.dialogRutas , filtrosRutaFragment);
             fragmentTransaction.commit();
             filterDisplayed=true;
+            Log.d("filterDisplay", "replaceFragmentDialog: " + filterDisplayed);
 
         }
     }
 
-//    @Override
-//    public void onReplaceMapFragment(Fragment fragment, List<com.google.android.gms.maps.model.LatLng> ruta, List<com.google.android.gms.maps.model.LatLng> paradas) {
-//        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//
-//        fragmentTransaction.replace(R.id.flFragmentRut,fragment);
-//        fragmentTransaction.commit();
-//    }
+
 }
