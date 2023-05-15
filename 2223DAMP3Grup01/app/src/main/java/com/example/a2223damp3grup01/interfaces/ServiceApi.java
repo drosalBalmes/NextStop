@@ -18,4 +18,6 @@ public interface ServiceApi {
             @Query("KMredonda") double KMredonda,
             @Query("locationLAT") double locationLat,
             @Query("locationLONG") double locationLong);
+
+
 }

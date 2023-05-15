@@ -4,6 +4,7 @@ import com.example.gappsoil_api.DTOs.BenzineraDTOnoPriceNoVal;
 import com.example.gappsoil_api.DTOs.PuntRecargaDTOnoReviews;
 import com.example.gappsoil_api.entitats.Benzinera;
 import com.example.gappsoil_api.entitats.puntRecarrega;
+import com.example.gappsoil_api.objects.distances;
 import com.example.gappsoil_api.repositories.*;
 import com.example.gappsoil_api.services.*;
 import org.apache.catalina.LifecycleState;
@@ -15,9 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("puntsRecarrega")
@@ -130,5 +129,47 @@ public class PuntRecarregaController {
 
     }
 
+    @GetMapping("/closest")
+    public List<PuntRecargaDTOnoReviews> pr10closest(@RequestParam("locationLONG")double locationLNG,
+                                                     @RequestParam("locationLAT")double locationLAT,
+                                                     @RequestParam("num")int num){
+        List<puntRecarrega> prs = puntRecarregaRepository.findAll();
+        List<PuntRecargaDTOnoReviews> returnList = new ArrayList<>();
+        List <distances> distancias = new ArrayList<>();
 
+        for (puntRecarrega pr :
+                prs) {
+            distancias.add(new distances(
+                    pr.getId(),
+                    calcularDistancia(pr,locationLAT,locationLNG)
+            ));
+        }
+
+        Collections.sort(distancias, Comparator.comparingDouble(distances::getDistance));
+
+        for (int i = 0; i < num; i++) {
+            distances d = distancias.get(i);
+
+            puntRecarrega pr = puntRecarregaService.findById(d.getRepoId());
+            returnList.add( new PuntRecargaDTOnoReviews(
+                    pr.getId(),
+                    pr.getTipusConexio(),
+                    pr.getLatitude(),
+                    pr.getLongitude(),
+                    pr.getNom(),
+                    pr.getTipusCorrent(),
+                    pr.getNumPlaces(),
+                    pr.getTipusVehicles()
+            ));
+        }
+
+        return returnList;
+
+    }
+
+    public static double calcularDistancia(puntRecarrega pr, double lat, double lng) {
+        double dx = pr.getLatitude() - lat;
+        double dy = pr.getLongitude() - lng;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
 }

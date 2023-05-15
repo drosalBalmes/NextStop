@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.a2223damp3grup01.R;
+import com.example.a2223damp3grup01.objects.Benzinera;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -28,8 +29,12 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
 
 
 public class MapaRutaFragment extends Fragment implements OnMapReadyCallback, FiltrosRutaFragment.FiltrosRutaListener {
@@ -150,6 +155,43 @@ public class MapaRutaFragment extends Fragment implements OnMapReadyCallback, Fi
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(ruta.get(0),10));
 
     }
+
+//    public void getBenzineres(){
+//
+//        Call<List<Benzinera>> call = serviceApi.listBenzineres();
+//
+//        call.enqueue(new Callback<List<Benzinera>>() {
+//            @Override
+//            public void onResponse(Call<List<Benzinera>> call, retrofit2.Response<List<Benzinera>> response) {
+//                benzinerasList = response.body();
+//                Log.d("getingbenzineres","aquiva1");
+//                try {
+//                    if (benzinerasList != null) {
+//                        Log.d("getingbenzineres", benzinerasList.get(0).getNom());
+//                        Log.d("getingbenzineres", String.valueOf(benzinerasList.size()));
+//                        initRecyclerBenzineres();
+//
+//                    }
+//                }catch (Exception e){
+//                    Log.d("getingbenzineres",e.toString());
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<Benzinera>> call, Throwable t) {
+//                Log.e("getingbenzineres", t.getMessage());
+//
+//                if (t instanceof IOException) {
+//                    // Error de red o servidor
+//                    Log.e("getingbenzineres", "Error de red o servidor");
+//                } else {
+//                    // Otro tipo de error
+//                    Log.e("getingbenzineres", "Otro tipo de error");
+//                }
+//            }
+//        });
+//    }
 
 
 

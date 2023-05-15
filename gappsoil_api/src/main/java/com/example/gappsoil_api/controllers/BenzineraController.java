@@ -3,6 +3,7 @@ package com.example.gappsoil_api.controllers;
 import com.example.gappsoil_api.DTOs.BenzineraDTOall;
 import com.example.gappsoil_api.DTOs.BenzineraDTOnoPriceNoVal;
 import com.example.gappsoil_api.entitats.Benzinera;
+import com.example.gappsoil_api.objects.distances;
 import com.example.gappsoil_api.repositories.BenzineraRepositori;
 import com.example.gappsoil_api.repositories.PreuRepository;
 import com.example.gappsoil_api.repositories.UsuarioRepository;
@@ -17,9 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("benzineres")
@@ -142,5 +141,53 @@ public class BenzineraController {
     }
 
 
+    @GetMapping("/closest")
+    public List<BenzineraDTOnoPriceNoVal> benz10closest(@RequestParam("locationLONG")double locationLNG,
+                                                        @RequestParam("locationLAT")double locationLAT,
+                                                        @RequestParam("num")int num){
+    List<Benzinera> benzineras = benzineraService.getAll();
+    List<BenzineraDTOnoPriceNoVal> returnList = new ArrayList<>();
+    List <distances> distancias = new ArrayList<>();
 
+        for (Benzinera b :
+                benzineras) {
+            distancias.add(new distances(
+                    b.getId(),
+                    calcularDistancia(b,locationLAT,locationLNG)
+                    ));
+        }
+
+        Collections.sort(distancias, Comparator.comparingDouble(distances::getDistance));
+
+        for (int i = 0; i < num; i++) {
+            distances d = distancias.get(i);
+
+            Benzinera b = benzineraService.getBenzineraById(d.getRepoId());
+            returnList.add( new BenzineraDTOnoPriceNoVal(
+                    b.getId(),
+                    b.getNom(),
+                    b.getLatitude(),
+                    b.getLongitude(),
+                    b.isGasolina(),
+                    b.isSP95(),
+                    b.isSP98(),
+                    b.isGNC(),
+                    b.isGLP(),
+                    b.isGNL(),
+                    b.isGasoil(),
+                    b.isAdblue(),
+                    b.isHidrogen(),
+                    b.getHorari()
+            ));
+        }
+
+        return returnList;
+
+    }
+
+    public static double calcularDistancia(Benzinera bb, double lat, double lng) {
+        double dx = bb.getLatitude() - lat;
+        double dy = bb.getLongitude() - lng;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
 }

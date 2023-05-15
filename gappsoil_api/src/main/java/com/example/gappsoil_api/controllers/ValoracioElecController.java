@@ -1,9 +1,8 @@
 package com.example.gappsoil_api.controllers;
 
-import com.example.gappsoil_api.DTOs.ValoracioDTONoid;
-import com.example.gappsoil_api.DTOs.ValoracioDTOall;
-import com.example.gappsoil_api.DTOs.ValoracioElecDTOnoId;
+import com.example.gappsoil_api.DTOs.*;
 import com.example.gappsoil_api.entitats.*;
+import com.example.gappsoil_api.objects.distances;
 import com.example.gappsoil_api.repositories.*;
 import com.example.gappsoil_api.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @RestController
@@ -110,6 +111,11 @@ public class ValoracioElecController {
 
 
     }
+
+
+
+
+
 
 
 }
