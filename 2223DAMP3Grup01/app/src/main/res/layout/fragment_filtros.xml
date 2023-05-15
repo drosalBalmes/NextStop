@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".fragments.FiltrosFragment">
+
+    <RelativeLayout
+        android:id="@+id/RelativeSubministrador"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="SUBMINISTRADOR"
+            android:textColor="@color/black"
+            android:textSize="25sp" />
+
+        <CheckBox
+            android:id="@+id/ckeckboxBenzineres"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50sp"
+            android:text="Benzineres" />
+
+        <CheckBox
+            android:id="@+id/ckeckboxPunts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="50sp"
+            android:text="Punts de recarrega" />
+
+        <CheckBox
+            android:id="@+id/ckeckboxGAS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="100sp"
+            android:text="gasos(GLP, GNC I GNL)" />
+
+        <CheckBox
+            android:id="@+id/checkBoxHidrogeneres"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100sp"
+            android:text="Hidrogeneres" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeBenzineresRut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150sp"
+        android:layout_below="@id/relative1"
+        tools:ignore="NotSibling"
+        android:visibility="gone"
+        >
+
+        <TextView
+            android:id="@+id/TVtipusCarregadorRut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TIPUS DE COMBUSTIBLE"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/black"
+            android:textSize="25sp"/>
+
+        <CheckBox
+            android:layout_marginTop="50sp"
+            android:id="@+id/ckeckboxBenzRut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:text="Benzina"/>
+
+        <CheckBox
+            android:id="@+id/checkBoxGasoil"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="50sp"
+            android:text="Gasoil/Diesel" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150sp"
+        android:id="@+id/relativeCarregadors"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TIPUS CARREGADORS"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/black"
+            android:textSize="25sp"/>
+
+        <CheckBox
+            android:id="@+id/mennekesmCheck"
+            android:layout_marginTop="50sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:text="MENNEKES.M"/>
+
+        <CheckBox
+            android:id="@+id/schukCheck"
+            android:layout_marginTop="50sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="Schuko"/>
+
+        <CheckBox
+            android:id="@+id/ccscomboCheck"
+            android:layout_marginTop="100sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="CCS Combo2"/>
+
+        <CheckBox
+            android:id="@+id/chademoCheck"
+            android:layout_marginTop="100sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:text="CHADEMO"/>
+
+        <CheckBox
+            android:id="@+id/mennekesf"
+            android:layout_marginTop="150sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:text="MENNEKES.F"/>
+
+        <CheckBox
+            android:id="@+id/TESLA"
+            android:layout_marginTop="150sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="TESLA"/>
+
+        <CheckBox
+            android:layout_marginTop="200sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:text="MENNEKES.F"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeGasosRut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150sp"
+        android:layout_below="@id/relative1"
+        tools:ignore="NotSibling"
+        android:visibility="gone"
+        >
+
+        <TextView
+            android:id="@+id/TVtipusGasRut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TIPUS DE GAS"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/black"
+            android:textSize="25sp"/>
+
+        <CheckBox
+            android:id="@+id/GLPcheck"
+            android:layout_marginTop="50sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:text="GLP"/>
+
+        <CheckBox
+            android:id="@+id/GNCcheck"
+            android:layout_marginTop="50sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="GNC"/>
+
+        <CheckBox
+            android:id="@+id/GNLcheck"
+            android:layout_marginTop="100sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:text="GNL"/>
+
+
+
+    </RelativeLayout>
+
+</FrameLayout>
