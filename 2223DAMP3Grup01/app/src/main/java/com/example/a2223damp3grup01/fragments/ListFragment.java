@@ -195,4 +195,8 @@ public class ListFragment extends Fragment {
             }
         });
     }
+
+    public static ListFragment getInstance() {
+        return getInstance();
+    }
 }

@@ -3,8 +3,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/whiteTransparent"
     tools:context=".fragments.FiltrosFragment">
 
+    <ScrollView
+        android:layout_width="370sp"
+        android:layout_height="500sp">
+
+    <RelativeLayout
+        android:id="@+id/relative1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20sp"
+        android:layout_marginEnd="20sp">
     <RelativeLayout
         android:id="@+id/RelativeSubministrador"
         android:layout_width="wrap_content"
@@ -51,7 +62,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/relativeBenzineresRut"
+        android:id="@+id/relativeBenzineres"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="150sp"
@@ -61,7 +72,7 @@
         >
 
         <TextView
-            android:id="@+id/TVtipusCarregadorRut"
+            android:id="@+id/TVtipusCarregador"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TIPUS DE COMBUSTIBLE"
@@ -71,7 +82,7 @@
 
         <CheckBox
             android:layout_marginTop="50sp"
-            android:id="@+id/ckeckboxBenzRut"
+            android:id="@+id/ckeckboxBenz"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -161,7 +172,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/relativeGasosRut"
+        android:id="@+id/relativeGasos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="150sp"
@@ -171,7 +182,7 @@
         >
 
         <TextView
-            android:id="@+id/TVtipusGasRut"
+            android:id="@+id/TVtipusGas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TIPUS DE GAS"
@@ -202,9 +213,59 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:text="GNL"/>
-
-
-
     </RelativeLayout>
+        <RelativeLayout
+            android:layout_marginTop="300sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/relativekmredonda"
+            android:visibility="visible"
+            >
+
+            <TextView
+                android:id="@+id/TVKm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Insereixi el número de quilòmetres al voltant"
+                android:textColor="@color/black"
+                android:gravity="center_horizontal"
+                android:textSize="25sp" />
+
+            <EditText
+                android:padding="5sp"
+
+                android:id="@+id/ETKmVoltant"
+                android:layout_width="200sp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/TVKm"
+                android:layout_marginTop="10sp"
+                android:layout_centerHorizontal="true"
+                android:hint="Introdueix Km"
+                android:background="@drawable/custom_input_dialog_fragment"
+                />
+
+            <Button
+                android:id="@+id/buttonActual"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ETKmVoltant"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10sp"
+                android:text="Utilitzar direccio actual"
+                android:textSize="14sp"
+                />
+            <Button
+                android:id="@+id/btnBuscar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/buttonActual"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10sp"
+                android:text="Buscar"
+                android:textSize="14sp"
+                />
+        </RelativeLayout>
+    </RelativeLayout>
+    </ScrollView>
 
 </FrameLayout>
