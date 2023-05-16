@@ -69,6 +69,7 @@ import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class FiltrosRutaFragment extends Fragment implements LocationListener{
@@ -122,8 +123,9 @@ public class FiltrosRutaFragment extends Fragment implements LocationListener{
 
     List<Benzinera> benzinerasListParades = new ArrayList<>();
     List<PuntRecarrega> puntsListParades = new ArrayList<>();
-    List<LatLng> ListPosiblesParades = new ArrayList<>();
 
+    List<Benzinera> benzinerasListParadesEnviar = new ArrayList<>();
+    List<PuntRecarrega> puntsListParadesEnviar = new ArrayList<>();
     int stopType=0;
 
     private FiltrosRutaListener listener;
@@ -156,6 +158,15 @@ public class FiltrosRutaFragment extends Fragment implements LocationListener{
         enchufeTypes.add(tesla);
         enchufeTypes.add(cssCombo);
         enchufeTypes.add(schuko);
+        for (CheckBox c :
+                enchufeTypes) {
+            c.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ClickCheckboxType(c);
+                }
+            });
+        }
         serviceApi = FitRetro.getServiceApi();
 
         return view;
@@ -278,6 +289,15 @@ public class FiltrosRutaFragment extends Fragment implements LocationListener{
                 ferRutesParadesAuto(rutaNoParades,numeroDeParadesEditText);
             }
         });
+    }
+
+    public void ClickCheckboxType(CheckBox clicked){
+        for (CheckBox c: enchufeTypes
+             ) {
+            if (c!=clicked){
+                c.setChecked(false);
+            }
+        }
     }
 
     public void mostrarNumParadesLayout(){
@@ -709,14 +729,18 @@ public class FiltrosRutaFragment extends Fragment implements LocationListener{
                     puntas) {
                 Log.d("puntas", "ferRutesParadesAuto: " + s);
             }
+
             /*miro si las checkbox son gasolinas o puntos de recarga i busco las estaciones mas cercanas*/
             for (LatLng pos :
                     paradasLatLng) {
-                getClosestType(pos,puntas);
+                getClosestType(pos,puntas.get(0));
             }
 
 
-            storeRouteOnPreferences(ruta,paradasLatLng,puntas,ListPosiblesParades);
+            storeRouteOnPreferencesBenz(ruta,paradasLatLng,puntas.get(0));
+
+
+
 
         }
 
@@ -763,11 +787,13 @@ public class FiltrosRutaFragment extends Fragment implements LocationListener{
         /*miro si las checkbox son gasolinas o puntos de recarga i busco las estaciones mas cercanas*/
         for (LatLng pos :
                 paradasList) {
-            getClosestType(pos,puntas);
+            Log.d("buscant parades", "ferRutesParadesAuto: ");
+
+            getClosestType(pos,puntas.get(0));
         }
 
 
-        storeRouteOnPreferences(ruta,paradasList,puntas,ListPosiblesParades);
+        storeRouteOnPreferencesBenz(ruta,paradasList,puntas.get(0));
 
     }
 
@@ -789,22 +815,21 @@ public class FiltrosRutaFragment extends Fragment implements LocationListener{
 
 
 
-    public void storeRouteOnPreferences(List<LatLng> ruta, List<LatLng> paradas,List<String> tipusCombustible,List<LatLng> listPosiblesParades){
+    public void storeRouteOnPreferencesBenz(List<LatLng> ruta, List<LatLng> paradas,String type){
         SharedPreferences prefs = getActivity().getSharedPreferences("route_pref", Context.MODE_PRIVATE);
 
         Gson gson = new Gson();
 
         String jsonRuta = gson.toJson(ruta);
         String jsonParadas = gson.toJson(paradas);
-        String jsonCombustible = gson.toJson(tipusCombustible);
-        String jsonPosiblesParades = gson.toJson(listPosiblesParades);
+        Log.d("paradees", "sasdasdasdasdasd " + paradas.size());
+
 
         SharedPreferences.Editor editor = prefs.edit();
         editor.clear();
         editor.putString("ruta", jsonRuta);
         editor.putString("paradas", jsonParadas);
-        editor.putString("combus", jsonCombustible);
-        editor.putString("posParades", jsonPosiblesParades);
+        editor.putString("combus", type);
         editor.apply();
 
         if (listener != null) {
@@ -829,27 +854,33 @@ public class FiltrosRutaFragment extends Fragment implements LocationListener{
     }
 
 
-    public void getClosestType(LatLng position, List<String> types){
-        if (types.get(0).equals("Benzina")||types.get(0).equals("Gasoil/Diesel")){
-            Log.d("drawRouteMapsFragment", "getClosestType: busca benzineres");
+    public void getClosestType(LatLng position, String type){
+        if (type.equals("Benzina")||type.equals("Gasoil/Diesel")){
             stopType = 1;
 
-
-            getClosestBenz(position,types);
+            Log.d("drawRouteMapsFragment", "getClosestType: busca benzineres type: " + stopType);
+            if (type.equalsIgnoreCase("Gasoil/Diesel")){
+                type = "gasoil";
+            }
+            getClosestBenz(position,type);
 
 
 
         }
 
-        if (types.get(0).equals("GLP")||types.get(0).equals("GNC")||types.get(0).equals("GNL")){
-            Log.d("drawRouteMapsFragment", "getClosestType: busca gasos");
+        if (type.equals("GLP")||type.equals("GNC")||type.equals("GNL")){
             stopType = 2;
+            Log.d("drawRouteMapsFragment", "getClosestType: busca gasos type: " + stopType);
+
+            getClosestBenz(position,type);
 
         }
 
-        if (types.get(0).equals("MENNEKES.M")||types.get(0).equals("CHADEMO")||types.get(0).equals("MENNEKES.F")||types.get(0).equals("TESLA")||types.get(0).equals("CCS Combo2")||types.get(0).equals("Schuko")){
-            Log.d("drawRouteMapsFragment", "getClosestType: elec");
+        if (type.equals("MENNEKES.M")||type.equals("CHADEMO")||type.equals("MENNEKES.F")||type.equals("TESLA")||type.equals("CCS Combo2")||type.equals("Schuko")){
             stopType = 3;
+            Log.d("drawRouteMapsFragment", "getClosestType: elec type: "+ stopType);
+
+            getClosestPunt(position,type);
 
         }
 
@@ -857,17 +888,18 @@ public class FiltrosRutaFragment extends Fragment implements LocationListener{
 
 
 
-    public void getClosestBenz(LatLng position,List<String> types){
-        getBenzineresFinder(position.latitude,position.longitude);
+    public void getClosestBenz(LatLng position,String type){
+        getBenzineresFinder(position.latitude,position.longitude,type);
 
 
     }
 
+    public void getClosestPunt(LatLng position, String type){
+        getPuntsFinder(position.latitude,position.longitude,type);
+    }
 
-
-    public void getBenzineresFinder(double locationLat, double locationLong){
-        Log.d("quepasaeeeeFragment", "22222 Latitude: " + locationLat + ", Longitude: " + locationLong);
-        Call<List<Benzinera>> call = serviceApi.listBenzClosest(locationLong, locationLat,10);
+    public void getBenzineresFinder(double locationLat, double locationLong,String type){
+        Call<List<Benzinera>> call = serviceApi.listBenzClosest(locationLong, locationLat,10,type);
 
         call.enqueue(new Callback<List<Benzinera>>() {
             @Override
@@ -878,13 +910,7 @@ public class FiltrosRutaFragment extends Fragment implements LocationListener{
                         Log.d("getingbenzineres", benzinerasListParades.get(0).getNom());
                         Log.d("getingbenzineres", String.valueOf(benzinerasListParades.size()));
 
-
-                        for (Benzinera b :
-                                benzinerasListParades) {
-                            ListPosiblesParades.add(new LatLng(b.getLatitude(),b.getLongitude()));
-                            Log.d("drawRouteMapsFragment", "num parades: "+ListPosiblesParades.size());
-
-                        }
+                        storeStopsOnPrefs();
 
                     }
                 } else {
@@ -909,7 +935,113 @@ public class FiltrosRutaFragment extends Fragment implements LocationListener{
     }
 
 
+    public void getPuntsFinder(double locationLat, double locationLong,String type){
+        Call<List<PuntRecarrega>> call = serviceApi.listPuntsClosest(locationLong, locationLat,10,type);
 
+        call.enqueue(new Callback<List<PuntRecarrega>>() {
+            @Override
+            public void onResponse(Call<List<PuntRecarrega>> call, Response<List<PuntRecarrega>> response) {
+                if (response.isSuccessful()) {
+                    puntsListParades = response.body();
+                    if (puntsListParades != null) {
+                        Log.d("getingbenzineres", puntsListParades.get(0).getNom());
+                        Log.d("getingbenzineres", String.valueOf(puntsListParades.size()));
+
+                        storeStopsOnPrefs();
+
+                    }
+                } else {
+                    // Respuesta no exitosa
+                    Log.e("getingbenzineres", "Respuesta no exitosa: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<PuntRecarrega>> call, Throwable t) {
+
+            }
+        });
+
+    }
+
+
+
+    public void storeStopsOnPrefs(){
+        String TAG = "storingPosibleStopsOnPrefs";
+        if (stopType==1){
+            SharedPreferences prefs = getActivity().getSharedPreferences("route_pref", Context.MODE_PRIVATE);
+
+            Gson gson = new Gson();
+            for (Benzinera b :
+                    benzinerasListParades) {
+                benzinerasListParadesEnviar.add(b);
+            }
+
+            String jsonPosParadas = gson.toJson(benzinerasListParadesEnviar);
+            Log.d(TAG, "storeStopsOnPrefs: tamany del que guardo "+benzinerasListParadesEnviar.size());
+
+
+            SharedPreferences.Editor editor = prefs.edit();
+
+            editor.putString("posiblesParades", jsonPosParadas);
+            editor.putString("posiblesParadesType", "1");
+            Log.d(TAG, "storeStopsOnPrefs: posiblesParadasType 1");
+
+            editor.apply();
+
+        }else if (stopType==2){
+            SharedPreferences prefs = getActivity().getSharedPreferences("route_pref", Context.MODE_PRIVATE);
+
+            Gson gson = new Gson();
+
+            for (Benzinera b :
+                    benzinerasListParades) {
+                benzinerasListParadesEnviar.add(b);
+            }
+
+            String jsonPosParadas = gson.toJson(benzinerasListParadesEnviar);
+            Log.d(TAG, "storeStopsOnPrefs: tamany del que guardo "+benzinerasListParadesEnviar.size());
+
+
+            SharedPreferences.Editor editor = prefs.edit();
+
+            editor.putString("posiblesParades", jsonPosParadas);
+            editor.putString("posiblesParadesType", "2");
+
+            editor.apply();
+            Log.d(TAG, "storeStopsOnPrefs: posiblesParadasType 2");
+
+
+        }else if (stopType==3){
+            SharedPreferences prefs = getActivity().getSharedPreferences("route_pref", Context.MODE_PRIVATE);
+
+            Gson gson = new Gson();
+
+            for (PuntRecarrega pr :
+                    puntsListParades) {
+                puntsListParadesEnviar.add(pr);
+            }
+
+
+
+            String jsonPosParadas = gson.toJson(puntsListParadesEnviar);
+            Log.d(TAG, "storeStopsOnPrefs: tamany del que guardo "+puntsListParadesEnviar.size());
+
+
+
+
+            SharedPreferences.Editor editor = prefs.edit();
+
+            editor.putString("posiblesParades", jsonPosParadas);
+            editor.putString("posiblesParadesType", "3");
+
+            editor.apply();
+            Log.d(TAG, "storeStopsOnPrefs: posiblesParadasType 3");
+
+
+        }
+
+    }
 
 
 }

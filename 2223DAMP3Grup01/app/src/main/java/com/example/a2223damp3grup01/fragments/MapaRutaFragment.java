@@ -19,6 +19,7 @@ import com.example.a2223damp3grup01.R;
 import com.example.a2223damp3grup01.interfaces.ServiceApi;
 import com.example.a2223damp3grup01.objects.Benzinera;
 import com.example.a2223damp3grup01.objects.FitRetro;
+import com.example.a2223damp3grup01.objects.PuntRecarrega;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -51,7 +52,6 @@ public class MapaRutaFragment extends Fragment implements OnMapReadyCallback, Fi
 
     List<Benzinera> benzinerasList = new ArrayList<>();
 
-    int stopType = 0;
     View vista;
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
@@ -106,7 +106,7 @@ public class MapaRutaFragment extends Fragment implements OnMapReadyCallback, Fi
         SharedPreferences prefs = getActivity().getSharedPreferences("route_pref", Context.MODE_PRIVATE);
 
 
-        if (prefs.contains("ruta") && prefs.contains("paradas")&&prefs.contains("combus")&&prefs.contains("posParades")){
+        if (prefs.contains("ruta") && prefs.contains("paradas")&&prefs.contains("posiblesParades")){
             Log.d("drawRouteMapsFragment", "onMapReady: CONTE");
 
             Gson gson = new Gson();
@@ -119,29 +119,40 @@ public class MapaRutaFragment extends Fragment implements OnMapReadyCallback, Fi
             Type type2 = new TypeToken<List<LatLng>>(){}.getType();
             List<LatLng> ListaParadasRecuperada2 = gson.fromJson(paradasRecuperado, type2);
 
-            String combusRecuperado = prefs.getString("combus", "");
-            Type type3 = new TypeToken<List<String>>(){}.getType();
-            List<String> ListcombusRecuperado = gson.fromJson(combusRecuperado, type3);
+            String typestopsPREFS = prefs.getString("posiblesParadesType", "");
 
-            String posParadasRecuperado = prefs.getString("posParades", "");
-            Type type4 = new TypeToken<List<LatLng>>(){}.getType();
-            List<LatLng> ListposParadasRecuperado = gson.fromJson(posParadasRecuperado, type4);
+            if (typestopsPREFS.equals("1")){
+                String posibleParadasRecuperando = prefs.getString("posiblesParades","");
+                Type typeBenz = new TypeToken<List<Benzinera>>(){}.getType();
+                List<Benzinera> posiblesParadasRe = gson.fromJson(posibleParadasRecuperando, typeBenz);
+                drawRouteWithStops(ListaRutaRecuperada,ListaParadasRecuperada2,typestopsPREFS,posiblesParadasRe);
+            }
+            if (typestopsPREFS.equals("2")){
+                String posibleParadasRecuperando = prefs.getString("posiblesParades","");
+                Type typeBenz = new TypeToken<List<Benzinera>>(){}.getType();
+                List<Benzinera> posiblesParadasRe = gson.fromJson(posibleParadasRecuperando, typeBenz);
+                drawRouteWithStops(ListaRutaRecuperada,ListaParadasRecuperada2,typestopsPREFS,posiblesParadasRe);
 
-            drawRouteWithStops(ListaRutaRecuperada,ListaParadasRecuperada2,ListcombusRecuperado,ListposParadasRecuperado);
+            }
+            if (typestopsPREFS.equals("3")){
+                String posibleParadasRecuperando = prefs.getString("posiblesParades","");
+                Type typePunt = new TypeToken<List<PuntRecarrega>>(){}.getType();
+                List<PuntRecarrega> posiblesParadasRe = gson.fromJson(posibleParadasRecuperando, typePunt);
+                drawRouteWithStopsPunts(ListaRutaRecuperada,ListaParadasRecuperada2,typestopsPREFS,posiblesParadasRe);
+
+
+            }
+
         }else{
             Log.d("drawRouteMapsFragment", "onMapReady: no hi ha res al shared preferences");
         }
     }
 
-    public void drawRouteWithStops(List<LatLng> ruta,List<LatLng> paradas,List<String> stopType,List<LatLng> posParades){
+    public void drawRouteWithStops(List<LatLng> ruta,List<LatLng> paradas,String stopType,List<Benzinera> posParades){
         Log.d("drawRouteMapsFragment", "RUTA SIZE " + ruta.size());
         Log.d("drawRouteMapsFragment", "paradas SIZE " + paradas.size());
-        Log.d("drawRouteMapsFragment", "stopType SIZE " + stopType.size());
-        for (String s :
-                stopType) {
-            Log.d("drawRouteMapsFragment", "TYPE " + s);
+        Log.d("drawRouteMapsFragment", "stopType SIZE " + stopType);
 
-        }
 
         mMap.clear();
 
@@ -174,16 +185,77 @@ public class MapaRutaFragment extends Fragment implements OnMapReadyCallback, Fi
             mMap.addMarker(markerOptions3);
         }
 
-
+        for (int i = 0; i < posParades.size(); i++) {
+            if (stopType=="1"){
+                MarkerOptions markerOptions3 = new MarkerOptions();
+                markerOptions3.position(new LatLng(posParades.get(i).getLatitude(),posParades.get(i).getLongitude()));
+                markerOptions3.title("Benzinera: "+ posParades.get(i).getNom());
+                markerOptions3.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
+                mMap.addMarker(markerOptions3);
+            }
+            if (stopType=="2"){
+                MarkerOptions markerOptions3 = new MarkerOptions();
+                markerOptions3.position(new LatLng(posParades.get(i).getLatitude(),posParades.get(i).getLongitude()));
+                markerOptions3.title("Benzinera amb surtidor de gas: "+ posParades.get(i).getNom());
+                markerOptions3.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+                mMap.addMarker(markerOptions3);
+            }
+        }
 
         
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(ruta.get(0),10));
 
     }
 
-    public void addPosStopPoints(List<LatLng> posStops){
+    public void drawRouteWithStopsPunts(List<LatLng> ruta,List<LatLng> paradas,String stopType,List<PuntRecarrega> posParades){
+
+        Log.d("drawRouteMapsFragment", "posparadessiz e " + posParades.size() );
+        Log.d("drawRouteMapsFragment", "paradasSize " + paradas.size() );
+
+        mMap.clear();
+
+        PolylineOptions options2 = new PolylineOptions().width(5).color(Color.RED).geodesic(true);
+
+        for (int i = 0; i < ruta.size(); i++) {
+            if (i==1){
+                MarkerOptions markerOptions3 = new MarkerOptions();
+                markerOptions3.position(ruta.get(i));
+                markerOptions3.title("Principi");
+                markerOptions3.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                mMap.addMarker(markerOptions3);
+            }else if (i==ruta.size()-2){
+                MarkerOptions markerOptions3 = new MarkerOptions();
+                markerOptions3.position(ruta.get(i));
+                markerOptions3.title("Final");
+                markerOptions3.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                mMap.addMarker(markerOptions3);
+            }
+            LatLng point = ruta.get(i);
+            options2.add(point);
+
+        }
+        ruteLine = mMap.addPolyline(options2);
+        for (int i = 0; i < paradas.size(); i++) {
+            MarkerOptions markerOptions3 = new MarkerOptions();
+            markerOptions3.position(paradas.get(i));
+            markerOptions3.title("Parada");
+            markerOptions3.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
+            mMap.addMarker(markerOptions3);
+        }
+
+        for (int i = 0; i < posParades.size(); i++) {
+
+                MarkerOptions markerOptions3 = new MarkerOptions();
+                markerOptions3.position(new LatLng(posParades.get(i).getLatitude(),posParades.get(i).getLongitude()));
+                markerOptions3.title("Electrolinera "+ posParades.get(i).getNom());
+                markerOptions3.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
+                mMap.addMarker(markerOptions3);
 
 
+        }
+
+
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(ruta.get(0),10));
     }
 
 }
