@@ -73,12 +73,37 @@ public class PuntRecarregaController {
         return puntsR;
     }
 
+    @GetMapping("/testStrings")
+    public List<PuntRecargaDTOnoReviews> llistatPuntstest(){
+        List<puntRecarrega> punts= puntRecarregaService.findByCarregador("tesla");
+        List<PuntRecargaDTOnoReviews> puntsR = new ArrayList<>();
+
+        for (puntRecarrega pr: punts){
+            puntsR.add( new PuntRecargaDTOnoReviews(
+                    pr.getId(),
+                    pr.getTipusConexio(),
+                    pr.getLatitude(),
+                    pr.getLongitude(),
+                    pr.getNom(),
+                    pr.getTipusCorrent(),
+                    pr.getNumPlaces(),
+                    pr.getTipusVehicles()
+            ));
+        }
+
+        return puntsR;
+    }
+
     @GetMapping("puntsRecarregaFinder")
     public List<PuntRecargaDTOnoReviews> puntsFinder(@RequestParam("locationLONG")double locationLNG,
                                                      @RequestParam("locationLAT")double locationLAT,
-                                                     @RequestParam("KMredonda")double KMredonda){
+                                                     @RequestParam("KMredonda")double KMredonda,
+                                                     @RequestParam("conType") String type){
 
-        List<puntRecarrega> punts= puntRecarregaService.findAll();
+        List<puntRecarrega> punts= puntRecarregaService.findByCarregador(type);
+
+
+
         List<PuntRecargaDTOnoReviews> puntsR = new ArrayList<>();
 
         final double radiTerra = 6371.01;
@@ -132,8 +157,11 @@ public class PuntRecarregaController {
     @GetMapping("/closest")
     public List<PuntRecargaDTOnoReviews> pr10closest(@RequestParam("locationLONG")double locationLNG,
                                                      @RequestParam("locationLAT")double locationLAT,
-                                                     @RequestParam("num")int num){
-        List<puntRecarrega> prs = puntRecarregaRepository.findAll();
+                                                     @RequestParam("num")int num,
+                                                     @RequestParam("conType") String type){
+
+
+        List<puntRecarrega> prs = puntRecarregaService.findByCarregador(type);
         List<PuntRecargaDTOnoReviews> returnList = new ArrayList<>();
         List <distances> distancias = new ArrayList<>();
 

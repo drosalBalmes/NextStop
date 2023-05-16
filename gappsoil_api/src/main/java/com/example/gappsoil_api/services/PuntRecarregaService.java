@@ -25,4 +25,8 @@ public class PuntRecarregaService {
     public puntRecarrega findById(long id){
         return puntRecarregaRepository.findById(id);
     }
+
+    public List<puntRecarrega> findByCarregador ( String carregador){
+        return puntRecarregaRepository.findByTipusConexioContainingIgnoreCase(carregador);
+    }
 }

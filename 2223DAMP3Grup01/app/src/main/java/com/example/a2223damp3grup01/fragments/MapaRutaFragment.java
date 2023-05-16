@@ -16,7 +16,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.a2223damp3grup01.R;
+import com.example.a2223damp3grup01.interfaces.ServiceApi;
 import com.example.a2223damp3grup01.objects.Benzinera;
+import com.example.a2223damp3grup01.objects.FitRetro;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -28,9 +30,11 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.google.maps.errors.ApiException;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -41,6 +45,13 @@ public class MapaRutaFragment extends Fragment implements OnMapReadyCallback, Fi
     GoogleMap mMap;
     Polyline ruteLine;
     Button botonBasura;
+    List<LatLng> rutaTOP;
+    List<LatLng> paradasTOP;
+    ServiceApi serviceApi;
+
+    List<Benzinera> benzinerasList = new ArrayList<>();
+
+    int stopType = 0;
     View vista;
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
@@ -63,6 +74,7 @@ public class MapaRutaFragment extends Fragment implements OnMapReadyCallback, Fi
                              @Nullable Bundle savedInstanceState) {
        vista =  inflater.inflate(R.layout.fragment_maps, container, false);
 
+        serviceApi = FitRetro.getServiceApi();
 
 
 
@@ -94,7 +106,7 @@ public class MapaRutaFragment extends Fragment implements OnMapReadyCallback, Fi
         SharedPreferences prefs = getActivity().getSharedPreferences("route_pref", Context.MODE_PRIVATE);
 
 
-        if (prefs.contains("ruta") && prefs.contains("paradas")&&prefs.contains("combus")){
+        if (prefs.contains("ruta") && prefs.contains("paradas")&&prefs.contains("combus")&&prefs.contains("posParades")){
             Log.d("drawRouteMapsFragment", "onMapReady: CONTE");
 
             Gson gson = new Gson();
@@ -111,15 +123,25 @@ public class MapaRutaFragment extends Fragment implements OnMapReadyCallback, Fi
             Type type3 = new TypeToken<List<String>>(){}.getType();
             List<String> ListcombusRecuperado = gson.fromJson(combusRecuperado, type3);
 
-            drawRouteWithStops(ListaRutaRecuperada,ListaParadasRecuperada2);
+            String posParadasRecuperado = prefs.getString("posParades", "");
+            Type type4 = new TypeToken<List<LatLng>>(){}.getType();
+            List<LatLng> ListposParadasRecuperado = gson.fromJson(posParadasRecuperado, type4);
+
+            drawRouteWithStops(ListaRutaRecuperada,ListaParadasRecuperada2,ListcombusRecuperado,ListposParadasRecuperado);
         }else{
             Log.d("drawRouteMapsFragment", "onMapReady: no hi ha res al shared preferences");
         }
     }
 
-    public void drawRouteWithStops(List<LatLng> ruta,List<LatLng> paradas){
+    public void drawRouteWithStops(List<LatLng> ruta,List<LatLng> paradas,List<String> stopType,List<LatLng> posParades){
         Log.d("drawRouteMapsFragment", "RUTA SIZE " + ruta.size());
         Log.d("drawRouteMapsFragment", "paradas SIZE " + paradas.size());
+        Log.d("drawRouteMapsFragment", "stopType SIZE " + stopType.size());
+        for (String s :
+                stopType) {
+            Log.d("drawRouteMapsFragment", "TYPE " + s);
+
+        }
 
         mMap.clear();
 
@@ -148,51 +170,20 @@ public class MapaRutaFragment extends Fragment implements OnMapReadyCallback, Fi
             MarkerOptions markerOptions3 = new MarkerOptions();
             markerOptions3.position(paradas.get(i));
             markerOptions3.title("Parada");
-            markerOptions3.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
+            markerOptions3.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
             mMap.addMarker(markerOptions3);
         }
 
+
+
+        
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(ruta.get(0),10));
 
     }
 
-//    public void getBenzineres(){
-//
-//        Call<List<Benzinera>> call = serviceApi.listBenzineres();
-//
-//        call.enqueue(new Callback<List<Benzinera>>() {
-//            @Override
-//            public void onResponse(Call<List<Benzinera>> call, retrofit2.Response<List<Benzinera>> response) {
-//                benzinerasList = response.body();
-//                Log.d("getingbenzineres","aquiva1");
-//                try {
-//                    if (benzinerasList != null) {
-//                        Log.d("getingbenzineres", benzinerasList.get(0).getNom());
-//                        Log.d("getingbenzineres", String.valueOf(benzinerasList.size()));
-//                        initRecyclerBenzineres();
-//
-//                    }
-//                }catch (Exception e){
-//                    Log.d("getingbenzineres",e.toString());
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<Benzinera>> call, Throwable t) {
-//                Log.e("getingbenzineres", t.getMessage());
-//
-//                if (t instanceof IOException) {
-//                    // Error de red o servidor
-//                    Log.e("getingbenzineres", "Error de red o servidor");
-//                } else {
-//                    // Otro tipo de error
-//                    Log.e("getingbenzineres", "Otro tipo de error");
-//                }
-//            }
-//        });
-//    }
+    public void addPosStopPoints(List<LatLng> posStops){
 
 
+    }
 
 }

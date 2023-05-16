@@ -77,11 +77,44 @@ public class BenzineraController {
         return benzineresR;
     }
 
+
+
+
+
+
+
     @GetMapping("/benzFinder")
     public List<BenzineraDTOnoPriceNoVal> benzFinder(@RequestParam("locationLONG")double locationLNG,
                                                      @RequestParam("locationLAT")double locationLAT,
-                                                     @RequestParam("KMredonda")double KMredonda){
-        List<Benzinera> benzineres =benzineraService.getAll();
+                                                     @RequestParam("KMredonda")double KMredonda,
+                                                     @RequestParam("typeGAS") String typeGAS){
+
+        List<Benzinera> benzineres = new ArrayList<>();
+
+        if (typeGAS.equalsIgnoreCase("benzina")){
+            benzineres =benzineraService.getGASOLINAbenz();
+
+        }
+        if (typeGAS.equalsIgnoreCase("gasoil")){
+            benzineres =benzineraService.getGASOILbenz();
+
+        }
+        if (typeGAS.equalsIgnoreCase("gnc")){
+            benzineres =benzineraService.getGNCbenz();
+
+        }
+        if (typeGAS.equalsIgnoreCase("glp")){
+            benzineres =benzineraService.getGLPbenz();
+
+        }
+        if (typeGAS.equalsIgnoreCase("gnl")){
+            benzineres =benzineraService.getGNLbenz();
+
+        }
+
+
+
+
         List<BenzineraDTOnoPriceNoVal> benzineresR = new ArrayList<>();
 
         final double radiTerra = 6371.01;
@@ -144,8 +177,31 @@ public class BenzineraController {
     @GetMapping("/closest")
     public List<BenzineraDTOnoPriceNoVal> benz10closest(@RequestParam("locationLONG")double locationLNG,
                                                         @RequestParam("locationLAT")double locationLAT,
-                                                        @RequestParam("num")int num){
-    List<Benzinera> benzineras = benzineraService.getAll();
+                                                        @RequestParam("num")int num,
+                                                        @RequestParam("typeGAS") String typeGAS){
+
+        List<Benzinera> benzineras = new ArrayList<>();
+
+        if (typeGAS.equalsIgnoreCase("benzina")){
+            benzineras =benzineraService.getGASOLINAbenz();
+
+        }
+        if (typeGAS.equalsIgnoreCase("gasoil")){
+            benzineras =benzineraService.getGASOILbenz();
+
+        }
+        if (typeGAS.equalsIgnoreCase("gnc")){
+            benzineras =benzineraService.getGNCbenz();
+
+        }
+        if (typeGAS.equalsIgnoreCase("glp")){
+            benzineras =benzineraService.getGLPbenz();
+
+        }
+        if (typeGAS.equalsIgnoreCase("gnl")){
+            benzineras =benzineraService.getGNLbenz();
+
+        }
     List<BenzineraDTOnoPriceNoVal> returnList = new ArrayList<>();
     List <distances> distancias = new ArrayList<>();
 
@@ -185,9 +241,84 @@ public class BenzineraController {
 
     }
 
+//    @GetMapping("/closestType")
+//    public List<BenzineraDTOnoPriceNoVal> benz10closestType(@RequestParam("locationLONG")double locationLNG,
+//                                                        @RequestParam("locationLAT")double locationLAT,
+//                                                        @RequestParam("num")int num,
+//                                                        @RequestParam("type")String type){
+//        boolean gnc=false;
+//        boolean gnl=false;
+//        boolean glp=false;
+//        boolean diesel=false;
+//        boolean benzina=false;
+//
+//        if (type.equalsIgnoreCase("GNC")){
+//            gnc = true;
+//        }
+//
+//        if (type.equalsIgnoreCase("GNL")){
+//            gnl = true;
+//        }
+//
+//        if (type.equalsIgnoreCase("GLP")){
+//            glp = true;
+//        }
+//
+//        if (type.equalsIgnoreCase("Benzina")){
+//            benzina = true;
+//        }
+//
+//        if (type.equalsIgnoreCase("Gasoil/Diesel")){
+//            diesel = true;
+//        }
+//
+//        List<Benzinera> benzineras = benzineraService.getAll();
+//        List<BenzineraDTOnoPriceNoVal> returnList = new ArrayList<>();
+//        List <distances> distancias = new ArrayList<>();
+//
+//        for (Benzinera b :
+//                benzineras) {
+//            distancias.add(new distances(
+//                    b.getId(),
+//                    calcularDistancia(b,locationLAT,locationLNG)
+//            ));
+//        }
+//
+//        Collections.sort(distancias, Comparator.comparingDouble(distances::getDistance));
+//
+//        for (int i = 0; i < num; i++) {
+//            distances d = distancias.get(i);
+//
+//            Benzinera b = benzineraService.getBenzineraById(d.getRepoId());
+//            returnList.add( new BenzineraDTOnoPriceNoVal(
+//                    b.getId(),
+//                    b.getNom(),
+//                    b.getLatitude(),
+//                    b.getLongitude(),
+//                    b.isGasolina(),
+//                    b.isSP95(),
+//                    b.isSP98(),
+//                    b.isGNC(),
+//                    b.isGLP(),
+//                    b.isGNL(),
+//                    b.isGasoil(),
+//                    b.isAdblue(),
+//                    b.isHidrogen(),
+//                    b.getHorari()
+//            ));
+//        }
+//
+//        return returnList;
+//
+//    }
+
+
+
     public static double calcularDistancia(Benzinera bb, double lat, double lng) {
         double dx = bb.getLatitude() - lat;
         double dy = bb.getLongitude() - lng;
         return Math.sqrt(dx * dx + dy * dy);
     }
+
+
 }

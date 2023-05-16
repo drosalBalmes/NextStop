@@ -37,11 +37,17 @@ import android.widget.Toast;
 
 import com.example.a2223damp3grup01.R;
 import com.example.a2223damp3grup01.adapters.ParadesKilometresAdapter;
+import com.example.a2223damp3grup01.interfaces.ServiceApi;
+import com.example.a2223damp3grup01.objects.Benzinera;
+import com.example.a2223damp3grup01.objects.FitRetro;
 import com.example.a2223damp3grup01.objects.ParadaKilometre;
+import com.example.a2223damp3grup01.objects.PuntRecarrega;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.gson.Gson;
 import com.google.maps.DirectionsApi;
@@ -60,6 +66,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
 
 
 public class FiltrosRutaFragment extends Fragment implements LocationListener{
@@ -109,6 +118,14 @@ public class FiltrosRutaFragment extends Fragment implements LocationListener{
 
     ArrayList<LatLng> rutaNoParades = new ArrayList<>();
 
+    ServiceApi serviceApi;
+
+    List<Benzinera> benzinerasListParades = new ArrayList<>();
+    List<PuntRecarrega> puntsListParades = new ArrayList<>();
+    List<LatLng> ListPosiblesParades = new ArrayList<>();
+
+    int stopType=0;
+
     private FiltrosRutaListener listener;
     private MapaRutaFragment mapaRutaFragment;
 
@@ -139,6 +156,7 @@ public class FiltrosRutaFragment extends Fragment implements LocationListener{
         enchufeTypes.add(tesla);
         enchufeTypes.add(cssCombo);
         enchufeTypes.add(schuko);
+        serviceApi = FitRetro.getServiceApi();
 
         return view;
 
@@ -691,9 +709,14 @@ public class FiltrosRutaFragment extends Fragment implements LocationListener{
                     puntas) {
                 Log.d("puntas", "ferRutesParadesAuto: " + s);
             }
+            /*miro si las checkbox son gasolinas o puntos de recarga i busco las estaciones mas cercanas*/
+            for (LatLng pos :
+                    paradasLatLng) {
+                getClosestType(pos,puntas);
+            }
 
 
-            storeRouteOnPreferences(ruta,paradasLatLng,puntas);
+            storeRouteOnPreferences(ruta,paradasLatLng,puntas,ListPosiblesParades);
 
         }
 
@@ -730,13 +753,21 @@ public class FiltrosRutaFragment extends Fragment implements LocationListener{
             }
         }
 
-
+        /*cojo de las checkbox las que estan con un tick */
         List<String> puntas = typesOfEnergy();
         for (String s :
                 puntas) {
             Log.d("puntas", "ferRutesParadesAuto: " + s);
         }
-        storeRouteOnPreferences(ruta,paradasList,puntas);
+
+        /*miro si las checkbox son gasolinas o puntos de recarga i busco las estaciones mas cercanas*/
+        for (LatLng pos :
+                paradasList) {
+            getClosestType(pos,puntas);
+        }
+
+
+        storeRouteOnPreferences(ruta,paradasList,puntas,ListPosiblesParades);
 
     }
 
@@ -758,8 +789,7 @@ public class FiltrosRutaFragment extends Fragment implements LocationListener{
 
 
 
-
-    public void storeRouteOnPreferences(List<LatLng> ruta, List<LatLng> paradas,List<String> tipusCombustible){
+    public void storeRouteOnPreferences(List<LatLng> ruta, List<LatLng> paradas,List<String> tipusCombustible,List<LatLng> listPosiblesParades){
         SharedPreferences prefs = getActivity().getSharedPreferences("route_pref", Context.MODE_PRIVATE);
 
         Gson gson = new Gson();
@@ -767,12 +797,14 @@ public class FiltrosRutaFragment extends Fragment implements LocationListener{
         String jsonRuta = gson.toJson(ruta);
         String jsonParadas = gson.toJson(paradas);
         String jsonCombustible = gson.toJson(tipusCombustible);
+        String jsonPosiblesParades = gson.toJson(listPosiblesParades);
 
         SharedPreferences.Editor editor = prefs.edit();
         editor.clear();
         editor.putString("ruta", jsonRuta);
         editor.putString("paradas", jsonParadas);
         editor.putString("combus", jsonCombustible);
+        editor.putString("posParades", jsonPosiblesParades);
         editor.apply();
 
         if (listener != null) {
@@ -781,6 +813,8 @@ public class FiltrosRutaFragment extends Fragment implements LocationListener{
             Log.d("paradees", "storeRouteOnPreferences: listener es null");
         }
     }
+
+
 
 
 
@@ -793,6 +827,89 @@ public class FiltrosRutaFragment extends Fragment implements LocationListener{
 
         void getRouteFromPrefs();
     }
+
+
+    public void getClosestType(LatLng position, List<String> types){
+        if (types.get(0).equals("Benzina")||types.get(0).equals("Gasoil/Diesel")){
+            Log.d("drawRouteMapsFragment", "getClosestType: busca benzineres");
+            stopType = 1;
+
+
+            getClosestBenz(position,types);
+
+
+
+        }
+
+        if (types.get(0).equals("GLP")||types.get(0).equals("GNC")||types.get(0).equals("GNL")){
+            Log.d("drawRouteMapsFragment", "getClosestType: busca gasos");
+            stopType = 2;
+
+        }
+
+        if (types.get(0).equals("MENNEKES.M")||types.get(0).equals("CHADEMO")||types.get(0).equals("MENNEKES.F")||types.get(0).equals("TESLA")||types.get(0).equals("CCS Combo2")||types.get(0).equals("Schuko")){
+            Log.d("drawRouteMapsFragment", "getClosestType: elec");
+            stopType = 3;
+
+        }
+
+    }
+
+
+
+    public void getClosestBenz(LatLng position,List<String> types){
+        getBenzineresFinder(position.latitude,position.longitude);
+
+
+    }
+
+
+
+    public void getBenzineresFinder(double locationLat, double locationLong){
+        Log.d("quepasaeeeeFragment", "22222 Latitude: " + locationLat + ", Longitude: " + locationLong);
+        Call<List<Benzinera>> call = serviceApi.listBenzClosest(locationLong, locationLat,10);
+
+        call.enqueue(new Callback<List<Benzinera>>() {
+            @Override
+            public void onResponse(Call<List<Benzinera>> call, retrofit2.Response<List<Benzinera>> response) {
+                if (response.isSuccessful()) {
+                    benzinerasListParades = response.body();
+                    if (benzinerasListParades != null) {
+                        Log.d("getingbenzineres", benzinerasListParades.get(0).getNom());
+                        Log.d("getingbenzineres", String.valueOf(benzinerasListParades.size()));
+
+
+                        for (Benzinera b :
+                                benzinerasListParades) {
+                            ListPosiblesParades.add(new LatLng(b.getLatitude(),b.getLongitude()));
+                            Log.d("drawRouteMapsFragment", "num parades: "+ListPosiblesParades.size());
+
+                        }
+
+                    }
+                } else {
+                    // Respuesta no exitosa
+                    Log.e("getingbenzineres", "Respuesta no exitosa: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Benzinera>> call, Throwable t) {
+                Log.e("getingbenzineres", t.getMessage());
+
+                if (t instanceof IOException) {
+                    // Error de red o servidor
+                    Log.e("getingbenzineres", "Error de red o servidor");
+                } else {
+                    // Otro tipo de error
+                    Log.e("getingbenzineres", "Otro tipo de error");
+                }
+            }
+        });
+    }
+
+
+
 
 
 }

@@ -13,4 +13,9 @@ public interface PuntRecarregaRepository extends JpaRepository<puntRecarrega,Lon
 
     puntRecarrega findById(long id);
 
+
+    List<puntRecarrega> findByTipusConexioContainingIgnoreCase(String containing);
+
+
+
 }
