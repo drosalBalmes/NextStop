@@ -92,17 +92,18 @@ public class ListFragment extends Fragment implements FiltrosFragment.FiltrosLis
             //getBenzineresFinder(kmRedonda,lat,lng,"Gasolina");
         }
         benzineresRecycler = view.findViewById(R.id.listGasolinerasRecycler);
+        puntsRecycler = view.findViewById(R.id.listGasolinerasRecycler);
         initRecyclerBenzineres();
     }
 
     public void initRecyclerBenzineres() {
-        if (puntRecarregaList != null){
+        if (puntRecarregaList.size() != 0){
             puntRecarregaAdapter = new PuntRecarregaAdapter(puntRecarregaList);
-            Log.d("lolol",benzinerasList.get(0).getNom());
-            puntsRecycler.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
-            puntsRecycler.setHasFixedSize(true);
-            puntsRecycler.setAdapter(puntRecarregaAdapter);
-        } else if (benzinerasList != null) {
+            Log.d("lolol",puntRecarregaList.get(0).getNom());
+            benzineresRecycler.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
+            benzineresRecycler.setHasFixedSize(true);
+            benzineresRecycler.setAdapter(puntRecarregaAdapter);
+        } else if (benzinerasList.size() != 0) {
             benzineresAdapter = new BenzineresAdapter(benzinerasList);
             Log.d("lolol", benzinerasList.get(0).getNom());
             benzineresRecycler.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
@@ -114,7 +115,8 @@ public class ListFragment extends Fragment implements FiltrosFragment.FiltrosLis
     @Override
     public void getFiltros() {
         SharedPreferences preferences = getActivity().getSharedPreferences("gaso_list",Context.MODE_PRIVATE);
-
+        benzinerasList.clear();
+        puntRecarregaList.clear();
         if (preferences.contains("benzineres")){
             Gson gson = new Gson();
             String listRecuperado = preferences.getString("benzineres", "");
