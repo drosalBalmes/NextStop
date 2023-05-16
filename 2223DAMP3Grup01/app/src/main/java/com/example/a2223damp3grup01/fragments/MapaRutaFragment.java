@@ -90,10 +90,6 @@ public class MapaRutaFragment extends Fragment implements OnMapReadyCallback, Fi
         if (mapFragment != null) {
             mapFragment.getMapAsync(callback);
         }
-
-
-
-
     }
 
     @Override

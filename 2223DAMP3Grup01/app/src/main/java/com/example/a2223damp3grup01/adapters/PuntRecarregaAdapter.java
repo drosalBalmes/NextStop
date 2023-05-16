@@ -53,6 +53,7 @@ public class PuntRecarregaAdapter extends RecyclerView.Adapter<PuntRecarregaAdap
 
         void bindData(final PuntRecarrega puntRecarrega){
             nom.setText(puntRecarrega.getNom());
+            tipus.setText(puntRecarrega.getTipusConexio());
             dist.setText(puntRecarrega.getDistFromActual() + " Min en cotxe");
         }
     }

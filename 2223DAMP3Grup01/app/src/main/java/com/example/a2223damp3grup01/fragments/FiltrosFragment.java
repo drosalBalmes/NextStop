@@ -336,6 +336,9 @@ public class FiltrosFragment extends Fragment implements LocationListener {
         String jsonGasolineras = gson.toJson(benzineras);
         editor.clear();
         editor.putString("benzineres",jsonGasolineras);
+        editor.putString("lat", String.valueOf(actualPosBtn.lat));
+        editor.putString("lng", String.valueOf(actualPosBtn.lng));
+        Log.d("Mapeando", "Latitude2323: " + actualPosBtn.lat + "Longitude2323: " + actualPosBtn.lng);
         editor.apply();
 
         if (filtrosListener != null) {
@@ -352,9 +355,9 @@ public class FiltrosFragment extends Fragment implements LocationListener {
         SharedPreferences preferences = getActivity().getSharedPreferences("gaso_list",Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         Gson gson = new Gson();
-        String jsonGasolineras = gson.toJson(puntRecarregaList);
+        String jsonPunts = gson.toJson(puntRecarregaList);
         editor.clear();
-        editor.putString("punts",jsonGasolineras);
+        editor.putString("punts",jsonPunts);
         editor.apply();
 
         if (filtrosListener != null) {
@@ -374,18 +377,9 @@ public class FiltrosFragment extends Fragment implements LocationListener {
         void getFiltros();
     }
 
-    public void setMapaFragment(MapsFragment mapsFragment) {
-        this.filtrosListener = mapsFragment;
-    }
-
-    public void setListFragment(ListFragment listFragment){
-        this.listFragment = listFragment;
-        this.filtrosListener = listFragment;
-    }
-
 
     public void getBenzineresFinder(double kmRedonda, double locationLat, double locationLong,String typeGAS){
-        Call<List<Benzinera>> call = serviceApi.listBenzineresFinder(kmRedonda, locationLat, locationLong,typeGAS);
+        Call<List<Benzinera>> call = serviceApi.listBenzineresFinder(locationLat, locationLong,kmRedonda,typeGAS);
 
         call.enqueue(new Callback<List<Benzinera>>() {
             @Override
@@ -432,7 +426,7 @@ public class FiltrosFragment extends Fragment implements LocationListener {
     }
 
     public void getPuntsFinder(double kmRedonda, double locationLat, double locationLong,String typePunt){
-        Call<List<PuntRecarrega>> call = serviceApi.listPuntsFinder(kmRedonda, locationLat, locationLong, typePunt);
+        Call<List<PuntRecarrega>> call = serviceApi.listPuntsFinder(locationLat, locationLong,kmRedonda, typePunt);
 
         call.enqueue(new Callback<List<PuntRecarrega>>() {
             @Override
