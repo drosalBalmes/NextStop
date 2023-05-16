@@ -13,7 +13,7 @@ public class puntRecarrega {
     private long id;
 
 
-    String tipusConexio;
+    private String tipusConexio;
 
     private double latitude;
 

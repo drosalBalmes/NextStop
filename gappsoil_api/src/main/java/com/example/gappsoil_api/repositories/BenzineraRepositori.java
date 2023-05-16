@@ -12,4 +12,18 @@ public interface BenzineraRepositori extends JpaRepository<Benzinera,Long> {
     Benzinera findBenzineraById(long id);
 
 
+    List<Benzinera> findBenzinerasByGasoilIsTrue();
+    List<Benzinera> findBenzinerasBySP98IsTrue();
+    List<Benzinera> findBenzinerasBySP95IsTrue();
+    List<Benzinera> findBenzinerasBySP95IsTrueAndSP98IsTrue();
+    List<Benzinera> findBenzinerasBySP95IsTrueOrSP98IsTrue();
+
+
+
+    List<Benzinera> findBenzinerasByGNLIsTrue();
+    List<Benzinera> findBenzinerasByGNCIsTrue();
+    List<Benzinera> findBenzinerasByGLPIsTrue();
+
+
+
 }

@@ -24,4 +24,36 @@ public class BenzineraService {
     public Benzinera getBenzineraById(long id){
         return benzineraRepositori.findBenzineraById(id);
     }
+
+    public List<Benzinera> getGASOILbenz(){
+        return benzineraRepositori.findBenzinerasByGasoilIsTrue();
+    }
+    public List<Benzinera> getGASOLINAbenz(){
+        return benzineraRepositori.findBenzinerasBySP95IsTrueOrSP98IsTrue();
+
+    }
+
+    public List<Benzinera> getGNLbenz(){
+        return benzineraRepositori.findBenzinerasByGNLIsTrue();
+
+    }
+    public List<Benzinera> getGNCbenz(){
+        return benzineraRepositori.findBenzinerasByGNCIsTrue();
+
+    }
+    public List<Benzinera> getGLPbenz(){
+        return benzineraRepositori.findBenzinerasByGLPIsTrue();
+
+    }
+    public List<Benzinera> getSP98benz(){
+        return benzineraRepositori.findBenzinerasBySP98IsTrue();
+
+    }
+
+    public List<Benzinera> getSP95benz(){
+        return benzineraRepositori.findBenzinerasBySP95IsTrue();
+
+    }
+
+
 }

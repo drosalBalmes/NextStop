@@ -1,6 +1,7 @@
 package com.example.a2223damp3grup01.interfaces;
 
 import com.example.a2223damp3grup01.objects.Benzinera;
+import com.example.a2223damp3grup01.objects.PuntRecarrega;
 
 import java.util.List;
 
@@ -18,6 +19,21 @@ public interface ServiceApi {
             @Query("KMredonda") double KMredonda,
             @Query("locationLAT") double locationLat,
             @Query("locationLONG") double locationLong);
+
+
+    @GET("benzineres/closest")
+    Call<List<Benzinera>> listBenzClosest(
+            @Query("locationLONG") double locationLNG,
+            @Query("locationLAT")double locationLAT,
+            @Query("num")int num
+    );
+
+    @GET("/puntsRecarrega/closest")
+    Call<List<PuntRecarrega>> listPuntsClosest(
+            @Query("locationLONG") double locationLNG,
+            @Query("locationLAT")double locationLAT,
+            @Query("num")int num
+    );
 
 
 }
