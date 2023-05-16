@@ -26,14 +26,16 @@ public interface ServiceApi {
     Call<List<Benzinera>> listBenzClosest(
             @Query("locationLONG") double locationLNG,
             @Query("locationLAT")double locationLAT,
-            @Query("num")int num
+            @Query("num")int num,
+            @Query("typeGAS") String typeGAS
     );
 
     @GET("/puntsRecarrega/closest")
     Call<List<PuntRecarrega>> listPuntsClosest(
             @Query("locationLONG") double locationLNG,
             @Query("locationLAT")double locationLAT,
-            @Query("num")int num
+            @Query("num")int num,
+            @Query("conType") String type
     );
 
     @GET("puntsRecarrega/puntsRecarregaFinder")
