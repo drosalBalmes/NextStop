@@ -1,10 +1,14 @@
 package com.example.a2223damp3grup01.fragments;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,18 +16,41 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import com.example.a2223damp3grup01.R;
+import com.example.a2223damp3grup01.interfaces.ServiceApi;
+import com.example.a2223damp3grup01.objects.Benzinera;
+import com.example.a2223damp3grup01.objects.FitRetro;
+import com.example.a2223damp3grup01.objects.PuntRecarrega;
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.gson.Gson;
+import com.google.maps.DirectionsApi;
+import com.google.maps.GeoApiContext;
+import com.google.maps.errors.ApiException;
+import com.google.maps.model.DirectionsResult;
+import com.google.maps.model.DirectionsRoute;
+import com.google.maps.model.LatLng;
+import com.google.maps.model.TravelMode;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link FiltrosFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FiltrosFragment extends Fragment {
+public class FiltrosFragment extends Fragment implements LocationListener {
     View view;
     RelativeLayout RelativeTipusCombustible;
     CheckBox SubministradorBenzineresCKBX, SubministradorHidrogeneresCKBX, SubministradorPuntsCKBX, SubministradorGasosCKBX;
@@ -35,8 +62,17 @@ public class FiltrosFragment extends Fragment {
     ArrayList<CheckBox> enchufeTypes= new ArrayList<>();
     EditText ETKmVoltant;
     Button useActual,buscar;
-    boolean actualB;
     RelativeLayout RelativeKmRedonda;
+    private FiltrosListener filtrosListener;
+    private LocationListener locationListener;
+
+    private ListFragment listFragment;
+    List<Benzinera> benzinerasList;
+    List<PuntRecarrega> puntRecarregaList;
+    ServiceApi serviceApi;
+    private Location actualPos;
+    private LatLng actualPosBtn;
+    private FusedLocationProviderClient fusedLocationClient;
 
 
     public FiltrosFragment() {
@@ -58,6 +94,7 @@ public class FiltrosFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_filtros, container, false);
+        localize();
         initItems();
         ClickListeners();
         initSubministradorsListeners();
@@ -73,6 +110,7 @@ public class FiltrosFragment extends Fragment {
         enchufeTypes.add(tesla);
         enchufeTypes.add(cssCombo);
         enchufeTypes.add(schuko);
+        serviceApi = FitRetro.getServiceApi();
         return view;
     }
 
@@ -81,6 +119,7 @@ public class FiltrosFragment extends Fragment {
         SubministradorHidrogeneresCKBX = (CheckBox) view.findViewById(R.id.checkBoxHidrogeneres);
         SubministradorPuntsCKBX = (CheckBox) view.findViewById(R.id.ckeckboxPunts);
         SubministradorGasosCKBX = (CheckBox) view.findViewById(R.id.ckeckboxGAS);
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
         buscar = view.findViewById(R.id.btnBuscar);
         RelativeKmRedonda = view.findViewById(R.id.relativekmredonda);
         ETKmVoltant = view.findViewById(R.id.ETKmVoltant);
@@ -116,17 +155,6 @@ public class FiltrosFragment extends Fragment {
         gasGNC = view.findViewById(R.id.GNCcheck);
         gasGNL = view.findViewById(R.id.GNLcheck);
     }
-/*
-    public void ClickListeners() {
-        utilitzarDireccioActual.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cambiarETInici();
-            }
-        });
-    }
-    *
- */
 
     public void initSubministradorsListeners() {
 
@@ -197,6 +225,19 @@ public class FiltrosFragment extends Fragment {
         DisplayTypeRelative();
     }
 
+    public String checkBoxTypeGas(){
+        String typeGas = "";
+        for (CheckBox ck: enchufeTypes) {
+            if (ck.isChecked()){
+                if (!ck.equals(CombustibleGasoil)){
+                    typeGas = (String) ck.getText();
+                } else {
+                    typeGas = "gasoil";
+                }
+            }
+        }
+        return typeGas;
+    }
     public void DisplayTypeRelative() {
         if (SubministradorBenzineresCKBX.isChecked()) {
             RelativeTipusCombustible.setVisibility(View.VISIBLE);
@@ -266,24 +307,212 @@ public class FiltrosFragment extends Fragment {
         useActual.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                actualB = true;
+                actualPosBtn = new LatLng(actualPos.getLatitude(),actualPos.getLongitude());
             }
         });
         buscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO Pasar editText KM
-                double KmDouble = Double.parseDouble(ETKmVoltant.toString());
-                ListFragment.getInstance().getBenzineresFinder(KmDouble,ListFragment.getInstance().lat,ListFragment.getInstance().lng);
+                int KmInt = Integer.parseInt(ETKmVoltant.getText().toString());
+                String typeGas = checkBoxTypeGas();
+                Log.d("dades","KM: " + KmInt + "Lat: " + actualPosBtn.lat + " Lng: " + actualPosBtn.lng + " " + typeGas);
+                if (SubministradorPuntsCKBX.isChecked()){
+                    getPuntsFinder(KmInt,actualPosBtn.lat,actualPosBtn.lng,typeGas);
+                } else {
+                    getBenzineresFinder(KmInt, actualPosBtn.lat, actualPosBtn.lng,typeGas);
+                }
             }
         });
     }
 
-    public void DisplayRelativeLayout(RelativeLayout layout){
-        layout.setVisibility(View.VISIBLE);
+    public void storeListOnPrefs(List<Benzinera> benzineras){
+        for (Benzinera benzinera: benzineras) {
+            Log.d("benzinera",benzinera.getNom() + " DistFromActual: " +benzinera.getDistFromActual());
+        }
+        SharedPreferences preferences = getActivity().getSharedPreferences("gaso_list",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        Gson gson = new Gson();
+        String jsonGasolineras = gson.toJson(benzineras);
+        editor.clear();
+        editor.putString("benzineres",jsonGasolineras);
+        editor.apply();
+
+        if (filtrosListener != null) {
+            filtrosListener.getFiltros();
+        }else{
+            Log.d("filtros", "storeOnPrefs: listener es null");
+        }
     }
 
-    public void HideRelativeLayout(RelativeLayout layout){
-        layout.setVisibility(View.GONE);
+    public void storeListPuntsOnPrefs(List<PuntRecarrega> puntRecarregaList){
+        for (PuntRecarrega pr: puntRecarregaList) {
+            Log.d("punt",pr.getNom() + " DistFromActual: " +pr.getDistFromActual());
+        }
+        SharedPreferences preferences = getActivity().getSharedPreferences("gaso_list",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        Gson gson = new Gson();
+        String jsonGasolineras = gson.toJson(puntRecarregaList);
+        editor.clear();
+        editor.putString("punts",jsonGasolineras);
+        editor.apply();
+
+        if (filtrosListener != null) {
+            filtrosListener.getFiltros();
+        }else{
+            Log.d("filtros", "storeOnPrefs: listener es null");
+        }
+    }
+
+    @Override
+    public void onLocationChanged(@NonNull Location location) {
+
+    }
+
+    public interface FiltrosListener{
+
+        void getFiltros();
+    }
+
+    public void setMapaFragment(MapsFragment mapsFragment) {
+        this.filtrosListener = mapsFragment;
+    }
+
+    public void setListFragment(ListFragment listFragment){
+        this.listFragment = listFragment;
+        this.filtrosListener = listFragment;
+    }
+
+
+    public void getBenzineresFinder(double kmRedonda, double locationLat, double locationLong,String typeGAS){
+        Call<List<Benzinera>> call = serviceApi.listBenzineresFinder(kmRedonda, locationLat, locationLong,typeGAS);
+
+        call.enqueue(new Callback<List<Benzinera>>() {
+            @Override
+            public void onResponse(Call<List<Benzinera>> call, retrofit2.Response<List<Benzinera>> response) {
+                if (response.isSuccessful()) {
+                    benzinerasList = response.body();
+                    if (benzinerasList != null) {
+                        if (benzinerasList.size() != 0){
+                        Log.d("getingbenzineres", benzinerasList.get(0).getNom());
+                        Log.d("getingbenzineres", String.valueOf(benzinerasList.size()));
+                            for (Benzinera b: benzinerasList) {
+                                //LatLng inici = new LatLng(lat,lng); -> actualPos
+                                LatLng benzinera = new LatLng(b.getLatitude(),b.getLongitude());
+                                try {
+                                    b.setDistFromActual(getDurationInMinutes(actualPosBtn,benzinera));
+                                } catch (IOException | InterruptedException | ApiException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }
+                        storeListOnPrefs(benzinerasList);
+                        } else {
+                            Toast.makeText(getContext(), "No hi han subministradors propers", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                } else {
+                    // Respuesta no exitosa
+                    Log.e("getingbenzineres", "Respuesta no exitosa: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Benzinera>> call, Throwable t) {
+                Log.e("getingbenzineres", t.getMessage());
+
+                if (t instanceof IOException) {
+                    // Error de red o servidor
+                    Log.e("getingbenzineres", "Error de red o servidor");
+                } else {
+                    // Otro tipo de error
+                    Log.e("getingbenzineres", "Otro tipo de error");
+                }
+            }
+        });
+    }
+
+    public void getPuntsFinder(double kmRedonda, double locationLat, double locationLong,String typePunt){
+        Call<List<PuntRecarrega>> call = serviceApi.listPuntsFinder(kmRedonda, locationLat, locationLong, typePunt);
+
+        call.enqueue(new Callback<List<PuntRecarrega>>() {
+            @Override
+            public void onResponse(Call<List<PuntRecarrega>> call, Response<List<PuntRecarrega>> response) {
+                if (response.isSuccessful()){
+                    puntRecarregaList = response.body();
+                    if (puntRecarregaList!=null){
+                        if (puntRecarregaList.size()!=0){
+                            Log.d("getingpuntsRecarrega", puntRecarregaList.get(0).getNom());
+                            Log.d("getingpuntsRecarrega", String.valueOf(puntRecarregaList.size()));
+                            for (PuntRecarrega pr: puntRecarregaList) {
+                                LatLng punt = new LatLng(pr.getLatitude(),pr.getLongitude());
+                                try {
+                                    pr.setDistFromActual(getDurationInMinutes(actualPosBtn,punt));
+                                } catch (IOException | InterruptedException | ApiException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }
+                            storeListPuntsOnPrefs(puntRecarregaList);
+                        } else {
+                            Toast.makeText(getContext(), "No hi han subministradors propers", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                } else {
+                    Log.e("getingpuntsRecarrega", "Respuesta no exitosa: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<PuntRecarrega>> call, Throwable t) {
+                Log.e("getingpuntsRecarrega", t.getMessage());
+
+                if (t instanceof IOException) {
+                    // Error de red o servidor
+                    Log.e("getingpuntsRecarrega", "Error de red o servidor");
+                } else {
+                    // Otro tipo de error
+                    Log.e("getingpuntsRecarrega", "Otro tipo de error");
+                }
+            }
+        });
+    }
+
+    public long getDurationInMinutes(LatLng inci, LatLng Final) throws IOException, InterruptedException, ApiException {
+        long durationInMinutes = 0;
+        GeoApiContext context = new GeoApiContext.Builder()
+                .apiKey("AIzaSyCqWBGxRFvmbc0zqwhClvJRCAqfw4KcXEM")
+                .build();
+
+        DirectionsResult result = DirectionsApi.newRequest(context)
+                .origin(new com.google.maps.model.LatLng(inci.lat, inci.lng))
+                .destination(new com.google.maps.model.LatLng(Final.lat, Final.lng))
+                .mode(TravelMode.DRIVING)
+                .await();
+
+        if (result.routes.length > 0) {
+            DirectionsRoute route = result.routes[0];
+             long durationInSeconds = route.legs[0].duration.inSeconds;
+            durationInMinutes = durationInSeconds/60;
+        }
+        return  durationInMinutes;
+    }
+
+    @SuppressLint("MissingPermission")
+    public void localize(){
+        FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
+        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+
+
+        String provider = locationManager.getBestProvider(new Criteria(), false);
+        locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                actualPos = location;
+                Log.d("quepasaeeeeFragment", "Latitude: " + actualPos.getLatitude() + ", Longitude: " + actualPos.getLongitude());
+
+            }
+        };
+        locationManager.requestLocationUpdates(provider, 1000, 10, locationListener);
     }
 }

@@ -17,7 +17,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsFragment extends Fragment {
+public class MapsFragment extends Fragment implements FiltrosFragment.FiltrosListener {
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
@@ -54,5 +54,10 @@ public class MapsFragment extends Fragment {
         if (mapFragment != null) {
             mapFragment.getMapAsync(callback);
         }
+    }
+
+    @Override
+    public void getFiltros() {
+
     }
 }

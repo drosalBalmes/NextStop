@@ -10,12 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ListFragment, TODO"
-            android:textColor="@color/white"
-            android:layout_centerVertical="true"/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listGasolinerasRecycler"
         android:layout_width="wrap_content"

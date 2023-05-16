@@ -3,6 +3,7 @@ package com.example.a2223damp3grup01.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -41,6 +42,7 @@ public class BenzineresAdapter extends RecyclerView.Adapter<BenzineresAdapter.My
         TextView gasoilPreu;
         TextView hidroPreu;
         TextView dist;
+        RatingBar rating;
         public MyViewHolder(@NonNull View itemView){
             super(itemView);
             nom = itemView.findViewById(R.id.nomTxt);
@@ -48,6 +50,7 @@ public class BenzineresAdapter extends RecyclerView.Adapter<BenzineresAdapter.My
             gasolinaPreu = itemView.findViewById(R.id.gasolinaPreu);
             hidroPreu = itemView.findViewById(R.id.hidroPreu);
             dist = itemView.findViewById(R.id.distancia);
+            rating = itemView.findViewById(R.id.ratingBar);
         }
         void bindData(final Benzinera benzinera){
             nom.setText(benzinera.getNom());

@@ -18,7 +18,8 @@ public interface ServiceApi {
     Call<List<Benzinera>> listBenzineresFinder(
             @Query("KMredonda") double KMredonda,
             @Query("locationLAT") double locationLat,
-            @Query("locationLONG") double locationLong);
+            @Query("locationLONG") double locationLong,
+            @Query("typeGAS") String typeGas);
 
 
     @GET("benzineres/closest")
@@ -33,6 +34,14 @@ public interface ServiceApi {
             @Query("locationLONG") double locationLNG,
             @Query("locationLAT")double locationLAT,
             @Query("num")int num
+    );
+
+    @GET("puntsRecarrega/puntsRecarregaFinder")
+    Call<List<PuntRecarrega>> listPuntsFinder(
+            @Query("KMredonda") double KMredonda,
+            @Query("locationLAT") double locationLat,
+            @Query("locationLONG") double locationLong,
+            @Query("conType") String conType
     );
 
 
