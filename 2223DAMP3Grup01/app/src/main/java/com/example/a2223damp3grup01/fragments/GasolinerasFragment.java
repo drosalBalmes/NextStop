@@ -23,6 +23,10 @@ public class GasolinerasFragment extends Fragment {
     Button btnLista;
     Button btnMap;
     CardView btnProfile;
+    Button btnFilter;
+
+    boolean filterDisplayed;
+
     public GasolinerasFragment() {
         // Required empty public constructor
     }
@@ -43,8 +47,10 @@ public class GasolinerasFragment extends Fragment {
         btnLista = view.findViewById(R.id.btnListGas);
         btnMap = view.findViewById(R.id.btnMapaGas);
         btnProfile = view.findViewById(R.id.btnProfileGas);
+        btnFilter = view.findViewById(R.id.btnFiltros);
         cambiarFragment(btnMap,new MapsFragment());
         cambiarFragment(btnLista,new ListFragment());
+        cambiarFragment2(btnFilter,new FiltrosFragment());
         toProfile(btnProfile);
         return view;
     }
@@ -55,6 +61,14 @@ public class GasolinerasFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 replaceFragment(fragment);
+            }
+        });
+    }
+    public void cambiarFragment2(Button button, Fragment fragment){
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                replaceFragmentDialog(fragment);
             }
         });
     }
@@ -74,5 +88,21 @@ public class GasolinerasFragment extends Fragment {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.flFragmentGas,frahment);
         fragmentTransaction.commit();
+    }
+    public void replaceFragmentDialog(Fragment frahment){
+        if (filterDisplayed==true){
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.remove(frahment);
+            fragmentTransaction.commit();
+            filterDisplayed=false;
+        }else{
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.dialogRutas,frahment);
+            fragmentTransaction.commit();
+            filterDisplayed=true;
+
+        }
     }
 }

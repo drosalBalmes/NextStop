@@ -1,6 +1,3 @@
-
-
-
 insert into BENZINERES (ADBLUE,GLP,GNC,GNL, SP95, SP98,  GASOIL,GASOLINA ,HIDROGEN, HORARI, LATITUDE, LONGITUDE, NOM) values (false, false , false , false , true,true,false,false,true,'24/7',1.902972,41.507833,'TEST');
 insert into BENZINERES (ADBLUE, GLP, GNC, GNL, SP95, SP98, GASOIL, GASOLINA, HIDROGEN, HORARI, LATITUDE, LONGITUDE, NOM) values (false, false, false, false, true, false, true, true, false, 'L-V: 07:00-22:00; S-D: 10:00-22:00', 41.507833, 1.902972, 'NIEVES');
 insert into BENZINERES (ADBLUE, GLP, GNC, GNL, SP95, SP98, GASOIL, GASOLINA, HIDROGEN, HORARI, LATITUDE, LONGITUDE, NOM) values (false, false, false, false, true, true, true, true, false, 'L-D: 24H', 41.515306, 1.897556, 'GALP');
