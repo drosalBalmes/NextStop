@@ -219,7 +219,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/relativekmredonda"
-            android:visibility="visible"
+            android:visibility="gone"
             >
 
             <TextView
@@ -251,7 +251,7 @@
                 android:layout_below="@id/ETKmVoltant"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10sp"
-                android:text="Utilitzar direccio actual"
+                android:text="Utilitzar ubicació actual"
                 android:textSize="14sp"
                 />
             <Button

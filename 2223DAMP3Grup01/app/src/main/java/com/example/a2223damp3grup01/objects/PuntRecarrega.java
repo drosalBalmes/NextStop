@@ -5,19 +5,21 @@ package com.example.a2223damp3grup01.objects;
 public class PuntRecarrega {
 
     private Integer id;
-    private Integer latitude;
-    private Integer longitude;
+    private double latitude;
+    private double longitude;
     private String nom;
     private String numPlaces;
     private String tipusConexio;
     private String tipusCorrent;
     private String tipusVehicles;
+    private long distFromActual;
+
 
     public PuntRecarrega() {
     }
 
 
-    public PuntRecarrega(Integer id, Integer latitude, Integer longitude, String nom, String numPlaces, String tipusConexio, String tipusCorrent, String tipusVehicles) {
+    public PuntRecarrega(Integer id, double latitude, double longitude, String nom, String numPlaces, String tipusConexio, String tipusCorrent, String tipusVehicles,long distFromActual) {
         super();
         this.id = id;
         this.latitude = latitude;
@@ -27,6 +29,7 @@ public class PuntRecarrega {
         this.tipusConexio = tipusConexio;
         this.tipusCorrent = tipusCorrent;
         this.tipusVehicles = tipusVehicles;
+        this.distFromActual = distFromActual;
     }
 
     public Integer getId() {
@@ -37,19 +40,19 @@ public class PuntRecarrega {
         this.id = id;
     }
 
-    public Integer getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Integer latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public Integer getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Integer longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
@@ -93,4 +96,11 @@ public class PuntRecarrega {
         this.tipusVehicles = tipusVehicles;
     }
 
+    public long getDistFromActual() {
+        return distFromActual;
+    }
+
+    public void setDistFromActual(long distFromActual) {
+        this.distFromActual = distFromActual;
+    }
 }
