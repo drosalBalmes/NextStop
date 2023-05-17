@@ -1,5 +1,6 @@
 package com.example.a2223damp3grup01.adapters;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.a2223damp3grup01.R;
+import com.example.a2223damp3grup01.interfaces.SelectListenerListItemBenz;
 import com.example.a2223damp3grup01.objects.Benzinera;
 
 import java.util.List;
@@ -18,8 +20,15 @@ import java.util.List;
 public class ParadaListItemGasAdapter extends RecyclerView.Adapter<ParadaListItemGasAdapter.MyViewHolder> {
     private List<Benzinera> benzineres;
 
+    private SelectListenerListItemBenz listener;
+
     public ParadaListItemGasAdapter(List<Benzinera> benzineres) {
         this.benzineres = benzineres;
+    }
+
+    public ParadaListItemGasAdapter(List<Benzinera> benzineres, SelectListenerListItemBenz listener) {
+        this.benzineres = benzineres;
+        this.listener = listener;
     }
 
     @NonNull
@@ -29,9 +38,15 @@ public class ParadaListItemGasAdapter extends RecyclerView.Adapter<ParadaListIte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.bindData(benzineres.get(position));
 
+        holder.nuttonAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onItemClickedBenzineraItem(benzineres.get(position));
+            }
+        });
     }
 
     @Override

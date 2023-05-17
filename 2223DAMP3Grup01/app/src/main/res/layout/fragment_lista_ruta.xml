@@ -12,10 +12,16 @@
         android:layout_height="500sp"
         />
 
+    <FrameLayout
+        android:id="@+id/RutaPreviewContainer"
+        android:layout_width="match_parent"
+        android:layout_height="500sp"/>
+
     <Button
+        android:id="@+id/rutaPreviewFinal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="google maps"
+        android:text="mostra Resum Ruta"
         android:layout_below="@+id/recyclerParades"
         android:layout_marginTop="10sp"
         android:layout_centerHorizontal="true"/>

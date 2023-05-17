@@ -1,5 +1,6 @@
 package com.example.a2223damp3grup01.adapters;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.a2223damp3grup01.R;
+import com.example.a2223damp3grup01.interfaces.SelectListenerListItemBenz;
+import com.example.a2223damp3grup01.interfaces.SelectListenerListItemELEC;
 import com.example.a2223damp3grup01.objects.Benzinera;
 import com.example.a2223damp3grup01.objects.PuntRecarrega;
 
@@ -19,6 +22,14 @@ import java.util.List;
 public class ParadaListItemElecAdapter extends RecyclerView.Adapter<ParadaListItemElecAdapter.MyViewHolder>{
 
     private List<PuntRecarrega> punts;
+
+    private SelectListenerListItemELEC listener;
+
+
+    public ParadaListItemElecAdapter(List<PuntRecarrega> punts, SelectListenerListItemELEC listener) {
+        this.punts = punts;
+        this.listener = listener;
+    }
 
     public ParadaListItemElecAdapter(List<PuntRecarrega> punts) {
         this.punts = punts;
@@ -31,9 +42,15 @@ public class ParadaListItemElecAdapter extends RecyclerView.Adapter<ParadaListIt
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.bindData(punts.get(position));
 
+        holder.nuttonAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onItemClickedPuntItem(punts.get(position));
+            }
+        });
     }
 
     @Override
