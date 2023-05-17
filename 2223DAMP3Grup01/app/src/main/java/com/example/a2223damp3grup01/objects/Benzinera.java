@@ -50,6 +50,7 @@ public class Benzinera {
 
     private long distFromActual;
 
+    private String typeGAS;
 
     public Benzinera() {
     }
@@ -214,5 +215,17 @@ public class Benzinera {
 
     public void setDistFromActual(long distFromActual) {
         this.distFromActual = distFromActual;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getTypeGAS() {
+        return typeGAS;
+    }
+
+    public void setTypeGAS(String typeGAS) {
+        this.typeGAS = typeGAS;
     }
 }

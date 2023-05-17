@@ -21,6 +21,12 @@ public interface ValoracioElecRepository extends JpaRepository<ValoracioElec,Lon
 
     ValoracioElec findValoracioElecById(long id);
 
+    @Query(value = "SELECT COUNT(*) FROM VALORACIONS_ELEC WHERE PUNT_RECARREGA_ID = :puntId", nativeQuery = true)
+    int numValoracionsByPuntId(@Param("puntId")long puntId);
+
+    @Query(value = "SELECT AVG(PUNTUACIO) FROM VALORACIONS_ELEC WHERE PUNT_RECARREGA_ID = :puntId", nativeQuery = true)
+    Double avgValoracionsByPuntId(@Param("puntId")long puntId);
+
     @Transactional
     @Modifying
     @Query(value = "INSERT INTO VALORACIONS_ELEC(COMENTARI,PUNTUACIO,PUNT_RECARREGA_ID,USERR_ID) VALUES (:comentari,:puntuacio,:puntRecarrega_id,:user_id)",nativeQuery = true)
