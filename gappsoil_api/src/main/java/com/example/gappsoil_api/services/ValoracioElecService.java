@@ -40,7 +40,13 @@ public class ValoracioElecService {
     }
 
 
+    public int numValoracionsByBenzId(long puntId){
+        return valoracioElecRepository.numValoracionsByPuntId(puntId);
+    }
 
+    public Double avgValoracionsByBenzId(long puntId){
+        return valoracioElecRepository.avgValoracionsByPuntId(puntId);
+    }
 
 
 
