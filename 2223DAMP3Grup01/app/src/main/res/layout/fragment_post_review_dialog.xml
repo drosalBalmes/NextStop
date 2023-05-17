@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/whiteTransparent"
+    tools:context=".fragments.PostReviewDialogFragment">
+
+    <RelativeLayout
+        android:id="@+id/relativee1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20sp"
+        android:layout_marginEnd="20sp">
+
+        <TextView
+            android:id="@+id/nomTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="REPSOL"
+            android:textColor="@color/black"
+            android:textSize="32dp"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:id="@+id/puntuacioTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/nomTxt"
+            android:text="Puntuacio: "
+            android:textColor="@color/black"
+            android:textSize="24dp"/>
+
+        <RatingBar
+            android:id="@+id/ratingBarPost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/puntuacioTxt"
+            android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:id="@+id/comentariTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ratingBarPost"
+            android:text="Comentari:"
+            android:textColor="@color/black"
+            android:textSize="24dp"/>
+
+        <EditText
+            android:id="@+id/ETcomentari"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="comentari:"
+            android:layout_below="@id/comentariTxt"/>
+
+        <Button
+            android:id="@+id/post"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ETcomentari"
+            android:layout_marginTop="10dp"
+            android:text="Publicar"
+            android:layout_centerHorizontal="true"/>
+
+    </RelativeLayout>
+
+</FrameLayout>

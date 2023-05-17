@@ -73,6 +73,7 @@ public class FiltrosFragment extends Fragment implements LocationListener {
     private Location actualPos;
     private LatLng actualPosBtn;
     private FusedLocationProviderClient fusedLocationClient;
+    String tipusSub;
 
 
     public FiltrosFragment() {
@@ -319,8 +320,13 @@ public class FiltrosFragment extends Fragment implements LocationListener {
                 Log.d("dades","KM: " + KmInt + "Lat: " + actualPosBtn.lat + " Lng: " + actualPosBtn.lng + " " + typeGas);
                 if (SubministradorPuntsCKBX.isChecked()){
                     getPuntsFinder(KmInt,actualPosBtn.lat,actualPosBtn.lng,typeGas);
-                } else {
+                    tipusSub = "punts";
+                } else if(SubministradorBenzineresCKBX.isChecked()) {
+                    tipusSub = "benz";
                     getBenzineresFinder(KmInt, actualPosBtn.lat, actualPosBtn.lng,typeGas);
+                } else {
+                    tipusSub = "gas";
+                    getBenzineresFinder(KmInt,actualPosBtn.lat,actualPosBtn.lng,typeGas);
                 }
             }
         });
@@ -330,21 +336,24 @@ public class FiltrosFragment extends Fragment implements LocationListener {
         for (Benzinera benzinera: benzineras) {
             Log.d("benzinera",benzinera.getNom() + " DistFromActual: " +benzinera.getDistFromActual());
         }
-        SharedPreferences preferences = getActivity().getSharedPreferences("gaso_list",Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        Gson gson = new Gson();
-        String jsonGasolineras = gson.toJson(benzineras);
-        editor.clear();
-        editor.putString("benzineres",jsonGasolineras);
-        editor.putString("lat", String.valueOf(actualPosBtn.lat));
-        editor.putString("lng", String.valueOf(actualPosBtn.lng));
-        Log.d("Mapeando", "Latitude2323: " + actualPosBtn.lat + "Longitude2323: " + actualPosBtn.lng);
-        editor.apply();
+        if (getActivity()!=null) {
+            SharedPreferences preferences = getActivity().getSharedPreferences("gaso_list", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            Gson gson = new Gson();
+            String jsonGasolineras = gson.toJson(benzineras);
+            editor.clear();
+            editor.putString("benzineres", jsonGasolineras);
+            editor.putString("lat", String.valueOf(actualPosBtn.lat));
+            editor.putString("lng", String.valueOf(actualPosBtn.lng));
+            editor.putString("sub", tipusSub);
+            Log.d("Mapeando", "Latitude2323: " + actualPosBtn.lat + "Longitude2323: " + actualPosBtn.lng);
+            editor.apply();
+        }
 
         if (filtrosListener != null) {
             filtrosListener.getFiltros();
         }else{
-            Log.d("filtros", "storeOnPrefs: listener es null");
+            Log.d("filtros", "storeOnPrefsBenz: listener es null");
         }
     }
 
@@ -358,12 +367,16 @@ public class FiltrosFragment extends Fragment implements LocationListener {
         String jsonPunts = gson.toJson(puntRecarregaList);
         editor.clear();
         editor.putString("punts",jsonPunts);
+        editor.putString("lat", String.valueOf(actualPosBtn.lat));
+        editor.putString("lng", String.valueOf(actualPosBtn.lng));
+        editor.putString("sub",tipusSub);
+        Log.d("Mapeando", "Latitude2323: " + actualPosBtn.lat + "Longitude2323: " + actualPosBtn.lng);
         editor.apply();
 
         if (filtrosListener != null) {
             filtrosListener.getFiltros();
         }else{
-            Log.d("filtros", "storeOnPrefs: listener es null");
+            Log.d("filtros", "storeOnPrefsPunts: listener es null");
         }
     }
 
@@ -438,14 +451,18 @@ public class FiltrosFragment extends Fragment implements LocationListener {
                             Log.d("getingpuntsRecarrega", puntRecarregaList.get(0).getNom());
                             Log.d("getingpuntsRecarrega", String.valueOf(puntRecarregaList.size()));
                             for (PuntRecarrega pr: puntRecarregaList) {
+                                Log.d("getingpuntsRecarrega", "lat: " + pr.getLatitude() + "lng : " + pr.getLongitude());
                                 LatLng punt = new LatLng(pr.getLatitude(),pr.getLongitude());
+                                Log.d("getingpuntsRecarrega", "lat2: " + pr.getLatitude() + "lng2 : " + pr.getLongitude());
                                 try {
                                     pr.setDistFromActual(getDurationInMinutes(actualPosBtn,punt));
+                                    Log.d("getingpuntsRecarrega", "lat3: " + pr.getLatitude());
                                 } catch (IOException | InterruptedException | ApiException e) {
                                     throw new RuntimeException(e);
                                 }
                             }
                             storeListPuntsOnPrefs(puntRecarregaList);
+                            Log.d("getingpuntsRecarrega", "lat: ");
                         } else {
                             Toast.makeText(getContext(), "No hi han subministradors propers", Toast.LENGTH_SHORT).show();
                         }
@@ -472,20 +489,27 @@ public class FiltrosFragment extends Fragment implements LocationListener {
 
     public long getDurationInMinutes(LatLng inci, LatLng Final) throws IOException, InterruptedException, ApiException {
         long durationInMinutes = 0;
+        Log.d("geting","iniciduration");
         GeoApiContext context = new GeoApiContext.Builder()
                 .apiKey("AIzaSyCqWBGxRFvmbc0zqwhClvJRCAqfw4KcXEM")
                 .build();
+        Log.d("geting","afterContext");
 
         DirectionsResult result = DirectionsApi.newRequest(context)
                 .origin(new com.google.maps.model.LatLng(inci.lat, inci.lng))
                 .destination(new com.google.maps.model.LatLng(Final.lat, Final.lng))
                 .mode(TravelMode.DRIVING)
                 .await();
+        Log.d("geting","afterDirectionsResult");
 
         if (result.routes.length > 0) {
+            Log.d("geting","if");
             DirectionsRoute route = result.routes[0];
-             long durationInSeconds = route.legs[0].duration.inSeconds;
+            Log.d("geting","routes0");
+            long durationInSeconds = route.legs[0].duration.inSeconds;
+            Log.d("geting","durationInSecs: " + durationInSeconds);
             durationInMinutes = durationInSeconds/60;
+            Log.d("geting","durationInMinutes: " + durationInMinutes);
         }
         return  durationInMinutes;
     }

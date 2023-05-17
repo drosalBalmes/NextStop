@@ -19,7 +19,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
@@ -31,11 +31,11 @@ import java.util.List;
 
 public class MapsFragment extends Fragment implements FiltrosFragment.FiltrosListener {
 
-    private GoogleMap mMap;
     private List<Benzinera> benzinerasList = new ArrayList<>();
     private List<PuntRecarrega> puntRecarregaList = new ArrayList<>();
     double latActual;
     double lngActual;
+    String tipusSub;
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
@@ -57,7 +57,7 @@ public class MapsFragment extends Fragment implements FiltrosFragment.FiltrosLis
             LatLng posActual = new LatLng(latActual, lngActual);
             Log.d("Mapeando", "Latitude2323: " + latActual + "Longitude2323: " + lngActual);
             googleMap.addMarker(new MarkerOptions().position(posActual).title("Posició actual"));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(posActual));
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(posActual,12));
 
             putStopPoints(googleMap);
         }
@@ -88,27 +88,30 @@ public class MapsFragment extends Fragment implements FiltrosFragment.FiltrosLis
         benzinerasList.clear();
         puntRecarregaList.clear();
         Log.d("Mapeando", "prePreferences ");
+        if (preferences.contains("sub")){
+            tipusSub = preferences.getString("sub","");
+            Log.d("Mapeando", "tipus: " + tipusSub);
 
+        }
         if (preferences.contains("lat")){
             latActual = Double.parseDouble(preferences.getString("lat",""));
             lngActual = Double.parseDouble(preferences.getString("lng",""));
             Log.d("Mapeando", "Latitude2323: " + latActual + "Longitude2323: " + lngActual);
-        } else if (preferences.contains("benzineres")){
+        }
+        if (preferences.contains("benzineres")){
             Log.d("Mapeando", "containsBenzineres ");
             Gson gson = new Gson();
             String listRecuperado = preferences.getString("benzineres", "");
             Type type = new TypeToken<List<Benzinera>>(){}.getType();
-            List<Benzinera> listaGasolineraRecuperada = gson.fromJson(listRecuperado, type);
-            benzinerasList = listaGasolineraRecuperada;
+            benzinerasList = gson.fromJson(listRecuperado, type);
         } else if (preferences.contains("punts")) {
             Log.d("Mapeando", "containsPunts ");
             Gson gson = new Gson();
             String listRecuperado = preferences.getString("punts", "");
             Type type = new TypeToken<List<PuntRecarrega>>(){}.getType();
-            List<PuntRecarrega> listaPuntsRecuperada = gson.fromJson(listRecuperado, type);
-            puntRecarregaList = listaPuntsRecuperada;
+            puntRecarregaList = gson.fromJson(listRecuperado, type);
         } else {
-            Log.d("RecyclerGaso", "No hi ha res al shared preferences");
+            Log.d("Mapeando", "No hi ha res al shared preferences");
         }
     }
 
@@ -118,20 +121,38 @@ public class MapsFragment extends Fragment implements FiltrosFragment.FiltrosLis
             for (PuntRecarrega pr: puntRecarregaList) {
                 Log.d("Mapeando", "putStopPoints " + pr.getNom());
                 LatLng point = new LatLng(pr.getLatitude(),pr.getLongitude());
-                addMarkerToMap(point,googleMap);
+                addMarkerToMap(point,googleMap,tipusSub,pr.getNom());
             }
         } else if (benzinerasList.size() != 0) {
             for (Benzinera b: benzinerasList) {
                 Log.d("Mapeando", "putStopPoints " + b.getNom());
                 LatLng point = new LatLng(b.getLatitude(), b.getLongitude());
-                addMarkerToMap(point, googleMap);
+                addMarkerToMap(point, googleMap,tipusSub,b.getNom());
             }
         }
     }
 
-    public void addMarkerToMap(LatLng latLng,GoogleMap googleMap){
-        Log.d("Mapeando", "addMarkerToMap1: ");
-        googleMap.addMarker(new MarkerOptions().position(latLng));
+    public void addMarkerToMap(LatLng latLng,GoogleMap googleMap,String tipusSub,String nom){
+        if (tipusSub.equals("benz")){
+            Log.d("Mapeando", "benz: ");
+            googleMap.addMarker(new MarkerOptions()
+                    .position(latLng)
+                    .title("Benzinera: " + nom)
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+        } else if (tipusSub.equals("gas")) {
+            Log.d("Mapeando", "gass: ");
+            googleMap.addMarker(new MarkerOptions()
+                    .position(latLng)
+                    .title("Benzinera amb surtidor de gas: " + nom)
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+        } else {
+            Log.d("Mapeando", "punts: ");
+            googleMap.addMarker(new MarkerOptions()
+                    .position(latLng)
+                    .title("Punt: " + nom)
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE)));
+        }
+
         Log.d("Mapeando", "Latitude: " + latLng.latitude + " Longitude: " + latLng.longitude);
     }
 }

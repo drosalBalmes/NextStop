@@ -2,11 +2,13 @@ package com.example.a2223damp3grup01.interfaces;
 
 import com.example.a2223damp3grup01.objects.Benzinera;
 import com.example.a2223damp3grup01.objects.PuntRecarrega;
+import com.example.a2223damp3grup01.objects.Review;
 
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface ServiceApi {
@@ -45,6 +47,12 @@ public interface ServiceApi {
             @Query("KMredonda") double KMredonda,
             @Query("conType") String conType
     );
+
+    @GET("valoracio/valoracionsByBenzinera/idBenzinera")
+    Call<List<Review>> listReviewsByBenzId(
+            @Query("id") int id
+    );
+
 
 
 }
