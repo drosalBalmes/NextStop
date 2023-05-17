@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="215sp"
+    android:background="@color/secondary"
+    android:layout_margin="10sp"
+    android:id="@+id/parades_item_elec_david"
+    >
+
+    <TextView
+        android:id="@+id/nomElectrolinera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nom electrolinera"
+        android:textColor="@color/white"
+        android:textAlignment="center"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        />
+
+
+    <TextView
+        android:id="@+id/reviewsETelec"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:layout_above="@+id/ratingBarELEC"
+        android:layout_marginTop="11sp"
+        android:text="15246 Reviews"
+        />
+
+    <RatingBar
+        android:layout_marginTop="10sp"
+        android:id="@+id/ratingBarELEC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:isIndicator="true"
+        android:numStars="5"
+        android:layout_alignParentBottom="true"
+        android:progressBackgroundTint="@color/grey"
+        android:progressTint="@color/white" />
+
+    <ImageView
+        android:id="@+id/carPhotoelec"
+        android:layout_width="70sp"
+        android:layout_height="70sp"
+        android:layout_below="@id/nomElectrolinera"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/car_icon_white" />
+
+    <TextView
+        android:id="@+id/minutsCotxeelec"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/carPhotoelec"
+        android:layout_below="@id/nomElectrolinera"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp"
+        android:text="+6 minutes"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
+
+
+</RelativeLayout>

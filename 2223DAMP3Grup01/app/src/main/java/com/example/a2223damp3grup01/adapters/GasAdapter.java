@@ -18,23 +18,23 @@ import com.example.a2223damp3grup01.objects.Benzinera;
 
 import java.util.List;
 
-public class BenzineresAdapter extends RecyclerView.Adapter<BenzineresAdapter.MyViewHolder> {
+public class GasAdapter extends RecyclerView.Adapter<GasAdapter.MyViewHolder> {
     private List<Benzinera> benzineres;
     private SelectListenerGaso listener;
 
-    public BenzineresAdapter(List<Benzinera> benzineres, SelectListenerGaso listener) {
+    public GasAdapter(List<Benzinera> benzineres, SelectListenerGaso listener) {
         this.benzineres = benzineres;
         this.listener = listener;
     }
 
-    public BenzineresAdapter(List<Benzinera> benzineres){
+    public GasAdapter(List<Benzinera> benzineres){
         this.benzineres = benzineres;
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder (@NonNull ViewGroup parent, int viewType){
-        return new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_parades_item_david,parent,false));
+        return new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_parades_item_gas_david,parent,false));
     }
 
     @Override
@@ -57,21 +57,18 @@ public class BenzineresAdapter extends RecyclerView.Adapter<BenzineresAdapter.My
     public class MyViewHolder extends RecyclerView.ViewHolder{
         TextView nom;
         TextView nReviews;
-        TextView gasolinaPreu;
-        TextView gasoilPreu;
-        TextView hidroPreu;
+        TextView gasPreu;
         TextView dist;
         RatingBar rating;
         RelativeLayout rl;
         public MyViewHolder(@NonNull View itemView){
             super(itemView);
-            nom = itemView.findViewById(R.id.nomBenzinera);
-            gasoilPreu = itemView.findViewById(R.id.priceGasoil);
-            gasolinaPreu = itemView.findViewById(R.id.priceBenzina);
-            dist = itemView.findViewById(R.id.minutsCotxe);
-            rating = itemView.findViewById(R.id.ratingBar);
-            rl = itemView.findViewById(R.id.parades_item_david);/////
-            nReviews = itemView.findViewById(R.id.reviewsET);
+            nom = itemView.findViewById(R.id.nomBenzineraGAS);
+            gasPreu = itemView.findViewById(R.id.priceGas);
+            dist = itemView.findViewById(R.id.minutsCotxeGAS);
+            rating = itemView.findViewById(R.id.ratingBarGAS);
+            rl = itemView.findViewById(R.id.parades_item_gas_david);
+            nReviews = itemView.findViewById(R.id.reviewsTVGAS);
         }
         void bindData(final Benzinera benzinera){
             nom.setText(benzinera.getNom());

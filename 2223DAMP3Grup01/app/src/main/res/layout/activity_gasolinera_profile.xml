@@ -8,12 +8,12 @@
     tools:context=".activities.GasolineraProfileActivity">
 
     <TextView
-        android:id="@+id/NomGaso"
+        android:id="@+id/nomGaso"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="REPSOL"
         android:textColor="@color/white"
-        android:textSize="38dp"
+        android:textSize="34dp"
         android:textStyle="bold"
         android:layout_marginTop="9dp"
         android:layout_centerHorizontal="true"
@@ -23,7 +23,7 @@
         android:id="@+id/myRectangleView"
         android:layout_width="match_parent"
         android:layout_height="5dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="80dp"
         android:background="@drawable/rect"/>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -35,20 +35,42 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"/>
 
+    <TextView
+        android:id="@+id/reviews_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tipusSubRecycler"
+        android:text="Ressenyes: "
+        android:textColor="@color/white"
+        android:textSize="28dp"
+        android:layout_centerHorizontal="true"
+        />
+
+    <TextView
+        android:id="@+id/TVAvis"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/reviews_txt"
+        android:text="Encara no hi han ressenyes"
+        android:textColor="@color/white"
+        android:layout_marginTop="30dp"
+        android:textSize="28dp"
+        android:layout_centerHorizontal="true"/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/reviewsGasoRecycler"
         android:layout_width="wrap_content"
         android:layout_height="200dp"
-        android:layout_below="@id/tipusSubRecycler"
+        android:layout_below="@id/reviews_txt"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"/>
+        android:layout_marginTop="50dp"
+        android:visibility="gone"/>
 
     <LinearLayout
         android:id="@+id/linearBtns"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_below="@id/reviewsGasoRecycler"
+        android:layout_marginTop="450dp"
+        android:layout_below="@id/myRectangleView"
         android:orientation="horizontal">
         <Button
             android:id="@+id/postReview"

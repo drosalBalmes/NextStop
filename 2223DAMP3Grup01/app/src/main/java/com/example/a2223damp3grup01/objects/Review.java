@@ -1,39 +1,39 @@
 package com.example.a2223damp3grup01.objects;
 
 public class Review {
-    private float rating;
-    private String comment;
+    private int puntuacio;
+    private String comentari;
     private String gasolinera;
 
-    public Review(float rating, String comment, String gasolinera) {
-        this.rating = rating;
-        this.comment = comment;
+    public Review(int puntuacio, String comment, String gasolinera) {
+        this.puntuacio = puntuacio;
+        this.comentari = comment;
         this.gasolinera = gasolinera;
     }
 
-    public Review(float rating, String review) {
-        this.rating = rating;
-        this.comment = review;
+    public Review(int puntuacio, String review) {
+        this.puntuacio = puntuacio;
+        this.comentari = review;
     }
 
-    public Review(float rating) {
-        this.rating = rating;
+    public Review(int puntuacio) {
+        this.puntuacio = puntuacio;
     }
 
-    public float getRating() {
-        return rating;
+    public int getPuntuacio() {
+        return puntuacio;
     }
 
-    public void setRating(float rating) {
-        this.rating = rating;
+    public void setPuntuacio(int puntuacio) {
+        this.puntuacio = puntuacio;
     }
 
-    public String getComment() {
-        return comment;
+    public String getComentari() {
+        return comentari;
     }
 
-    public void setComment(String review) {
-        this.comment = review;
+    public void setComentari(String review) {
+        this.comentari = review;
     }
 
     public String getGasolinera() {

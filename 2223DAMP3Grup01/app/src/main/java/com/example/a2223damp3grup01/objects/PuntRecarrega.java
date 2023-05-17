@@ -8,6 +8,9 @@ public class PuntRecarrega {
     private double latitude;
     private double longitude;
     private String nom;
+
+    private Double mitjaReviews;
+    private int numReviews;
     private String numPlaces;
     private String tipusConexio;
     private String tipusCorrent;
@@ -19,7 +22,7 @@ public class PuntRecarrega {
     }
 
 
-    public PuntRecarrega(Integer id, double latitude, double longitude, String nom, String numPlaces, String tipusConexio, String tipusCorrent, String tipusVehicles,long distFromActual) {
+    public PuntRecarrega(Integer id, double latitude, double longitude, String nom, String numPlaces, String tipusConexio, String tipusCorrent, String tipusVehicles,long distFromActual,Double mitjaReviews,int numReviews) {
         super();
         this.id = id;
         this.latitude = latitude;
@@ -30,6 +33,8 @@ public class PuntRecarrega {
         this.tipusCorrent = tipusCorrent;
         this.tipusVehicles = tipusVehicles;
         this.distFromActual = distFromActual;
+        this.mitjaReviews = mitjaReviews;
+        this.numReviews = numReviews;
     }
 
     public Integer getId() {
@@ -102,5 +107,21 @@ public class PuntRecarrega {
 
     public void setDistFromActual(long distFromActual) {
         this.distFromActual = distFromActual;
+    }
+
+    public Double getMitjaReviews() {
+        return mitjaReviews;
+    }
+
+    public void setMitjaReviews(Double mitjaReviews) {
+        this.mitjaReviews = mitjaReviews;
+    }
+
+    public int getNumReviews() {
+        return numReviews;
+    }
+
+    public void setNumReviews(int numReviews) {
+        this.numReviews = numReviews;
     }
 }

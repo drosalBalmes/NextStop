@@ -9,6 +9,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ServiceApi {
@@ -21,7 +22,16 @@ public interface ServiceApi {
             @Query("locationLAT") double locationLat,
             @Query("locationLONG") double locationLong,
             @Query("KMredonda") double KMredonda,
-            @Query("typeGAS") String typeGas);
+            @Query("typeGAS") String typeGas
+    );
+
+    @GET("benzineres/benzFinder/val")
+    Call<List<Benzinera>> listBenzineresFinderVal(
+            @Query("locationLAT") double locationLat,
+            @Query("locationLONG") double locationLong,
+            @Query("KMredonda") double KMredonda,
+            @Query("typeGAS") String typeGas
+    );
 
 
     @GET("benzineres/closest")
@@ -48,11 +58,42 @@ public interface ServiceApi {
             @Query("conType") String conType
     );
 
-    @GET("valoracio/valoracionsByBenzinera/idBenzinera")
-    Call<List<Review>> listReviewsByBenzId(
-            @Query("id") int id
+    @GET("puntsRecarrega/puntsRecarregaFinder/val")
+    Call<List<PuntRecarrega>> listPuntsFinderVal(
+            @Query("locationLAT") double locationLat,
+            @Query("locationLONG") double locationLong,
+            @Query("KMredonda") double KMredonda,
+            @Query("conType") String conType
     );
 
+    @GET("valoracio/valoracionsByBenzinera/idBenzinera/{id}")
+    Call<List<Review>> listReviewsByBenzId(
+            @Path("id") int id
+    );
 
+    @GET("valoracioElec/valoracionsByPuntRecarrega/idPuntRecarrega/{id}")
+    Call<List<Review>> listReviewsByPuntId(
+            @Path("id") int id
+    );
 
+    @GET("valoracio/valoracionsByUser/idUser/{id}")
+    Call<List<Review>> listReviewsByUserId(
+            @Path("id") int id
+    );
+
+    @POST("valoracio/newValoracio")
+    Call<Void> postReviewBenz(
+            @Query("benzinera_id") int benzineraId,
+            @Query("comentari") String comentari,
+            @Query("puntuacio") int puntuacio,
+            @Query("user_id") int userId
+    );
+
+    @POST("valoracioElec/newValoracio")
+    Call<Void> postReviewPunt(
+            @Query("puntRecarrega_id") int puntRecarregaId,
+            @Query("comentari") String comentari,
+            @Query("puntuacio") int puntuacio,
+            @Query("user_id") int userId
+    );
 }

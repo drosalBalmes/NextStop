@@ -5,27 +5,50 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.a2223damp3grup01.R;
 import com.example.a2223damp3grup01.adapters.ReviewAdapter;
+import com.example.a2223damp3grup01.adapters.TipoSubAdapter;
 import com.example.a2223damp3grup01.fragments.PostReviewDialogFragment;
 import com.example.a2223damp3grup01.interfaces.ServiceApi;
 import com.example.a2223damp3grup01.objects.FitRetro;
 import com.example.a2223damp3grup01.objects.Review;
+import com.example.a2223damp3grup01.objects.TipoSub;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GasolineraProfileActivity extends AppCompatActivity {
-    List<Review> reviews;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class GasolineraProfileActivity extends AppCompatActivity implements PostReviewDialogFragment.PostReviewDialogListener {
+    List<Review> reviews = new ArrayList<>();
+    List<TipoSub> tipos = new ArrayList<>();
+    RecyclerView tiposRecycler;
     RecyclerView reviewsRecycler;
     ReviewAdapter reviewAdapter;
+    TipoSubAdapter tipoSubAdapter;
     ServiceApi serviceApi;
     Button veureMapa,ressenya;
-    long id;
+    TextView TVnom,TVAvis;
+    String nom;
+    int id;
+    private boolean adblue = false;
+    private boolean gasoil = false;
+    private boolean gasolina = false;
+    private boolean glp = false;
+    private boolean gnc = false;
+    private boolean gnl = false;
+    private boolean hidrogen = false;
+    private boolean sp95 = false;
+    private boolean sp98 = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +60,34 @@ public class GasolineraProfileActivity extends AppCompatActivity {
     }
 
     public void init(){
-        serviceApi = FitRetro.getServiceApi();
         reviewsRecycler = findViewById(R.id.reviewsGasoRecycler);
+        tiposRecycler = findViewById(R.id.tipusSubRecycler);
+        serviceApi = FitRetro.getServiceApi();
         veureMapa = findViewById(R.id.inMap);
         ressenya = findViewById(R.id.postReview);
-        id = getIntent().getLongExtra("id",0);
+        TVAvis = findViewById(R.id.TVAvis);
+        TVnom = findViewById(R.id.nomGaso);
+        TVnom.setText(nom);
+        getIntents();
+        initRecyclerTipos();
+        getReviewsByBenzId(id);
+    }
+    public void getIntents(){
+        //Se podria haber hecho con una list soy tonto
+        adblue = getIntent().getBooleanExtra("adblue",false);
+        gasoil = getIntent().getBooleanExtra("gasoil",false);
+        gasolina = getIntent().getBooleanExtra("gasolina",false);
+        glp = getIntent().getBooleanExtra("glp",false);
+        gnc = getIntent().getBooleanExtra("gnc",false);
+        gnl = getIntent().getBooleanExtra("gnl",false);
+        hidrogen = getIntent().getBooleanExtra("hidrogen",false);
+        sp95 = getIntent().getBooleanExtra("sp95",false);
+        sp98 = getIntent().getBooleanExtra("sp98",false);
+        id = (int) getIntent().getLongExtra("id",0);
+        Log.d("id","idGasoProfileGetInt: " + id);
+        nom = getIntent().getStringExtra("nom");
+
+
     }
 
     public void clickListeners(){
@@ -49,23 +95,99 @@ public class GasolineraProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 PostReviewDialogFragment postReviewDialogFragment = new PostReviewDialogFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("nom",nom);
+                bundle.putInt("idGaso",id);
+                Log.d("id","idGasoProfilePut: " + id);
+                postReviewDialogFragment.setArguments(bundle);
                 postReviewDialogFragment.show(getSupportFragmentManager(),"postReviewDialogFragment");
             }
         });
     }
     public void initRecyclerReview(){
-        reviews = new ArrayList<>();
-        reviews.add(new Review(3,"Comentario","Repsol"));
-        reviews.add(new Review(2,"To guapa la gasolinera sisi lolol","Repsol"));
-        reviews.add(new Review(0,"Lorem Ipsum tremendo texto yokse wow","Repsol"));
-        reviews.add(new Review(5,"La gasolinera muy guapa pero leanse One Piece que esta tremendo","Repsol"));
-        reviews.add(new Review(5,"La gasolinera muy guapa pero leanse One Piece que esta tremendo","Repsol"));
-        reviews.add(new Review(5,"La gasolinera muy guapa pero leanse One Piece que esta tremendo","Repsol"));
-        reviews.add(new Review(5,"La gasolinera muy guapa pero leanse One Piece que esta tremendo","Repsol"));
         reviewAdapter = new ReviewAdapter(reviews);
-
         reviewsRecycler.setLayoutManager(new LinearLayoutManager(this));
         reviewsRecycler.setHasFixedSize(true);
         reviewsRecycler.setAdapter(reviewAdapter);
+    }
+    public void initRecyclerTipos(){
+        initTiposList();
+        tipoSubAdapter = new TipoSubAdapter(tipos);
+
+        tiposRecycler.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+        tiposRecycler.setHasFixedSize(true);
+        tiposRecycler.setAdapter(tipoSubAdapter);
+    }
+
+
+    public void getReviewsByBenzId(int id_benz){
+        Call<List<Review>> call = serviceApi.listReviewsByBenzId(id_benz);
+
+        call.enqueue(new Callback<List<Review>>() {
+            @Override
+            public void onResponse(Call<List<Review>> call, Response<List<Review>> response) {
+                if (response.isSuccessful()){
+                    reviews = response.body();
+                    if (reviews!=null){
+                        if (reviews.size() != 0){
+                            TVAvis.setVisibility(View.GONE);
+                            reviewsRecycler.setVisibility(View.VISIBLE);
+                            Log.d("getingReviews", "estan vacias(?)");
+                            initRecyclerReview();
+                        }
+                    }
+                } else {
+                    Log.e("getingReviews", "Respuesta no exitosa: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Review>> call, Throwable t) {
+                Log.e("getingReviews", t.getMessage());
+
+                if (t instanceof IOException) {
+                    // Error de red o servidor
+                    Log.e("getingReviews", "Error de red o servidor");
+                } else {
+                    // Otro tipo de error
+                    Log.e("getingReviews", "Otro tipo de error");
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onReviewPosted() {
+        getReviewsByBenzId(id);
+    }
+
+    public void initTiposList(){
+        if (adblue){
+            tipos.add(new TipoSub("Adblue","Preu: 1.26€/L"));
+        }
+        if (gasoil){
+            tipos.add(new TipoSub("Gasoil","Preu: 1.26€/L"));
+        }
+        if (gasolina){
+            tipos.add(new TipoSub("Gasolina","Preu: 1.26€/L"));
+        }
+        if (glp){
+            tipos.add(new TipoSub("Glp","Preu: 1.26€/L"));
+        }
+        if (gnc){
+            tipos.add(new TipoSub("Gnc","Preu: 1.26€/L"));
+        }
+        if (gnl){
+            tipos.add(new TipoSub("Gnl","Preu: 1.33€/L"));
+        }
+        if (hidrogen){
+            tipos.add(new TipoSub("Hidrogen","Preu: 1.26€/L"));
+        }
+        if (sp95){
+            tipos.add(new TipoSub("Sp95","Preu: 1.26€/L"));
+        }
+        if (sp98){
+            tipos.add(new TipoSub("Sp98","Preu: 1.26€/L"));
+        }
     }
 }

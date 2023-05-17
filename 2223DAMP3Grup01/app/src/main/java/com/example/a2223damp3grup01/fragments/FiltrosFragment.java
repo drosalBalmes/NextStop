@@ -332,11 +332,12 @@ public class FiltrosFragment extends Fragment implements LocationListener {
         });
     }
 
-    public void storeListOnPrefs(List<Benzinera> benzineras){
+    public void storeListOnPrefs(List<Benzinera> benzineras, String typeGAS){
         for (Benzinera benzinera: benzineras) {
             Log.d("benzinera",benzinera.getNom() + " DistFromActual: " +benzinera.getDistFromActual());
         }
         if (getActivity()!=null) {
+
             SharedPreferences preferences = getActivity().getSharedPreferences("gaso_list", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
             Gson gson = new Gson();
@@ -346,6 +347,11 @@ public class FiltrosFragment extends Fragment implements LocationListener {
             editor.putString("lat", String.valueOf(actualPosBtn.lat));
             editor.putString("lng", String.valueOf(actualPosBtn.lng));
             editor.putString("sub", tipusSub);
+            if (typeGAS.equalsIgnoreCase("gasoil") || typeGAS.equalsIgnoreCase("gasolina")) {
+                editor.putString("tipo","benz");
+            } else {
+                editor.putString("tipo","gas");
+            }
             Log.d("Mapeando", "Latitude2323: " + actualPosBtn.lat + "Longitude2323: " + actualPosBtn.lng);
             editor.apply();
         }
@@ -392,7 +398,7 @@ public class FiltrosFragment extends Fragment implements LocationListener {
 
 
     public void getBenzineresFinder(double kmRedonda, double locationLat, double locationLong,String typeGAS){
-        Call<List<Benzinera>> call = serviceApi.listBenzineresFinder(locationLat, locationLong,kmRedonda,typeGAS);
+        Call<List<Benzinera>> call = serviceApi.listBenzineresFinderVal(locationLat, locationLong,kmRedonda,typeGAS);
 
         call.enqueue(new Callback<List<Benzinera>>() {
             @Override
@@ -412,7 +418,7 @@ public class FiltrosFragment extends Fragment implements LocationListener {
                                     throw new RuntimeException(e);
                                 }
                             }
-                        storeListOnPrefs(benzinerasList);
+                        storeListOnPrefs(benzinerasList,typeGAS);
                         } else {
                             Toast.makeText(getContext(), "No hi han subministradors propers", Toast.LENGTH_SHORT).show();
                         }
@@ -439,7 +445,7 @@ public class FiltrosFragment extends Fragment implements LocationListener {
     }
 
     public void getPuntsFinder(double kmRedonda, double locationLat, double locationLong,String typePunt){
-        Call<List<PuntRecarrega>> call = serviceApi.listPuntsFinder(locationLat, locationLong,kmRedonda, typePunt);
+        Call<List<PuntRecarrega>> call = serviceApi.listPuntsFinderVal(locationLat, locationLong,kmRedonda, typePunt);
 
         call.enqueue(new Callback<List<PuntRecarrega>>() {
             @Override
