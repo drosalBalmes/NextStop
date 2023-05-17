@@ -7,15 +7,23 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.a2223damp3grup01.R;
+import com.example.a2223damp3grup01.interfaces.SelectListenerPunts;
 import com.example.a2223damp3grup01.objects.PuntRecarrega;
 
 import java.util.List;
 
 public class PuntRecarregaAdapter extends RecyclerView.Adapter<PuntRecarregaAdapter.MyViewHolder> {
     private List<PuntRecarrega> puntRecarregaList;
+    private SelectListenerPunts listenerPunts;
+
+    public PuntRecarregaAdapter(List<PuntRecarrega> puntRecarregaList, SelectListenerPunts listenerPunts) {
+        this.puntRecarregaList = puntRecarregaList;
+        this.listenerPunts = listenerPunts;
+    }
 
     public PuntRecarregaAdapter(List<PuntRecarrega> puntRecarregaList){
         this.puntRecarregaList = puntRecarregaList;
@@ -30,6 +38,13 @@ public class PuntRecarregaAdapter extends RecyclerView.Adapter<PuntRecarregaAdap
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.bindData(puntRecarregaList.get(position));
+
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listenerPunts.onItemClickedPunt(puntRecarregaList.get(position));
+            }
+        });
     }
 
     @Override
@@ -42,6 +57,7 @@ public class PuntRecarregaAdapter extends RecyclerView.Adapter<PuntRecarregaAdap
         TextView tipus;
         RatingBar rating;
         TextView dist;
+        CardView cardView;
 
         public MyViewHolder(@NonNull View itemView){
             super(itemView);
@@ -49,6 +65,7 @@ public class PuntRecarregaAdapter extends RecyclerView.Adapter<PuntRecarregaAdap
             tipus = itemView.findViewById(R.id.tipos);
             rating = itemView.findViewById(R.id.ratingBar);
             dist = itemView.findViewById(R.id.distancia);
+            cardView = itemView.findViewById(R.id.cardPunts);
         }
 
         void bindData(final PuntRecarrega puntRecarrega){

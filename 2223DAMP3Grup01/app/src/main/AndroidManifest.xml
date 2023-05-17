@@ -18,10 +18,10 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".PuntRecarregaProfileActivity"
+            android:name=".activities.PuntRecarregaProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".GasolineraProfileActivity"
+            android:name=".activities.GasolineraProfileActivity"
             android:exported="false" />
         <activity
             android:name=".activities.SignupActivity"

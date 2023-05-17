@@ -1,6 +1,7 @@
 package com.example.a2223damp3grup01.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
@@ -15,8 +16,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.a2223damp3grup01.R;
+import com.example.a2223damp3grup01.activities.GasolineraProfileActivity;
+import com.example.a2223damp3grup01.activities.ProfileActivity;
+import com.example.a2223damp3grup01.activities.PuntRecarregaProfileActivity;
 import com.example.a2223damp3grup01.adapters.BenzineresAdapter;
 import com.example.a2223damp3grup01.adapters.PuntRecarregaAdapter;
+import com.example.a2223damp3grup01.interfaces.SelectListenerGaso;
+import com.example.a2223damp3grup01.interfaces.SelectListenerPunts;
 import com.example.a2223damp3grup01.interfaces.ServiceApi;
 import com.example.a2223damp3grup01.objects.Benzinera;
 import com.example.a2223damp3grup01.objects.FitRetro;
@@ -33,7 +39,7 @@ import java.util.List;
  * Use the {@link ListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ListFragment extends Fragment implements FiltrosFragment.FiltrosListener {
+public class ListFragment extends Fragment implements FiltrosFragment.FiltrosListener, SelectListenerGaso, SelectListenerPunts {
 
     ServiceApi serviceApi;
     List<Benzinera> benzinerasList = new ArrayList<>();
@@ -43,19 +49,14 @@ public class ListFragment extends Fragment implements FiltrosFragment.FiltrosLis
     BenzineresAdapter benzineresAdapter;
     PuntRecarregaAdapter puntRecarregaAdapter;
 
-    double lat;
-    double lng;
-    long durationInSeconds;
-    long durationInMinutes;
     private LocationListener locationListener;
     private Location actualPos;
-    private int kmRedonda;
 
     public ListFragment() {
         // Required empty public constructor
     }
 
-    public static ListFragment newInstance(String param1, String param2) {
+    public static ListFragment newInstance() {
         ListFragment fragment = new ListFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -88,9 +89,6 @@ public class ListFragment extends Fragment implements FiltrosFragment.FiltrosLis
 
             }
         };
-        if (lat != 0 && lng != 0){
-            //getBenzineresFinder(kmRedonda,lat,lng,"Gasolina");
-        }
         benzineresRecycler = view.findViewById(R.id.listGasolinerasRecycler);
         puntsRecycler = view.findViewById(R.id.listGasolinerasRecycler);
         initRecyclerBenzineres();
@@ -98,13 +96,13 @@ public class ListFragment extends Fragment implements FiltrosFragment.FiltrosLis
 
     public void initRecyclerBenzineres() {
         if (puntRecarregaList.size() != 0){
-            puntRecarregaAdapter = new PuntRecarregaAdapter(puntRecarregaList);
+            puntRecarregaAdapter = new PuntRecarregaAdapter(puntRecarregaList,this);
             Log.d("lolol",puntRecarregaList.get(0).getNom());
             benzineresRecycler.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
             benzineresRecycler.setHasFixedSize(true);
             benzineresRecycler.setAdapter(puntRecarregaAdapter);
         } else if (benzinerasList.size() != 0) {
-            benzineresAdapter = new BenzineresAdapter(benzinerasList);
+            benzineresAdapter = new BenzineresAdapter(benzinerasList,this);
             Log.d("lolol", benzinerasList.get(0).getNom());
             benzineresRecycler.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
             benzineresRecycler.setHasFixedSize(true);
@@ -132,5 +130,27 @@ public class ListFragment extends Fragment implements FiltrosFragment.FiltrosLis
         } else {
             Log.d("RecyclerGaso", "No hi ha res al shared preferences");
         }
+    }
+
+    @Override
+    public void onItemClickedBenzinera(Benzinera benzinera) {
+        //SharedPreferences preferences = getActivity().getSharedPreferences("gaso_clicked",Context.MODE_PRIVATE);
+        //SharedPreferences.Editor editor = preferences.edit();
+        //editor.clear();
+        Log.d("BenzineraClicked", "id: " + benzinera.getId());
+        //editor.putLong("id",benzinera.getId());
+        //editor.apply();
+        Intent intent = new Intent(getActivity().getApplicationContext(), GasolineraProfileActivity.class);
+        intent.putExtra("id",benzinera.getId());
+        startActivity(intent);
+
+    }
+
+    @Override
+    public void onItemClickedPunt(PuntRecarrega puntRecarrega) {
+        Log.d("PuntClicked", "id: " + puntRecarrega.getId());
+        Intent intent = new Intent(getActivity().getApplicationContext(), PuntRecarregaProfileActivity.class);
+        intent.putExtra("id",puntRecarrega.getId());
+        startActivity(intent);
     }
 }
