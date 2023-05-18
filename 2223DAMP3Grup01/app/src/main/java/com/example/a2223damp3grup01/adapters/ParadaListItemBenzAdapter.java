@@ -94,6 +94,8 @@ public class ParadaListItemBenzAdapter extends RecyclerView.Adapter<ParadaListIt
             nom.setText(benzinera.getNom());
             minutsTV.setText("+"+benzinera.getDistFromActual() + " Min");
             numReviews.setText(benzinera.getNumReviews() + " Reviews");
+            preuBenzina.setText(String.valueOf(benzinera.getPreuSP95()));
+            preuGasoil.setText(String.valueOf(benzinera.getPreuGasoil()));
             if (benzinera.getMitjaReviews() != null) {
                 barraRating.setRating(benzinera.getMitjaReviews().floatValue());
             }

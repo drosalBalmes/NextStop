@@ -76,7 +76,17 @@ public class ParadaListItemGasAdapter extends RecyclerView.Adapter<ParadaListIte
         void bindData(final Benzinera benzinera){
             nom.setText(benzinera.getNom());
             gasTypeTV.setText(benzinera.getTypeGAS());
+            if (benzinera.getTypeGAS().equals("GNC")){
+                preuGas.setText(String.valueOf(benzinera.getPreuGNC()));
+            }if (benzinera.getTypeGAS().equals("GLP")){
+                preuGas.setText(String.valueOf(benzinera.getPreuGLP()));
+
+            }if (benzinera.getTypeGAS().equals("GNL")){
+                preuGas.setText(String.valueOf(benzinera.getPreuGNL()));
+
+            }
             minutsTV.setText("+"+benzinera.getDistFromActual() + " Min");
+
             numReviews.setText(benzinera.getNumReviews() + " Reviews");
             if (benzinera.getMitjaReviews() != null) {
                 barraRating.setRating(benzinera.getMitjaReviews().floatValue());

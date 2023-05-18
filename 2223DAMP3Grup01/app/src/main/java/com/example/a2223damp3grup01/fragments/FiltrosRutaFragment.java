@@ -917,7 +917,7 @@ public class FiltrosRutaFragment extends Fragment implements LocationListener{
     }
 
     public void getBenzineresFinder(double locationLat, double locationLong,String type){
-        Call<List<Benzinera>> call = serviceApi.listBenzClosest(locationLong, locationLat,10,type);
+        Call<List<Benzinera>> call = serviceApi.listBenzClosestValPrice(locationLong, locationLat,10,type);
 
         call.enqueue(new Callback<List<Benzinera>>() {
             @Override
@@ -927,6 +927,7 @@ public class FiltrosRutaFragment extends Fragment implements LocationListener{
                     if (benzinerasListParades != null) {
                         Log.d("getingbenzineres", benzinerasListParades.get(0).getNom());
                         Log.d("getingbenzineres", String.valueOf(benzinerasListParades.size()));
+                        Log.d("dimequevaporfa", "onResponse:  " + benzinerasListParades.get(0).getPreuSP95() + "  " + benzinerasListParades.get(0).getPreuGasoil());
 
                         storeStopsOnPrefs();
 
