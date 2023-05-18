@@ -201,7 +201,7 @@ public class ListFragment extends Fragment implements FiltrosFragment.FiltrosLis
         intent.putExtra("latActual",ubiActual.latitude);
         intent.putExtra("lngActual",ubiActual.longitude);
         intent.putExtra("latBenz",benzinera.getLatitude());
-        intent.putExtra("lntBenz",benzinera.getLongitude());
+        intent.putExtra("lngBenz",benzinera.getLongitude());
         intent.putExtra("id",benzinera.getId());
         Log.d("id","idGasoListPut: " + benzinera.getId());
         intent.putExtra("nom",benzinera.getNom());
@@ -218,7 +218,7 @@ public class ListFragment extends Fragment implements FiltrosFragment.FiltrosLis
         intent.putExtra("latActual",ubiActual.latitude);
         intent.putExtra("lngActual",ubiActual.longitude);
         intent.putExtra("latBenz",puntRecarrega.getLatitude());
-        intent.putExtra("lntBenz",puntRecarrega.getLongitude());
+        intent.putExtra("lngBenz",puntRecarrega.getLongitude());
         intent.putStringArrayListExtra("tipusPunts",tiposPunts(puntRecarrega));
         startActivity(intent);
     }
