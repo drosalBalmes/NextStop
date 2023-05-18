@@ -73,7 +73,7 @@ public class BenzineresAdapter extends RecyclerView.Adapter<BenzineresAdapter.My
             gasolinaPreu = itemView.findViewById(R.id.priceBenzina);
             dist = itemView.findViewById(R.id.minutsCotxe);
             rating = itemView.findViewById(R.id.ratingBar);
-            rl = itemView.findViewById(R.id.parades_item_david);/////
+            rl = itemView.findViewById(R.id.parades_item_david);
             nReviews = itemView.findViewById(R.id.reviewsET);
         }
         void bindData(final Benzinera benzinera){
@@ -83,7 +83,12 @@ public class BenzineresAdapter extends RecyclerView.Adapter<BenzineresAdapter.My
             if (benzinera.getMitjaReviews() != null) {
                 rating.setRating(benzinera.getMitjaReviews().floatValue());
             }
-            //TODO preus
+            if (benzinera.getGasolina()){
+                gasolinaPreu.setText(benzinera.getPreuSP95() + "");
+            }
+            if (benzinera.getGasoil()){
+                gasoilPreu.setText(benzinera.getPreuGasoil() + "");
+            }
         }
     }
 }
