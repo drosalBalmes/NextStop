@@ -332,7 +332,7 @@ public class FiltrosFragment extends Fragment implements LocationListener {
         });
     }
 
-    public void storeListOnPrefs(List<Benzinera> benzineras, String typeGAS){
+    public void storeListOnPrefs(List<Benzinera> benzineras, String tipusSub){
         for (Benzinera benzinera: benzineras) {
             Log.d("benzinera",benzinera.getNom() + " DistFromActual: " +benzinera.getDistFromActual());
         }
@@ -347,7 +347,9 @@ public class FiltrosFragment extends Fragment implements LocationListener {
             editor.putString("lat", String.valueOf(actualPosBtn.lat));
             editor.putString("lng", String.valueOf(actualPosBtn.lng));
             editor.putString("sub", tipusSub);
-            if (typeGAS.equalsIgnoreCase("gasoil") || typeGAS.equalsIgnoreCase("gasolina")) {
+            Log.d("editoraaaa",tipusSub);
+            if (tipusSub.equalsIgnoreCase("benz") || tipusSub.equalsIgnoreCase("benzina")) {
+                Log.d("editoraaaa2",tipusSub);
                 editor.putString("tipo","benz");
             } else {
                 editor.putString("tipo","gas");
@@ -418,7 +420,7 @@ public class FiltrosFragment extends Fragment implements LocationListener {
                                     throw new RuntimeException(e);
                                 }
                             }
-                        storeListOnPrefs(benzinerasList,typeGAS);
+                        storeListOnPrefs(benzinerasList,tipusSub);
                         } else {
                             Toast.makeText(getContext(), "No hi han subministradors propers", Toast.LENGTH_SHORT).show();
                         }

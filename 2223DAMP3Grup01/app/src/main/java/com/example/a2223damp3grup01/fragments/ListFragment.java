@@ -52,7 +52,7 @@ public class ListFragment extends Fragment implements FiltrosFragment.FiltrosLis
     RecyclerView benzineresRecycler,puntsRecycler;
     BenzineresAdapter benzineresAdapter;
     PuntRecarregaAdapter puntRecarregaAdapter;
-    String tipo;
+    int tipo;
 
 
     private LocationListener locationListener;
@@ -89,7 +89,6 @@ public class ListFragment extends Fragment implements FiltrosFragment.FiltrosLis
 
     public void init(){
         serviceApi = FitRetro.getServiceApi();
-        tipo = "";
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
@@ -102,7 +101,7 @@ public class ListFragment extends Fragment implements FiltrosFragment.FiltrosLis
         initRecyclerBenzineres(tipo);
     }
 
-    public void initRecyclerBenzineres(String tipo) {
+    public void initRecyclerBenzineres(int tipo) {
         if (puntRecarregaList.size() != 0){
             puntRecarregaAdapter = new PuntRecarregaAdapter(puntRecarregaList,this);
             Log.d("lolol",puntRecarregaList.get(0).getNom());
@@ -110,13 +109,15 @@ public class ListFragment extends Fragment implements FiltrosFragment.FiltrosLis
             benzineresRecycler.setHasFixedSize(true);
             benzineresRecycler.setAdapter(puntRecarregaAdapter);
         } else if (benzinerasList.size() != 0) {
-            if (tipo.equalsIgnoreCase("1")) {
+            if (tipo==1) {
+                Log.d("editoraaa3","tipo1");
                 benzineresAdapter = new BenzineresAdapter(benzinerasList, this);
                 Log.d("lolol", benzinerasList.get(0).getNom());
                 benzineresRecycler.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
                 benzineresRecycler.setHasFixedSize(true);
                 benzineresRecycler.setAdapter(benzineresAdapter);
             } else {
+                Log.d("editoraaa3","tipo2");
                 gasAdapter = new GasAdapter(benzinerasList,this);
                 benzineresRecycler.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
                 benzineresRecycler.setHasFixedSize(true);
@@ -131,13 +132,16 @@ public class ListFragment extends Fragment implements FiltrosFragment.FiltrosLis
         benzinerasList.clear();
         puntRecarregaList.clear();
         if (preferences.contains("tipo")){
+            Log.d("editoraaa","tipos");
             if (preferences.getString("tipo","").equalsIgnoreCase("benz")){
-                tipo = "1";
+                Log.d("editoraaa","tipo1");
+                tipo = 1;
             } else {
-                tipo = "2";
+                Log.d("editoraaa","tipo2");
+                tipo = 2;
             }
         } else {
-            tipo = "3";
+            tipo = 3;
         }
         if (preferences.contains("benzineres")){
             Gson gson = new Gson();
