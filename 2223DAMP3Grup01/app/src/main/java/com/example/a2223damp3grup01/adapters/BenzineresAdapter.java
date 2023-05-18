@@ -31,6 +31,9 @@ public class BenzineresAdapter extends RecyclerView.Adapter<BenzineresAdapter.My
         this.benzineres = benzineres;
     }
 
+
+
+
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder (@NonNull ViewGroup parent, int viewType){

@@ -1,5 +1,6 @@
 package com.example.a2223damp3grup01.adapters;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.a2223damp3grup01.R;
+import com.example.a2223damp3grup01.interfaces.SelectListenerListItemBenz;
 import com.example.a2223damp3grup01.objects.Benzinera;
 
 import java.util.List;
@@ -18,8 +20,20 @@ import java.util.List;
 public class ParadaListItemBenzAdapter extends RecyclerView.Adapter<ParadaListItemBenzAdapter.MyViewHolder> {
     private List<Benzinera> benzineres;
 
+    private SelectListenerListItemBenz listener;
+
+
+    public ParadaListItemBenzAdapter(List<Benzinera> benzineres, SelectListenerListItemBenz listener) {
+        this.benzineres = benzineres;
+        this.listener = listener;
+    }
+
     public ParadaListItemBenzAdapter(List<Benzinera> benzineres) {
         this.benzineres = benzineres;
+    }
+
+    public void setListener(SelectListenerListItemBenz listener) {
+        this.listener = listener;
     }
 
     @NonNull
@@ -29,14 +43,23 @@ public class ParadaListItemBenzAdapter extends RecyclerView.Adapter<ParadaListIt
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.bindData(benzineres.get(position));
+
+        holder.nuttonAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onItemClickedBenzineraItem(benzineres.get(position));
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return benzineres.size();
     }
+
+
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
         TextView nom;
@@ -61,7 +84,11 @@ public class ParadaListItemBenzAdapter extends RecyclerView.Adapter<ParadaListIt
             nom.setText(benzinera.getNom());
             minutsTV.setText("+"+benzinera.getDistFromActual() + " Min");
 
+
+
         }
     }
+
+
 
 }

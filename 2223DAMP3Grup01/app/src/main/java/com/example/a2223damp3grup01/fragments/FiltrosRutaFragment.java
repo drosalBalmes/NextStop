@@ -279,14 +279,30 @@ public class FiltrosRutaFragment extends Fragment implements LocationListener{
         DibuixaRutaManual.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ferRutesParades(rutaNoParades,parades);
+                try {
+                    ferRutesParades(rutaNoParades,parades);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ApiException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
         DibuixaRutaAutomatic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ferRutesParadesAuto(rutaNoParades,numeroDeParadesEditText);
+                try {
+                    ferRutesParadesAuto(rutaNoParades,numeroDeParadesEditText);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ApiException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -660,7 +676,7 @@ public class FiltrosRutaFragment extends Fragment implements LocationListener{
     }
 
 
-    public void ferRutesParades(List<LatLng> ruta, List<ParadaKilometre> parades ) {
+    public void ferRutesParades(List<LatLng> ruta, List<ParadaKilometre> parades ) throws IOException, InterruptedException, ApiException {
 
         for (ParadaKilometre pk : parades) {
             pk.ETtoInt();
@@ -746,7 +762,7 @@ public class FiltrosRutaFragment extends Fragment implements LocationListener{
 
     }
 
-    public void ferRutesParadesAuto(List<LatLng> ruta, EditText numParades) {
+    public void ferRutesParadesAuto(List<LatLng> ruta, EditText numParades) throws IOException, InterruptedException, ApiException {
         String numeroParadesS = numParades.getText().toString();
         int numParadesInt = Integer.parseInt(numeroParadesS)+1;
 
@@ -815,7 +831,7 @@ public class FiltrosRutaFragment extends Fragment implements LocationListener{
 
 
 
-    public void storeRouteOnPreferencesBenz(List<LatLng> ruta, List<LatLng> paradas,String type){
+    public void storeRouteOnPreferencesBenz(List<LatLng> ruta, List<LatLng> paradas,String type) throws IOException, InterruptedException, ApiException {
         SharedPreferences prefs = getActivity().getSharedPreferences("route_pref", Context.MODE_PRIVATE);
 
         Gson gson = new Gson();
@@ -825,10 +841,12 @@ public class FiltrosRutaFragment extends Fragment implements LocationListener{
         Log.d("paradees", "sasdasdasdasdasd " + paradas.size());
 
 
+
         SharedPreferences.Editor editor = prefs.edit();
         editor.clear();
         editor.putString("ruta", jsonRuta);
         editor.putString("paradas", jsonParadas);
+        editor.putInt("duracio", Math.toIntExact(storeRouteTimeOnPrefs()));
         editor.putString("combus", type);
         editor.apply();
 
@@ -1041,6 +1059,34 @@ public class FiltrosRutaFragment extends Fragment implements LocationListener{
 
         }
 
+    }
+
+    public long storeRouteTimeOnPrefs() throws IOException, InterruptedException, ApiException {
+       long minutes = getDurationInMinutes(rutaNoParades.get(0),rutaNoParades.get(rutaNoParades.size()-1));
+
+        Log.d("storingTimeOnPreferences", "storeRouteTimeOnPrefs: " + minutes);
+
+        return minutes;
+    }
+
+    public long getDurationInMinutes(LatLng inci, LatLng Final) throws IOException, InterruptedException, ApiException {
+        long durationInMinutes = 0;
+        GeoApiContext context = new GeoApiContext.Builder()
+                .apiKey("AIzaSyCqWBGxRFvmbc0zqwhClvJRCAqfw4KcXEM")
+                .build();
+
+        DirectionsResult result = DirectionsApi.newRequest(context)
+                .origin(new com.google.maps.model.LatLng(inci.latitude, inci.longitude))
+                .destination(new com.google.maps.model.LatLng(Final.latitude, Final.longitude))
+                .mode(TravelMode.DRIVING)
+                .await();
+
+        if (result.routes.length > 0) {
+            DirectionsRoute route = result.routes[0];
+            long durationInSeconds = route.legs[0].duration.inSeconds;
+            durationInMinutes = durationInSeconds/60;
+        }
+        return  durationInMinutes;
     }
 
 
