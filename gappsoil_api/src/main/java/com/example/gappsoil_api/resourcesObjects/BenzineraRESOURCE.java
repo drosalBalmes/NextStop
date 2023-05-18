@@ -428,38 +428,38 @@ public class BenzineraRESOURCE {
     }
 
     public void calculateLowest(){
-        if (this.gasolina951d!=0 || this.gasolina952d!=0 || this.gasolina953d!=0 || this.gasolina981d!=0 || this.gasolina982d!=0 ){
+        if (this.gasolina951d > 0 || this.gasolina952d> 0 || this.gasolina953d> 0 || this.gasolina981d> 0 || this.gasolina982d> 0 ){
 
-            if (this.gasolina951d!=0){
+            if (this.gasolina951d > 0){
                 this.setLowestBenzina(gasolina951d);
 
-            } else if (this.gasolina952d!=0){
+            } else if (this.gasolina952d> 0){
                 this.setLowestBenzina(gasolina952d);
 
-            }else if (this.gasolina953d!=0){
+            }else if (this.gasolina953d> 0){
                 this.setLowestBenzina(gasolina953d);
 
-            }else if (this.gasolina981d!=0){
+            }else if (this.gasolina981d> 0){
                 this.setLowestBenzina(gasolina981d);
 
-            }else if (this.gasolina982d!=0){
+            }else if (this.gasolina982d> 0){
                 this.setLowestBenzina(gasolina982d);
 
             }
         }
 
-        if (this.getGasoil1d()!=0 || this.getGasoil2d()!=0 ||this.getGasoil3d()!=0 ||this.getGasoil4d()!=0 ){
+        if (this.getGasoil1d()> 0 || this.getGasoil2d()> 0 ||this.getGasoil3d()> 0 ||this.getGasoil4d()> 0 ){
 
-            if (this.gasoil1d!=0){
+            if (this.gasoil1d> 0){
                 this.setLowestGasoil(gasoil1d);
 
-            } else if (this.gasoil2d!=0){
+            } else if (this.gasoil2d> 0){
                 this.setLowestGasoil(gasoil2d);
 
-            }else if (this.gasoil3d!=0){
+            }else if (this.gasoil3d> 0){
                 this.setLowestGasoil(gasoil3d);
 
-            }else if (this.gasoil4d!=0){
+            }else if (this.gasoil4d> 0){
                 this.setLowestGasoil(gasoil4d);
 
             }
