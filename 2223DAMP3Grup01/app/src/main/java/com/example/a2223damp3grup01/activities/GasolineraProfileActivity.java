@@ -213,6 +213,8 @@ public class GasolineraProfileActivity extends AppCompatActivity implements Post
     public void mapsIntent(){
         LatLng inici = ubiActual;
         LatLng finall = ubiGaso;
+        Log.d("ubiAct", "Lat: " + ubiActual.latitude + "Lng: " + ubiActual.longitude);
+        Log.d("ubiGas", "Lat: " + ubiGaso.latitude + "Lng: " + ubiGaso.longitude);
 
 
         StringBuilder uriBuilder = new StringBuilder("https://www.google.com/maps/dir/?api=1");
