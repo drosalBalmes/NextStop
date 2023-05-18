@@ -20,28 +20,46 @@ public class BenzineraDTOall {
 
     boolean SP98;
 
-
-    boolean gasoil;
-
-    boolean Adblue;
-
-
     boolean GNC;
 
     boolean GLP;
 
     boolean GNL;
 
+    boolean gasoil;
+
+    boolean Adblue;
+
+
     boolean hidrogen;
 
 
     String horari;
-    private List<Valoracio> valoracions;
 
-    private List<Preu> preus;
+    int numReviews;
+
+    Double mitjaReviews;
+
+    private long preuid;
 
 
-    public BenzineraDTOall(long id, String nom, double latitude, double longitude, boolean gasolina, boolean SP95, boolean SP98, boolean gasoil, boolean adblue, boolean GNC, boolean GLP, boolean GNL, boolean hidrogen, String horari, List<Valoracio> valoracions, List<Preu> preus) {
+
+    String ultimaAct;
+    double preuSP95;
+    double preuSP98;
+    double preuGasoil;
+
+    double preuGLP;
+
+    double preuGNC;
+
+    double preuGNL;
+
+
+    public BenzineraDTOall() {
+    }
+
+    public BenzineraDTOall(long id, String nom, double latitude, double longitude, boolean gasolina, boolean SP95, boolean SP98, boolean GNC, boolean GLP, boolean GNL, boolean gasoil, boolean adblue, boolean hidrogen, String horari) {
         this.id = id;
         this.nom = nom;
         this.latitude = latitude;
@@ -49,18 +67,40 @@ public class BenzineraDTOall {
         this.gasolina = gasolina;
         this.SP95 = SP95;
         this.SP98 = SP98;
-        this.gasoil = gasoil;
-        Adblue = adblue;
         this.GNC = GNC;
         this.GLP = GLP;
         this.GNL = GNL;
+        this.gasoil = gasoil;
+        Adblue = adblue;
         this.hidrogen = hidrogen;
         this.horari = horari;
-        this.valoracions = valoracions;
-        this.preus = preus;
     }
 
-    public BenzineraDTOall() {
+    public BenzineraDTOall(long id, String nom, double latitude, double longitude, boolean gasolina, boolean SP95, boolean SP98, boolean GNC, boolean GLP, boolean GNL, boolean gasoil, boolean adblue, boolean hidrogen, String horari, int numReviews, Double mitjaReviews, long preuid, String ultimaAct, double preuSP95, double preuSP98, double preuGasoil, double preuGLP, double preuGNC, double preuGNL) {
+        this.id = id;
+        this.nom = nom;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.gasolina = gasolina;
+        this.SP95 = SP95;
+        this.SP98 = SP98;
+        this.GNC = GNC;
+        this.GLP = GLP;
+        this.GNL = GNL;
+        this.gasoil = gasoil;
+        Adblue = adblue;
+        this.hidrogen = hidrogen;
+        this.horari = horari;
+        this.numReviews = numReviews;
+        this.mitjaReviews = mitjaReviews;
+        this.preuid = preuid;
+        this.ultimaAct = ultimaAct;
+        this.preuSP95 = preuSP95;
+        this.preuSP98 = preuSP98;
+        this.preuGasoil = preuGasoil;
+        this.preuGLP = preuGLP;
+        this.preuGNC = preuGNC;
+        this.preuGNL = preuGNL;
     }
 
     public long getId() {
@@ -95,6 +135,22 @@ public class BenzineraDTOall {
         this.longitude = longitude;
     }
 
+    public int getNumReviews() {
+        return numReviews;
+    }
+
+    public void setNumReviews(int numReviews) {
+        this.numReviews = numReviews;
+    }
+
+    public Double getMitjaReviews() {
+        return mitjaReviews;
+    }
+
+    public void setMitjaReviews(Double mitjaReviews) {
+        this.mitjaReviews = mitjaReviews;
+    }
+
     public boolean isGasolina() {
         return gasolina;
     }
@@ -113,6 +169,70 @@ public class BenzineraDTOall {
 
     public boolean isSP98() {
         return SP98;
+    }
+
+    public long getPreuid() {
+        return preuid;
+    }
+
+    public void setPreuid(long preuid) {
+        this.preuid = preuid;
+    }
+
+    public String getUltimaAct() {
+        return ultimaAct;
+    }
+
+    public void setUltimaAct(String ultimaAct) {
+        this.ultimaAct = ultimaAct;
+    }
+
+    public double getPreuSP95() {
+        return preuSP95;
+    }
+
+    public void setPreuSP95(double preuSP95) {
+        this.preuSP95 = preuSP95;
+    }
+
+    public double getPreuSP98() {
+        return preuSP98;
+    }
+
+    public void setPreuSP98(double preuSP98) {
+        this.preuSP98 = preuSP98;
+    }
+
+    public double getPreuGasoil() {
+        return preuGasoil;
+    }
+
+    public void setPreuGasoil(double preuGasoil) {
+        this.preuGasoil = preuGasoil;
+    }
+
+    public double getPreuGLP() {
+        return preuGLP;
+    }
+
+    public void setPreuGLP(double preuGLP) {
+        this.preuGLP = preuGLP;
+    }
+
+    public double getPreuGNC() {
+        return preuGNC;
+    }
+
+    public void setPreuGNC(double preuGNC) {
+        this.preuGNC = preuGNC;
+    }
+
+    public double getPreuGNL() {
+        return preuGNL;
+    }
+
+    public void setPreuGNL(double preuGNL) {
+        this.preuGNL = preuGNL;
     }
 
     public void setSP98(boolean SP98) {
@@ -151,21 +271,7 @@ public class BenzineraDTOall {
         this.horari = horari;
     }
 
-    public List<Valoracio> getValoracions() {
-        return valoracions;
-    }
 
-    public void setValoracions(List<Valoracio> valoracions) {
-        this.valoracions = valoracions;
-    }
-
-    public List<Preu> getPreus() {
-        return preus;
-    }
-
-    public void setPreus(List<Preu> preus) {
-        this.preus = preus;
-    }
 
     public boolean isGNC() {
         return GNC;

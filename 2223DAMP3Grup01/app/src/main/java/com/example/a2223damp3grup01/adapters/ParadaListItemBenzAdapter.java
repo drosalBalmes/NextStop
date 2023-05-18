@@ -13,9 +13,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.a2223damp3grup01.R;
 import com.example.a2223damp3grup01.interfaces.SelectListenerListItemBenz;
+import com.example.a2223damp3grup01.interfaces.ServiceApi;
 import com.example.a2223damp3grup01.objects.Benzinera;
+import com.example.a2223damp3grup01.objects.FitRetro;
+import com.example.a2223damp3grup01.objects.Preu;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ParadaListItemBenzAdapter extends RecyclerView.Adapter<ParadaListItemBenzAdapter.MyViewHolder> {
     private List<Benzinera> benzineres;
@@ -62,6 +70,7 @@ public class ParadaListItemBenzAdapter extends RecyclerView.Adapter<ParadaListIt
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
+        ServiceApi serviceApi ;
         TextView nom;
         TextView preuBenzina;
         TextView preuGasoil;
@@ -72,6 +81,7 @@ public class ParadaListItemBenzAdapter extends RecyclerView.Adapter<ParadaListIt
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+            serviceApi = FitRetro.getServiceApi();
             nom = (TextView) itemView.findViewById(R.id.nomBenzinera);
             preuBenzina = (TextView) itemView.findViewById(R.id.priceBenzina);
             preuGasoil = (TextView) itemView.findViewById(R.id.priceGasoil);
@@ -83,10 +93,14 @@ public class ParadaListItemBenzAdapter extends RecyclerView.Adapter<ParadaListIt
         void bindData(final Benzinera benzinera){
             nom.setText(benzinera.getNom());
             minutsTV.setText("+"+benzinera.getDistFromActual() + " Min");
-
+            numReviews.setText(benzinera.getNumReviews() + " Reviews");
+            if (benzinera.getMitjaReviews() != null) {
+                barraRating.setRating(benzinera.getMitjaReviews().floatValue());
+            }
 
 
         }
+
     }
 
 
