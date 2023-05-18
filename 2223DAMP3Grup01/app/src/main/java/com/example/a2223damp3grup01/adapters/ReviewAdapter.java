@@ -58,8 +58,8 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.MyViewHold
 
         void bindData(final Review review){
             gasolinera.setText(review.getGasolinera());
-            ratingBar.setRating(review.getRating());
-            comment.setText(review.getComment());
+            ratingBar.setRating(review.getPuntuacio());
+            comment.setText(review.getComentari());
         }
     }
 }

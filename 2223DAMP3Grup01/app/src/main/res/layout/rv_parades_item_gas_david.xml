@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="215sp"
+    android:background="@color/secondary"
+    android:id="@+id/parades_item_gas_david"
+    android:layout_margin="10sp"
+    >
+
+    <TextView
+        android:id="@+id/nomBenzineraGAS"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nom benzinera"
+        android:textColor="@color/white"
+        android:textAlignment="center"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:id="@+id/gasTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nomBenzineraGAS"
+        android:layout_marginLeft="30sp"
+        android:text="GAS"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+
+        />
+
+    <TextView
+        android:id="@+id/priceGas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/gasTV"
+        android:layout_marginLeft="5sp"
+        android:text="1.502"
+        android:textColor="@color/white"
+        android:textSize="35sp" />
+
+
+    <TextView
+        android:id="@+id/reviewsTVGAS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:layout_marginTop="10sp"
+        android:layout_above="@+id/ratingBarGAS"
+        android:text="15246 Reviews"
+        />
+
+    <RatingBar
+        android:layout_marginTop="10sp"
+        android:id="@+id/ratingBarGAS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:isIndicator="true"
+        android:numStars="5"
+        android:progressBackgroundTint="@color/grey"
+        android:progressTint="@color/white" />
+
+    <ImageView
+        android:id="@+id/carPhotoGAS"
+        android:layout_width="70sp"
+        android:layout_height="70sp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="34dp"
+        android:layout_marginRight="30sp"
+        android:layout_marginBottom="94dp"
+        android:src="@drawable/car_icon_white" />
+
+    <TextView
+        android:id="@+id/minutsCotxeGAS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="19dp"
+        android:layout_marginRight="15sp"
+        android:layout_marginBottom="59dp"
+        android:text="+6 minutes"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
+
+
+</RelativeLayout>

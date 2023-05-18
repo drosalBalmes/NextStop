@@ -20,6 +20,7 @@ import com.example.a2223damp3grup01.activities.GasolineraProfileActivity;
 import com.example.a2223damp3grup01.activities.ProfileActivity;
 import com.example.a2223damp3grup01.activities.PuntRecarregaProfileActivity;
 import com.example.a2223damp3grup01.adapters.BenzineresAdapter;
+import com.example.a2223damp3grup01.adapters.GasAdapter;
 import com.example.a2223damp3grup01.adapters.PuntRecarregaAdapter;
 import com.example.a2223damp3grup01.interfaces.SelectListenerGaso;
 import com.example.a2223damp3grup01.interfaces.SelectListenerPunts;
@@ -28,10 +29,13 @@ import com.example.a2223damp3grup01.objects.Benzinera;
 import com.example.a2223damp3grup01.objects.FitRetro;
 import com.example.a2223damp3grup01.objects.PuntRecarrega;
 import com.google.gson.Gson;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -48,9 +52,12 @@ public class ListFragment extends Fragment implements FiltrosFragment.FiltrosLis
     RecyclerView benzineresRecycler,puntsRecycler;
     BenzineresAdapter benzineresAdapter;
     PuntRecarregaAdapter puntRecarregaAdapter;
+    String tipo;
+
 
     private LocationListener locationListener;
     private Location actualPos;
+    GasAdapter gasAdapter;
 
     public ListFragment() {
         // Required empty public constructor
@@ -82,6 +89,7 @@ public class ListFragment extends Fragment implements FiltrosFragment.FiltrosLis
 
     public void init(){
         serviceApi = FitRetro.getServiceApi();
+        tipo = "";
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
@@ -91,10 +99,10 @@ public class ListFragment extends Fragment implements FiltrosFragment.FiltrosLis
         };
         benzineresRecycler = view.findViewById(R.id.listGasolinerasRecycler);
         puntsRecycler = view.findViewById(R.id.listGasolinerasRecycler);
-        initRecyclerBenzineres();
+        initRecyclerBenzineres(tipo);
     }
 
-    public void initRecyclerBenzineres() {
+    public void initRecyclerBenzineres(String tipo) {
         if (puntRecarregaList.size() != 0){
             puntRecarregaAdapter = new PuntRecarregaAdapter(puntRecarregaList,this);
             Log.d("lolol",puntRecarregaList.get(0).getNom());
@@ -102,11 +110,18 @@ public class ListFragment extends Fragment implements FiltrosFragment.FiltrosLis
             benzineresRecycler.setHasFixedSize(true);
             benzineresRecycler.setAdapter(puntRecarregaAdapter);
         } else if (benzinerasList.size() != 0) {
-            benzineresAdapter = new BenzineresAdapter(benzinerasList,this);
-            Log.d("lolol", benzinerasList.get(0).getNom());
-            benzineresRecycler.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
-            benzineresRecycler.setHasFixedSize(true);
-            benzineresRecycler.setAdapter(benzineresAdapter);
+            if (tipo.equalsIgnoreCase("1")) {
+                benzineresAdapter = new BenzineresAdapter(benzinerasList, this);
+                Log.d("lolol", benzinerasList.get(0).getNom());
+                benzineresRecycler.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
+                benzineresRecycler.setHasFixedSize(true);
+                benzineresRecycler.setAdapter(benzineresAdapter);
+            } else {
+                gasAdapter = new GasAdapter(benzinerasList,this);
+                benzineresRecycler.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
+                benzineresRecycler.setHasFixedSize(true);
+                benzineresRecycler.setAdapter(gasAdapter);
+            }
         }
     }
 
@@ -115,6 +130,15 @@ public class ListFragment extends Fragment implements FiltrosFragment.FiltrosLis
         SharedPreferences preferences = getActivity().getSharedPreferences("gaso_list",Context.MODE_PRIVATE);
         benzinerasList.clear();
         puntRecarregaList.clear();
+        if (preferences.contains("tipo")){
+            if (preferences.getString("tipo","").equalsIgnoreCase("benz")){
+                tipo = "1";
+            } else {
+                tipo = "2";
+            }
+        } else {
+            tipo = "3";
+        }
         if (preferences.contains("benzineres")){
             Gson gson = new Gson();
             String listRecuperado = preferences.getString("benzineres", "");
@@ -134,14 +158,38 @@ public class ListFragment extends Fragment implements FiltrosFragment.FiltrosLis
 
     @Override
     public void onItemClickedBenzinera(Benzinera benzinera) {
-        //SharedPreferences preferences = getActivity().getSharedPreferences("gaso_clicked",Context.MODE_PRIVATE);
-        //SharedPreferences.Editor editor = preferences.edit();
-        //editor.clear();
         Log.d("BenzineraClicked", "id: " + benzinera.getId());
-        //editor.putLong("id",benzinera.getId());
-        //editor.apply();
         Intent intent = new Intent(getActivity().getApplicationContext(), GasolineraProfileActivity.class);
+        if (benzinera.getAdblue()){
+            intent.putExtra("adblue",true);
+        }
+        if (benzinera.getGasoil()){
+            intent.putExtra("gasoil",true);
+        }
+        if (benzinera.getGasolina()){
+            intent.putExtra("gasolina",true);
+        }
+        if (benzinera.getGlp()){
+            intent.putExtra("glp",true);
+        }
+        if (benzinera.getGnc()){
+            intent.putExtra("gnc",true);
+        }
+        if (benzinera.getGnl()){
+            intent.putExtra("gnl",true);
+        }
+        if (benzinera.getHidrogen()){
+            intent.putExtra("hidrogen",true);
+        }
+        if (benzinera.getSp95()){
+            intent.putExtra("sp95",true);
+        }
+        if (benzinera.getSp98()){
+            intent.putExtra("sp98",true);
+        }
         intent.putExtra("id",benzinera.getId());
+        Log.d("id","idGasoListPut: " + benzinera.getId());
+        intent.putExtra("nom",benzinera.getNom());
         startActivity(intent);
 
     }
@@ -151,6 +199,18 @@ public class ListFragment extends Fragment implements FiltrosFragment.FiltrosLis
         Log.d("PuntClicked", "id: " + puntRecarrega.getId());
         Intent intent = new Intent(getActivity().getApplicationContext(), PuntRecarregaProfileActivity.class);
         intent.putExtra("id",puntRecarrega.getId());
+        intent.putExtra("nom",puntRecarrega.getNom());
+        intent.putStringArrayListExtra("tipusPunts",tiposPunts(puntRecarrega));
         startActivity(intent);
+    }
+
+
+    public ArrayList<String> tiposPunts(PuntRecarrega puntRecarrega){
+        return splitByPlus(puntRecarrega.getTipusConexio());
+    }
+
+    public ArrayList<String> splitByPlus(String text) {
+        String[] parts = text.split("\\+");
+        return new ArrayList<>(Arrays.asList(parts));
     }
 }

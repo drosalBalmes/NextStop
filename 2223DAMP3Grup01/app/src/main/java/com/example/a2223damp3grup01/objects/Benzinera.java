@@ -41,6 +41,14 @@ public class Benzinera {
     @SerializedName("nom")
     @Expose
     private String nom;
+
+    @SerializedName("mitjaReviews")
+    @Expose
+    private Double mitjaReviews;
+
+    @SerializedName("numReviews")
+    @Expose
+    private int numReviews;
     @SerializedName("sp95")
     @Expose
     private Boolean sp95;
@@ -76,7 +84,7 @@ public class Benzinera {
      * @param gnc
      * @param longitude
      */
-    public Benzinera(Boolean adblue, Boolean gasoil, Boolean gasolina, Boolean glp, Boolean gnc, Boolean gnl, Boolean hidrogen, String horari, Integer id, Integer latitude, Integer longitude, String nom, Boolean sp95, Boolean sp98,long distFromActual) {
+    public Benzinera(Boolean adblue, Boolean gasoil, Boolean gasolina, Boolean glp, Boolean gnc, Boolean gnl, Boolean hidrogen, String horari, Integer id, Integer latitude, Integer longitude, String nom, Boolean sp95, Boolean sp98,long distFromActual,Double mitjaReviews, int numReviews) {
         super();
         this.adblue = adblue;
         this.gasoil = gasoil;
@@ -93,6 +101,8 @@ public class Benzinera {
         this.sp95 = sp95;
         this.sp98 = sp98;
         this.distFromActual = distFromActual;
+        this.mitjaReviews = mitjaReviews;
+        this.numReviews = numReviews;
     }
 
 
@@ -227,5 +237,21 @@ public class Benzinera {
 
     public void setTypeGAS(String typeGAS) {
         this.typeGAS = typeGAS;
+    }
+
+    public Double getMitjaReviews() {
+        return mitjaReviews;
+    }
+
+    public void setMitjaReviews(Double mitjaReviews) {
+        this.mitjaReviews = mitjaReviews;
+    }
+
+    public int getNumReviews() {
+        return numReviews;
+    }
+
+    public void setNumReviews(int numReviews) {
+        this.numReviews = numReviews;
     }
 }

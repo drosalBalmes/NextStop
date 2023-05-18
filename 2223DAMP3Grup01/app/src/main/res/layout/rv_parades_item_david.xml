@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="215sp"
+    android:background="@color/secondary"
+    android:layout_margin="10sp"
+    android:id="@+id/parades_item_david"
+    >
+
+    <TextView
+        android:id="@+id/nomBenzinera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nom benzinera"
+        android:textColor="@color/white"
+        android:textAlignment="center"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:id="@+id/gadolinaTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gasolina"
+        android:layout_below="@+id/nomBenzinera"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:layout_marginLeft="10sp"
+        android:textStyle="bold"
+
+        />
+
+    <TextView
+        android:layout_below="@+id/gadolinaTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1.502"
+        android:id="@+id/priceBenzina"
+        android:textColor="@color/white"
+        android:textSize="35sp"
+        android:layout_marginLeft="5sp"
+        />
+
+    <TextView
+        android:id="@+id/gasoilTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gasoil"
+        android:layout_below="@+id/nomBenzinera"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="10sp"
+        android:textStyle="bold"
+
+        />
+
+    <TextView
+        android:id="@+id/priceGasoil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/gasoilTV"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="5sp"
+        android:text="1.502"
+        android:textColor="@color/white"
+        android:textSize="35sp" />
+
+    <TextView
+        android:id="@+id/reviewsET"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:layout_marginTop="10sp"
+        android:layout_below="@+id/priceBenzina"
+        android:text="15246 Reviews"
+        />
+
+    <RatingBar
+        android:layout_marginTop="10sp"
+        android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/reviewsET"
+        android:isIndicator="true"
+        android:numStars="5"
+        android:progressBackgroundTint="@color/grey"
+        android:progressTint="@color/white" />
+
+    <ImageView
+        android:id="@+id/carPhoto"
+        android:layout_width="70sp"
+        android:layout_height="70sp"
+        android:layout_marginRight="30sp"
+        android:layout_marginBottom="50sp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/car_icon_white"
+        />
+
+    <TextView
+        android:id="@+id/minutsCotxe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="15sp"
+        android:layout_marginBottom="15sp"
+        android:text="+6 minutes"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
+
+
+
+</RelativeLayout>
