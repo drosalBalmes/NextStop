@@ -17,13 +17,12 @@ public class Preu implements Serializable {
     @Column(name = "PREU_ID")
     private long id;
 
-    private String dia;
 
-    private String ultimaAct;
+
+    String ultimaAct;
     double preuSP95;
     double preuSP98;
     double preuGasoil;
-    double preuAdblue;
 
     double preuGLP;
 
@@ -31,24 +30,21 @@ public class Preu implements Serializable {
 
     double preuGNL;
 
-    double preuHidrogen;
+
 
     @ManyToOne
     @JoinColumn(name = "BENZINERA_ID")
     private Benzinera benzinera;
 
-    public Preu(long id, String dia, String ultimaAct, double preuSP95, double preuSP98, double preuGasoil, double preuAdblue, double preuGLP, double preuGNC, double preuGNL, double preuHidrogen, Benzinera benzinera) {
+    public Preu(long id, String ultimaAct, double preuSP95, double preuSP98, double preuGasoil, double preuGLP, double preuGNC, double preuGNL, Benzinera benzinera) {
         this.id = id;
-        this.dia = dia;
         this.ultimaAct = ultimaAct;
         this.preuSP95 = preuSP95;
         this.preuSP98 = preuSP98;
         this.preuGasoil = preuGasoil;
-        this.preuAdblue = preuAdblue;
         this.preuGLP = preuGLP;
         this.preuGNC = preuGNC;
         this.preuGNL = preuGNL;
-        this.preuHidrogen = preuHidrogen;
         this.benzinera = benzinera;
     }
 
@@ -88,22 +84,9 @@ public class Preu implements Serializable {
         this.preuGasoil = preuGasoil;
     }
 
-    public double getPreuAdblue() {
-        return preuAdblue;
-    }
-
-    public void setPreuAdblue(double preuAdblue) {
-        this.preuAdblue = preuAdblue;
-    }
 
 
-    public double getPreuHidrogen() {
-        return preuHidrogen;
-    }
 
-    public void setPreuHidrogen(double preuHidrogen) {
-        this.preuHidrogen = preuHidrogen;
-    }
 
     public Benzinera getBenzinera() {
         return benzinera;
@@ -113,13 +96,7 @@ public class Preu implements Serializable {
         this.benzinera = benzinera;
     }
 
-    public String getDia() {
-        return dia;
-    }
 
-    public void setDia(String dia) {
-        this.dia = dia;
-    }
 
     public String getUltimaAct() {
         return ultimaAct;
@@ -127,5 +104,29 @@ public class Preu implements Serializable {
 
     public void setUltimaAct(String ultimaAct) {
         this.ultimaAct = ultimaAct;
+    }
+
+    public double getPreuGLP() {
+        return preuGLP;
+    }
+
+    public void setPreuGLP(double preuGLP) {
+        this.preuGLP = preuGLP;
+    }
+
+    public double getPreuGNC() {
+        return preuGNC;
+    }
+
+    public void setPreuGNC(double preuGNC) {
+        this.preuGNC = preuGNC;
+    }
+
+    public double getPreuGNL() {
+        return preuGNL;
+    }
+
+    public void setPreuGNL(double preuGNL) {
+        this.preuGNL = preuGNL;
     }
 }
