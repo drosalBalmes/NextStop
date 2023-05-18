@@ -28,6 +28,7 @@ import com.example.a2223damp3grup01.interfaces.ServiceApi;
 import com.example.a2223damp3grup01.objects.Benzinera;
 import com.example.a2223damp3grup01.objects.FitRetro;
 import com.example.a2223damp3grup01.objects.PuntRecarrega;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -58,6 +59,7 @@ public class ListFragment extends Fragment implements FiltrosFragment.FiltrosLis
     private LocationListener locationListener;
     private Location actualPos;
     GasAdapter gasAdapter;
+    private LatLng ubiActual;
 
     public ListFragment() {
         // Required empty public constructor
@@ -143,6 +145,11 @@ public class ListFragment extends Fragment implements FiltrosFragment.FiltrosLis
         } else {
             tipo = 3;
         }
+        if (preferences.contains("lat")){
+            double lat = Double.parseDouble(preferences.getString("lat",""));
+            double lng = Double.parseDouble(preferences.getString("lng",""));
+            ubiActual = new LatLng(lat,lng);
+        }
         if (preferences.contains("benzineres")){
             Gson gson = new Gson();
             String listRecuperado = preferences.getString("benzineres", "");
@@ -191,6 +198,10 @@ public class ListFragment extends Fragment implements FiltrosFragment.FiltrosLis
         if (benzinera.getSp98()){
             intent.putExtra("sp98",true);
         }
+        intent.putExtra("latActual",ubiActual.latitude);
+        intent.putExtra("lngActual",ubiActual.longitude);
+        intent.putExtra("latBenz",benzinera.getLatitude());
+        intent.putExtra("lntBenz",benzinera.getLongitude());
         intent.putExtra("id",benzinera.getId());
         Log.d("id","idGasoListPut: " + benzinera.getId());
         intent.putExtra("nom",benzinera.getNom());
@@ -204,6 +215,10 @@ public class ListFragment extends Fragment implements FiltrosFragment.FiltrosLis
         Intent intent = new Intent(getActivity().getApplicationContext(), PuntRecarregaProfileActivity.class);
         intent.putExtra("id",puntRecarrega.getId());
         intent.putExtra("nom",puntRecarrega.getNom());
+        intent.putExtra("latActual",ubiActual.latitude);
+        intent.putExtra("lngActual",ubiActual.longitude);
+        intent.putExtra("latBenz",puntRecarrega.getLatitude());
+        intent.putExtra("lntBenz",puntRecarrega.getLongitude());
         intent.putStringArrayListExtra("tipusPunts",tiposPunts(puntRecarrega));
         startActivity(intent);
     }

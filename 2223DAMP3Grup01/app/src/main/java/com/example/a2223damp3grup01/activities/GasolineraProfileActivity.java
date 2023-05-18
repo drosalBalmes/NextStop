@@ -4,11 +4,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.a2223damp3grup01.R;
 import com.example.a2223damp3grup01.adapters.ReviewAdapter;
@@ -18,6 +23,7 @@ import com.example.a2223damp3grup01.interfaces.ServiceApi;
 import com.example.a2223damp3grup01.objects.FitRetro;
 import com.example.a2223damp3grup01.objects.Review;
 import com.example.a2223damp3grup01.objects.TipoSub;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -49,6 +55,8 @@ public class GasolineraProfileActivity extends AppCompatActivity implements Post
     private boolean hidrogen = false;
     private boolean sp95 = false;
     private boolean sp98 = false;
+    LatLng ubiActual;
+    LatLng ubiGaso;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +90,11 @@ public class GasolineraProfileActivity extends AppCompatActivity implements Post
         gnl = getIntent().getBooleanExtra("gnl",false);
         hidrogen = getIntent().getBooleanExtra("hidrogen",false);
         sp95 = getIntent().getBooleanExtra("sp95",false);
-        sp98 = getIntent().getBooleanExtra("sp98",false);
+        sp98 = getIntent().getBooleanExtra("sp98",false);//latBenz
+        ubiActual = new LatLng(getIntent().getDoubleExtra("latActual",0),
+                getIntent().getDoubleExtra("lngActual",0));
+        ubiGaso = new LatLng(getIntent().getDoubleExtra("latBenz",0),
+                getIntent().getDoubleExtra("lngBenz",0));
         id = (int) getIntent().getLongExtra("id",0);
         Log.d("id","idGasoProfileGetInt: " + id);
         nom = getIntent().getStringExtra("nom");
@@ -101,6 +113,13 @@ public class GasolineraProfileActivity extends AppCompatActivity implements Post
                 Log.d("id","idGasoProfilePut: " + id);
                 postReviewDialogFragment.setArguments(bundle);
                 postReviewDialogFragment.show(getSupportFragmentManager(),"postReviewDialogFragment");
+            }
+        });
+
+        veureMapa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    mapsIntent();
             }
         });
     }
@@ -188,6 +207,24 @@ public class GasolineraProfileActivity extends AppCompatActivity implements Post
         }
         if (sp98){
             tipos.add(new TipoSub("Sp98","Preu: 1.26€/L"));
+        }
+    }
+
+    public void mapsIntent(){
+        LatLng inici = ubiActual;
+        LatLng finall = ubiGaso;
+
+
+        StringBuilder uriBuilder = new StringBuilder("https://www.google.com/maps/dir/?api=1");
+        uriBuilder.append("&origin=").append(inici.latitude).append(",").append(inici.longitude);
+        uriBuilder.append("&destination=").append(finall.latitude).append(",").append(finall.longitude);
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uriBuilder.toString()));
+        intent.setPackage("com.google.android.apps.maps"); // Limita la búsqueda a la aplicación de Google Maps
+
+        if (getPackageManager() != null) {
+            startActivity(intent);
+        } else {
+            Toast.makeText(this, "No se encontró Google Maps en tu dispositivo", Toast.LENGTH_SHORT).show();
         }
     }
 }
