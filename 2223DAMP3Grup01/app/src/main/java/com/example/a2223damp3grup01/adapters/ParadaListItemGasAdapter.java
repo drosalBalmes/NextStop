@@ -77,7 +77,10 @@ public class ParadaListItemGasAdapter extends RecyclerView.Adapter<ParadaListIte
             nom.setText(benzinera.getNom());
             gasTypeTV.setText(benzinera.getTypeGAS());
             minutsTV.setText("+"+benzinera.getDistFromActual() + " Min");
-
+            numReviews.setText(benzinera.getNumReviews() + " Reviews");
+            if (benzinera.getMitjaReviews() != null) {
+                barraRating.setRating(benzinera.getMitjaReviews().floatValue());
+            }
         }
     }
 }

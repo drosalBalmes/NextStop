@@ -78,7 +78,10 @@ public class ParadaListItemElecAdapter extends RecyclerView.Adapter<ParadaListIt
         void bindData(final PuntRecarrega pr){
             nom.setText(pr.getNom());
             minutsTV.setText("+"+pr.getDistFromActual() + " Min");
-
+            numReviews.setText(pr.getNumReviews() + " Reviews");
+            if (pr.getMitjaReviews() != null) {
+                barraRating.setRating(pr.getMitjaReviews().floatValue());
+            }
         }
     }
 }

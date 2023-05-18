@@ -24,4 +24,10 @@ public class PreuService {
         return preuRepository.findPreusByBenzinera(b);
     }
 
+    public Preu findPreuByBenz(Benzinera b){
+        List <Preu> aaa = preuRepository.findPreusByBenzinera(b);
+
+        return aaa.get(aaa.size()-1);
+    }
+
 }

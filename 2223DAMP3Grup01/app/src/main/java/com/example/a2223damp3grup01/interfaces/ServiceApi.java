@@ -1,6 +1,7 @@
 package com.example.a2223damp3grup01.interfaces;
 
 import com.example.a2223damp3grup01.objects.Benzinera;
+import com.example.a2223damp3grup01.objects.Preu;
 import com.example.a2223damp3grup01.objects.PuntRecarrega;
 import com.example.a2223damp3grup01.objects.Review;
 
@@ -33,6 +34,13 @@ public interface ServiceApi {
             @Query("typeGAS") String typeGas
     );
 
+    @GET("benzineres/benzFinder/val/price")
+    Call<List<Benzinera>> listBenzineresFinderValPrice(
+            @Query("locationLAT") double locationLat,
+            @Query("locationLONG") double locationLong,
+            @Query("KMredonda") double KMredonda,
+            @Query("typeGAS") String typeGas
+    );
 
     @GET("benzineres/closest")
     Call<List<Benzinera>> listBenzClosest(
@@ -41,6 +49,15 @@ public interface ServiceApi {
             @Query("num")int num,
             @Query("typeGAS") String typeGAS
     );
+
+    @GET("benzineres/closest/val/price")
+    Call<List<Benzinera>> listBenzClosestValPrice(
+            @Query("locationLONG") double locationLNG,
+            @Query("locationLAT")double locationLAT,
+            @Query("num")int num,
+            @Query("typeGAS") String typeGAS
+    );
+
 
     @GET("/puntsRecarrega/closest")
     Call<List<PuntRecarrega>> listPuntsClosest(
@@ -66,6 +83,20 @@ public interface ServiceApi {
             @Query("conType") String conType
     );
 
+    @GET("/preus/lastPriceBenzId")
+    Call<List<Preu>> listPreusByBenz(
+            @Query("benzID") long benzID
+    );
+
+    @GET("/preus/preusByBenzId")
+    Call<Preu> PreuByBenz(
+            @Query("benzID") long benzID
+    );
+
+
+
+
+
     @GET("valoracio/valoracionsByBenzinera/idBenzinera/{id}")
     Call<List<Review>> listReviewsByBenzId(
             @Path("id") int id
@@ -80,6 +111,8 @@ public interface ServiceApi {
     Call<List<Review>> listReviewsByUserId(
             @Path("id") int id
     );
+
+
 
     @POST("valoracio/newValoracio")
     Call<Void> postReviewBenz(

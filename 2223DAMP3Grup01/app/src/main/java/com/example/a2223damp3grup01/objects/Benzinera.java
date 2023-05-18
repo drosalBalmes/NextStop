@@ -60,6 +60,20 @@ public class Benzinera {
 
     private String typeGAS;
 
+    private long preuid;
+
+
+
+    String ultimaAct;
+    double preuSP95;
+    double preuSP98;
+    double preuGasoil;
+
+    double preuGLP;
+
+    double preuGNC;
+
+    double preuGNL;
     public Benzinera() {
     }
 
@@ -105,7 +119,34 @@ public class Benzinera {
         this.numReviews = numReviews;
     }
 
-
+    public Benzinera(Boolean adblue, Boolean gasoil, Boolean gasolina, Boolean glp, Boolean gnc, Boolean gnl, Boolean hidrogen, String horari, long id, double latitude, double longitude, String nom, Double mitjaReviews, int numReviews, Boolean sp95, Boolean sp98, long distFromActual, String typeGAS, long preuid, String ultimaAct, double preuSP95, double preuSP98, double preuGasoil, double preuGLP, double preuGNC, double preuGNL) {
+        this.adblue = adblue;
+        this.gasoil = gasoil;
+        this.gasolina = gasolina;
+        this.glp = glp;
+        this.gnc = gnc;
+        this.gnl = gnl;
+        this.hidrogen = hidrogen;
+        this.horari = horari;
+        this.id = id;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.nom = nom;
+        this.mitjaReviews = mitjaReviews;
+        this.numReviews = numReviews;
+        this.sp95 = sp95;
+        this.sp98 = sp98;
+        this.distFromActual = distFromActual;
+        this.typeGAS = typeGAS;
+        this.preuid = preuid;
+        this.ultimaAct = ultimaAct;
+        this.preuSP95 = preuSP95;
+        this.preuSP98 = preuSP98;
+        this.preuGasoil = preuGasoil;
+        this.preuGLP = preuGLP;
+        this.preuGNC = preuGNC;
+        this.preuGNL = preuGNL;
+    }
 
     public Boolean getAdblue() {
         return adblue;
@@ -190,6 +231,72 @@ public class Benzinera {
     public double getLongitude() {
         return longitude;
     }
+
+
+    public long getPreuid() {
+        return preuid;
+    }
+
+    public void setPreuid(long preuid) {
+        this.preuid = preuid;
+    }
+
+    public String getUltimaAct() {
+        return ultimaAct;
+    }
+
+    public void setUltimaAct(String ultimaAct) {
+        this.ultimaAct = ultimaAct;
+    }
+
+    public double getPreuSP95() {
+        return preuSP95;
+    }
+
+    public void setPreuSP95(double preuSP95) {
+        this.preuSP95 = preuSP95;
+    }
+
+    public double getPreuSP98() {
+        return preuSP98;
+    }
+
+    public void setPreuSP98(double preuSP98) {
+        this.preuSP98 = preuSP98;
+    }
+
+    public double getPreuGLP() {
+        return preuGLP;
+    }
+
+    public void setPreuGLP(double preuGLP) {
+        this.preuGLP = preuGLP;
+    }
+
+    public double getPreuGNC() {
+        return preuGNC;
+    }
+
+    public void setPreuGNC(double preuGNC) {
+        this.preuGNC = preuGNC;
+    }
+
+    public double getPreuGNL() {
+        return preuGNL;
+    }
+
+    public void setPreuGNL(double preuGNL) {
+        this.preuGNL = preuGNL;
+    }
+
+    public double getPreuGasoil() {
+        return preuGasoil;
+    }
+
+    public void setPreuGasoil(double preuGasoil) {
+        this.preuGasoil = preuGasoil;
+    }
+
 
     public void setLongitude(Integer longitude) {
         this.longitude = longitude;
