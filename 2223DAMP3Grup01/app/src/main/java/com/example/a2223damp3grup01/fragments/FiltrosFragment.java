@@ -314,7 +314,6 @@ public class FiltrosFragment extends Fragment implements LocationListener {
         buscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO Pasar editText KM
                 int KmInt = Integer.parseInt(ETKmVoltant.getText().toString());
                 String typeGas = checkBoxTypeGas();
                 Log.d("dades","KM: " + KmInt + "Lat: " + actualPosBtn.lat + " Lng: " + actualPosBtn.lng + " " + typeGas);
@@ -400,7 +399,7 @@ public class FiltrosFragment extends Fragment implements LocationListener {
 
 
     public void getBenzineresFinder(double kmRedonda, double locationLat, double locationLong,String typeGAS){
-        Call<List<Benzinera>> call = serviceApi.listBenzineresFinderVal(locationLat, locationLong,kmRedonda,typeGAS);
+        Call<List<Benzinera>> call = serviceApi.listBenzineresFinderValPrice(locationLat, locationLong,kmRedonda,typeGAS);
 
         call.enqueue(new Callback<List<Benzinera>>() {
             @Override

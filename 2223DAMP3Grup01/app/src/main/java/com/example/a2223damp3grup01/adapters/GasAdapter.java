@@ -77,6 +77,15 @@ public class GasAdapter extends RecyclerView.Adapter<GasAdapter.MyViewHolder> {
             if (benzinera.getMitjaReviews() != null) {
                 rating.setRating(benzinera.getMitjaReviews().floatValue());
             }
+            if (benzinera.getGnl()){
+                gasPreu.setText(benzinera.getPreuGNL() + "");
+            }
+            if (benzinera.getGnc()){
+                gasPreu.setText(benzinera.getPreuGNC() + "");
+            }
+            if (benzinera.getGlp()){
+                gasPreu.setText(benzinera.getPreuGLP() + "");
+            }
             //TODO preus
         }
     }
