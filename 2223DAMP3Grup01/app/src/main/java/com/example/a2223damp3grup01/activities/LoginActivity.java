@@ -5,7 +5,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
@@ -105,6 +107,7 @@ public class LoginActivity extends AppCompatActivity {
 
                             Log.d("Login","valor del idd = " + String.valueOf(id));
                             sesionIniciada=true;
+                            storeUsername(userNameET.getText().toString());
                             Intent a = new Intent(LoginActivity.this,MainActivity.class);
                             startActivity(a);
 
@@ -131,5 +134,13 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    public void storeUsername(String username){
+        SharedPreferences preferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();
+        editor.putString("username",username);
+        Log.d("username",username);
+        editor.apply();
+    }
 
 }

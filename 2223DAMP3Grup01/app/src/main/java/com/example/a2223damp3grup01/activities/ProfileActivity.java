@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -33,7 +34,7 @@ public class ProfileActivity extends AppCompatActivity {
     RecyclerView reviewsRecycler;
     ReviewAdapter reviewAdapter;
     ServiceApi serviceApi;
-    TextView TVAvis;
+    TextView TVAvis,TVUsername;
 
 
     @Override
@@ -47,6 +48,8 @@ public class ProfileActivity extends AppCompatActivity {
         serviceApi = FitRetro.getServiceApi();
         reviewsRecycler = findViewById(R.id.reviewsRecycler);
         TVAvis = findViewById(R.id.TVAvis);
+        TVUsername = findViewById(R.id.TVUsername);
+        getUser();
         getReviewsByUserId(1);
     }
 
@@ -95,5 +98,12 @@ public class ProfileActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void getUser(){
+        SharedPreferences sharedPreferences = getSharedPreferences("user",MODE_PRIVATE);
+        if (sharedPreferences.contains("username")){
+            TVUsername.setText(sharedPreferences.getString("username",""));
+        }
     }
 }

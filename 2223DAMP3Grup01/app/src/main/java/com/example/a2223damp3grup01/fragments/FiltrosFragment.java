@@ -327,6 +327,7 @@ public class FiltrosFragment extends Fragment implements LocationListener {
                     tipusSub = "gas";
                     getBenzineresFinder(KmInt,actualPosBtn.lat,actualPosBtn.lng,typeGas);
                 }
+                Toast.makeText(getContext(), "Buscant...", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -420,6 +421,7 @@ public class FiltrosFragment extends Fragment implements LocationListener {
                                 }
                             }
                         storeListOnPrefs(benzinerasList,tipusSub);
+                            Log.d("editorlol", "" + tipusSub);
                         } else {
                             Toast.makeText(getContext(), "No hi han subministradors propers", Toast.LENGTH_SHORT).show();
                         }

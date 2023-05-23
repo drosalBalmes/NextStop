@@ -57,6 +57,7 @@ public class GasolineraProfileActivity extends AppCompatActivity implements Post
     private boolean sp98 = false;
     LatLng ubiActual;
     LatLng ubiGaso;
+    double gasoilPreu,gasolinaPreu,glpPreu,gncPreu,gnlPreu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,15 +83,20 @@ public class GasolineraProfileActivity extends AppCompatActivity implements Post
     }
     public void getIntents(){
         //Se podria haber hecho con una list soy tonto
-        adblue = getIntent().getBooleanExtra("adblue",false);
+        //adblue = getIntent().getBooleanExtra("adblue",false);
         gasoil = getIntent().getBooleanExtra("gasoil",false);
+        gasoilPreu = getIntent().getDoubleExtra("gasoilPreu",0);
         gasolina = getIntent().getBooleanExtra("gasolina",false);
+        gasolinaPreu = getIntent().getDoubleExtra("gasolinaPreu",0);
         glp = getIntent().getBooleanExtra("glp",false);
+        glpPreu = getIntent().getDoubleExtra("glpPreu",0);
         gnc = getIntent().getBooleanExtra("gnc",false);
+        gncPreu = getIntent().getDoubleExtra("gncPreu",0);
         gnl = getIntent().getBooleanExtra("gnl",false);
-        hidrogen = getIntent().getBooleanExtra("hidrogen",false);
-        sp95 = getIntent().getBooleanExtra("sp95",false);
-        sp98 = getIntent().getBooleanExtra("sp98",false);//latBenz
+        gnlPreu = getIntent().getDoubleExtra("gnlPreu",0);
+        //hidrogen = getIntent().getBooleanExtra("hidrogen",false);
+        //sp95 = getIntent().getBooleanExtra("sp95",false);
+        //sp98 = getIntent().getBooleanExtra("sp98",false);//latBenz
         ubiActual = new LatLng(getIntent().getDoubleExtra("latActual",0),
                 getIntent().getDoubleExtra("lngActual",0));
         ubiGaso = new LatLng(getIntent().getDoubleExtra("latBenz",0),
@@ -181,33 +187,33 @@ public class GasolineraProfileActivity extends AppCompatActivity implements Post
     }
 
     public void initTiposList(){
-        if (adblue){
-            tipos.add(new TipoSub("Adblue","Preu: 1.26€/L"));
-        }
+        //if (adblue){
+        //    tipos.add(new TipoSub("Adblue","Preu: 1.26€/L"));
+        //}
         if (gasoil){
-            tipos.add(new TipoSub("Gasoil","Preu: 1.26€/L"));
+            tipos.add(new TipoSub("Gasoil","Preu: " + gasoilPreu + "€/L"));
         }
         if (gasolina){
-            tipos.add(new TipoSub("Gasolina","Preu: 1.26€/L"));
+            tipos.add(new TipoSub("Gasolina","Preu: " + gasolinaPreu + "€/L"));
         }
         if (glp){
-            tipos.add(new TipoSub("Glp","Preu: 1.26€/L"));
+            tipos.add(new TipoSub("Glp","Preu: " + glpPreu + "€/L"));
         }
         if (gnc){
-            tipos.add(new TipoSub("Gnc","Preu: 1.26€/L"));
+            tipos.add(new TipoSub("Gnc","Preu: " + gncPreu + "€/L"));
         }
         if (gnl){
-            tipos.add(new TipoSub("Gnl","Preu: 1.33€/L"));
+            tipos.add(new TipoSub("Gnl","Preu: " + gnlPreu + "€/L"));
         }
-        if (hidrogen){
-            tipos.add(new TipoSub("Hidrogen","Preu: 1.26€/L"));
-        }
-        if (sp95){
-            tipos.add(new TipoSub("Sp95","Preu: 1.26€/L"));
-        }
-        if (sp98){
-            tipos.add(new TipoSub("Sp98","Preu: 1.26€/L"));
-        }
+        //if (hidrogen){
+        //    tipos.add(new TipoSub("Hidrogen","Preu: 1.26€/L"));
+        //}
+        //if (sp95){
+        //    tipos.add(new TipoSub("Sp95","Preu: 1.26€/L"));
+        //}
+        //if (sp98){
+        //    tipos.add(new TipoSub("Sp98","Preu: 1.26€/L"));
+        //}
     }
 
     public void mapsIntent(){

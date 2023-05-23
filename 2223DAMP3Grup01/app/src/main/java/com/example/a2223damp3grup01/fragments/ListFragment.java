@@ -171,33 +171,39 @@ public class ListFragment extends Fragment implements FiltrosFragment.FiltrosLis
     public void onItemClickedBenzinera(Benzinera benzinera) {
         Log.d("BenzineraClicked", "id: " + benzinera.getId());
         Intent intent = new Intent(getActivity().getApplicationContext(), GasolineraProfileActivity.class);
-        if (benzinera.getAdblue()){
-            intent.putExtra("adblue",true);
-        }
+        //if (benzinera.getAdblue()){
+        //    intent.putExtra("adblue",true);
+        //    intent.putExtra("adbluePreu",benzinera.getPrAdblue());
+        //}
         if (benzinera.getGasoil()){
             intent.putExtra("gasoil",true);
+            intent.putExtra("gasoilPreu",benzinera.getPreuGasoil());
         }
         if (benzinera.getGasolina()){
             intent.putExtra("gasolina",true);
+            intent.putExtra("gasolinaPreu",benzinera.getPreuSP95());
         }
         if (benzinera.getGlp()){
             intent.putExtra("glp",true);
+            intent.putExtra("glpPreu",benzinera.getPreuGLP());
         }
         if (benzinera.getGnc()){
             intent.putExtra("gnc",true);
+            intent.putExtra("gncPreu",benzinera.getPreuGNC());
         }
         if (benzinera.getGnl()){
             intent.putExtra("gnl",true);
+            intent.putExtra("gnlPreu",benzinera.getPreuGNL());
         }
-        if (benzinera.getHidrogen()){
-            intent.putExtra("hidrogen",true);
-        }
-        if (benzinera.getSp95()){
-            intent.putExtra("sp95",true);
-        }
-        if (benzinera.getSp98()){
-            intent.putExtra("sp98",true);
-        }
+        //if (benzinera.getHidrogen()){
+        //    intent.putExtra("hidrogen",true);
+        //}
+        //if (benzinera.getSp95()){
+        //    intent.putExtra("sp95",true);
+        //}
+        //if (benzinera.getSp98()){
+        //    intent.putExtra("sp98",true);
+        //}
         intent.putExtra("latActual",ubiActual.latitude);
         intent.putExtra("lngActual",ubiActual.longitude);
         intent.putExtra("latBenz",benzinera.getLatitude());
