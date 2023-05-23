@@ -60,7 +60,6 @@ public class LoginActivity extends AppCompatActivity {
 
         signup = (Button) findViewById(R.id.btnSignup);
         login = (Button) findViewById(R.id.btnIniciar);
-        guest = (Button) findViewById(R.id.guest);
 
         userNameET = (EditText) findViewById(R.id.inputNom);
         passwordET = (EditText) findViewById(R.id.inputContra);
@@ -80,13 +79,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        guest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent a = new Intent(LoginActivity.this,MainActivity.class);
-                startActivity(a);
-            }
-        });
+
     }
 
     public void logIn(){
