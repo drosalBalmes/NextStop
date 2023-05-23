@@ -8,58 +8,70 @@
     tools:context=".activities.SignupActivity">
 
 
+    <TextView
+        android:id="@+id/txtcorreoSignup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_centerHorizontal="true"
+        android:textSize="24dp"
+        android:text="EMAIL:"
+
+        android:textColor="@color/white" />
     <EditText
-        android:text="testtt"
+        android:hint="Adreça correu electrònic"
         android:id="@+id/inputemailSignup"
         android:layout_width="239dp"
         android:layout_height="55dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/rounded_edittext"/>
-
-
+        android:layout_marginTop="100dp"
+        android:background="@drawable/rounded_edittext"
+        />
 
     <TextView
         android:id="@+id/txtNomSignup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="200dp"
         android:layout_centerHorizontal="true"
         android:textSize="24dp"
-        android:text="Nombre de usuario:"
+        android:text="Nom usuari:"
         android:textColor="@color/white" />
 
     <EditText
-        android:text="testtt"
         android:id="@+id/usernameSignup"
         android:layout_width="239dp"
         android:layout_height="55dp"
         android:layout_below="@id/txtNomSignup"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
+        android:hint="Nom d'usuari"
+
         android:background="@drawable/rounded_edittext"/>
 
     <TextView
         android:id="@+id/txtcontraSignup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="70dp"
         android:layout_below="@id/usernameSignup"
         android:layout_centerHorizontal="true"
-        android:text="Contraseña:"
+        android:text="Contrasenya:"
         android:textSize="24dp"
         android:textColor="@color/white" />
+
 
     <EditText
         android:id="@+id/inputContraSignup"
         android:layout_width="236dp"
         android:layout_height="55dp"
-        android:text="testtt"
         android:layout_below="@id/txtcontraSignup"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="23dp"
+        android:background="@drawable/rounded_edittext"
         android:inputType="textPassword"
-        android:background="@drawable/rounded_edittext" />
+        android:hint="contrasenya"
+         />
 
     <CheckBox
         android:id="@+id/chkbxShowSignup"
@@ -67,21 +79,22 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/inputContraSignup"
         android:layout_marginLeft="70dp"
-        android:checked="false"
-        android:layout_marginTop="10dp"
-        android:buttonTint="#FFFFFF" />
+        android:layout_marginTop="0dp"
+        android:buttonTint="#FFFFFF"
+        android:checked="false" />
 
     <TextView
         android:id="@+id/txtchkbxShowSignup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/chkbxShowSignup"
         android:layout_below="@+id/inputContraSignup"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="-1dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/chkbxShowSignup"
+        android:text="Mostrar contrasenya"
         android:textColor="@color/white"
-        android:textSize="18dp"
-        android:layout_marginTop="20dp"
-        android:text="Mostrar contraseña"/>
-
+        android:textSize="18dp" />
 
     <Button
         android:id="@+id/SignupSubmit"
@@ -89,10 +102,23 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/txtchkbxShowSignup"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="130dp"
-        android:text="Crear cuenta"
+        android:layout_marginTop="74dp"
         android:onClick="toMenu2"
+        android:text="Crear compte"
         app:cornerRadius="5dp"
-        tools:ignore="OnClick"/>
+        tools:ignore="OnClick" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtchkbxShowSignup"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="150dp"
+        android:onClick="toMenu2"
+        android:text="Registrar-se com a propietari"
+        app:cornerRadius="5dp"
+        tools:ignore="OnClick" />
+
+
 
 </RelativeLayout>

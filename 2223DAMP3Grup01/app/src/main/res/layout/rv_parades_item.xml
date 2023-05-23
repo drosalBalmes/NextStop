@@ -73,7 +73,7 @@
         android:layout_below="@+id/nomBenzinera"
         android:layout_alignParentEnd="true"
         android:layout_marginRight="10sp"
-        android:text="add To \nRoute"
+        android:text="Afegir \nparada"
         android:textAlignment="center" />
 
     <TextView

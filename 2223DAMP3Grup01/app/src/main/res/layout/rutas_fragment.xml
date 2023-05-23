@@ -21,7 +21,7 @@
                 android:layout_height="80dp"
                 android:onClick="onClick"
                 android:layout_marginHorizontal="3dp"
-                android:text="ListaRuta"/>
+                android:text="LLISTA"/>
 
             <Button
                 android:id="@+id/btnMapaRut"
@@ -51,7 +51,7 @@
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Filtros"/>
+            android:text="Filtres"/>
 
         <FrameLayout
             android:id="@+id/flFragmentRut"
