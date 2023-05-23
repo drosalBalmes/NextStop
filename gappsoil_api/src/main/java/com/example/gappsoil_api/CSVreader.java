@@ -29,7 +29,7 @@ public class CSVreader extends  Thread{
 
     public void leerINSERT() {
 
-        String csvFile = "./src\\main\\resources\\nombre_archivo.csv"; // Reemplaza con la ruta y nombre de tu archivo CSV
+        String csvFile = "./src\\main\\resources\\nombre_archivo.csv";
         List<BenzineraRESOURCE> benzineraRESOURCES = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
@@ -38,7 +38,7 @@ public class CSVreader extends  Thread{
             String[] fieldNames = null;
 
             while ((line = br.readLine()) != null) {
-                String[] fields = line.split("\\|\\|\\|"); // Separar los campos por el separador "|||"
+                String[] fields = line.split("\\|\\|\\|");
 
                 if (isFirstLine) {
                     fieldNames = fields;
@@ -161,17 +161,32 @@ public class CSVreader extends  Thread{
                         }
 
 
-                        System.out.println(fieldNames[i] + ": " + fields[i]); // Imprimir el nombre del campo y su valor
+                        System.out.println(fieldNames[i] + ": " + fields[i]);
                     }
                     benzineraRESOURCES.add(b);
-                    System.out.println(); // Salto de línea entre cada gasolinera
+                    System.out.println();
                 }
             }
 
             System.out.println(benzineraRESOURCES.size());
+            System.out.println("FENT IMPORTS A OBJECTES");
 
             for (BenzineraRESOURCE b :
                     benzineraRESOURCES) {
+                System.out.println("NOM BENZINERA: " + b.getNom() );
+                System.out.println("preus benzina: ");
+                System.out.println(b.getGasolina951());
+                System.out.println(b.getGasolina951d());
+                System.out.println(b.getGasolina952());
+                System.out.println(b.getGasolina952d());
+                System.out.println(b.getGasolina953());
+                System.out.println(b.getGasolina953d());
+                System.out.println(b.getGasolina981());
+                System.out.println(b.getGasolina981d());
+                System.out.println(b.getGasolina981d());
+                System.out.println(b.getGasolina982());
+                System.out.println(b.getGasolina982d());
+
 
                 b.stringPricestoDouble();
                 b.calculateLowest();
@@ -190,8 +205,8 @@ public class CSVreader extends  Thread{
 
 
         String jdbcUrl = "jdbc:postgresql://localhost:5432/nextstop"; // URL de conexión de la base de datos
-        String username = "postgres"; // Nombre de usuario de la base de datos (si es necesario)
-        String password = "root"; // Contraseña de la base de datos (si es necesario)
+        String username = "postgres"; // Nombre de usuario de la base de datos
+        String password = "root"; // Contraseña de la base de datos
 
         try {
             Connection connection = DriverManager.getConnection(jdbcUrl, username, password);
@@ -244,7 +259,6 @@ public class CSVreader extends  Thread{
                 e.printStackTrace();
             }
 
-            // Cierra la conexión cuando hayas terminado
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();

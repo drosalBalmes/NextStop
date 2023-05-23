@@ -162,10 +162,17 @@ public class DescargadorDiario extends Thread {
 
                             b.setLatitude(mod2);
                         }
-                        if (fieldNames[i].contains("Precio gasolina 95 E5")){
+                        if (fieldNames[i].equalsIgnoreCase("\"Precio gasolina 95 E5\"")){
+                            System.out.println("afegint gasolina 95 e5");
+
                             String originalString = fields[i];
+
+                            System.out.println("original : " + originalString);
+
                             String modifiedString = originalString.substring(1, originalString.length() - 1);
                             String mod2 = modifiedString.replace(",",".");
+
+                            System.out.println("modificat : " + mod2);
 
                             b.setGasolina951(mod2);
                         }
@@ -241,9 +248,14 @@ public class DescargadorDiario extends Thread {
                             b.setGnl(mod2);
                         }
                         if (fieldNames[i].contains("Precio gas natural comprimido")){
+                            System.out.println("afegint preus gnc");
+
                             String originalString = fields[i];
+                            System.out.println("String original " +originalString);
+
                             String modifiedString = originalString.substring(1, originalString.length() - 1);
                             String mod2 = modifiedString.replace(",",".");
+                            System.out.println("String modificat " + mod2);
 
 
 
@@ -274,15 +286,31 @@ public class DescargadorDiario extends Thread {
 
             for (BenzineraRESOURCE b :
                     benzineraRESOURCES) {
+                System.out.println("NOM BENZINERA: " + b.getNom() );
+                System.out.println("preus benzina: ");
+                System.out.println(b.getGasolina951());
+                System.out.println(b.getGasolina951d());
+                System.out.println(b.getGasolina952());
+                System.out.println(b.getGasolina952d());
+                System.out.println(b.getGasolina953());
+                System.out.println(b.getGasolina953d());
+                System.out.println(b.getGasolina981());
+                System.out.println(b.getGasolina981d());
+                System.out.println(b.getGasolina981d());
+                System.out.println(b.getGasolina982());
+                System.out.println(b.getGasolina982d());
 
                 b.stringPricestoDouble();
                 b.calculateLowest();
                 b.convertLatLong();
 
-                System.out.println(b.getLowestBenzina());
-                System.out.println(b.getLowestGasoil());
-                System.out.println(b.getGncd());
-                System.out.println(b.getDia());
+                System.out.println("latitude : " +b.getLatituded());
+                System.out.println("Longitude : " +b.getLongitude());
+
+                System.out.println("lowest benzina "+b.getLowestBenzina());
+                System.out.println("lowest gasoil "+b.getLowestGasoil());
+                System.out.println("lowest gnc "+b.getGncd());
+                System.out.println("dia toma datos "+b.getDia());
                 System.out.println("-------------------------------------");
                 System.out.println("-------------------------------------");
             }
